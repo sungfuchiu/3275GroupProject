@@ -1,0 +1,10 @@
+-- @block
+DROP TABLE Technician_Experience;
+DROP TABLE Technician_Certificate;
+DROP TABLE Available_Time;
+DROP TABLE Phone_Call;
+DROP TABLE User;
+DROP TABLE Technician;
+DROP TABLE Client;
+DROP TABLE Time_Slot;
+DROP TABLE Service_Field;
