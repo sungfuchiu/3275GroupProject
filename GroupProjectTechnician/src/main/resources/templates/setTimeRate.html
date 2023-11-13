@@ -19,7 +19,7 @@
 <main>
     <div class="container">
         <h2>Select Available Date & Time</h2>
-        <form>
+        <form method="post" th:action="@{/saveTR}" th:object="${setTR}">
             <div class="form-group">
                 <label for="date">Select Date:</label>
                 <input type="date" id="date" name="date" required>
@@ -32,24 +32,19 @@
             <br>
             <h2>Service Charge</h2>
             <div class="form-group">
-                <label for="serviceType">Select Type of Service:</label>
-                <select id="serviceType" name="serviceType">
-                    <option value="type1">Type 1</option>
-                    <option value="type2">Type 2</option>
-                </select>
-            </div>
-            <br>
-            <div class="form-group">
                 <label for="service">Select Service:</label>
-                <select id="service" name="service">
-                    <option value="service1">Service 1</option>
-                    <option value="service2">Service 2</option>
+                <select id="service" name="service" >
+                    <option value="Emergency Plumbing">Emergency Plumbing</option>
+                    <option value="Clogged Drains">Clogged Drains</option>
+                    <option value="Installation, Update, Repair">Installation, Update, Repair</option>
+                    <option value="Leaking Toilets, Faucet, Pipes">Leaking Toilets, Faucet, Pipes</option>
+                    <option value="Commercial Plumbing">Commercial Plumbing</option>
                 </select>
             </div>
             <br>
             <div class="form-group">
                 <label for="duration">Select Duration:</label>
-                <select id="duration" name="duration">
+                <select id="duration" name="duration" >
                     <option value="15">15 mins</option>
                     <option value="30">30 mins</option>
                     <option value="45">45 mins</option>
@@ -59,7 +54,7 @@
             <br>
             <div class="form-group">
                 <label for="rate">Rate:</label>
-                <input type="number" id="rate" name="rate" required>
+                <input type="number" id="rate" name="rate"  required>
                 <span class="currency-symbol">CAD</span>
             </div>
             <br><br><br>
