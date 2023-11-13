@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/techProfile.css}"/>
+    <title>TechnicianProfile</title>
+</head>
+
+<body>
+<header>
+    <div class="logo">
+        <img id="img1" src="images/logo.jpg" alt="Logo">
+    </div>
+    <h1>Technician Profile</h1>
+</header>
+<main>
+    <div class="container">
+        <form method="post" th:action="@{/save}" th:object="${technician}">
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <textarea id="address" name="address" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="workExperience">Work Experience:</label>
+                <textarea id="workExperience" name="workExperience" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="certification">Upload Certification:</label>
+                <input type="file" id="certification" name="certification" accept=".pdf, .jpg, .png">
+            </div>
+
+            <div class="form-group">
+                <label for="image">Upload Technician's Image:</label>
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
+
+            <a th:href="@{/index}">
+                <button type="button">Back</button></a>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</main>
+</body>
+
+</html>

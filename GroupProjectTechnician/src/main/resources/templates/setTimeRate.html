@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/setTR.css}"/>
+    <title>SettingTimeRate</title>
+</head>
+
+<body>
+<header>
+    <div class="logo">
+        <img id="img1" src="images/logo.jpg" alt="Logo">
+    </div>
+    <h1>Setting Time and Rate</h1>
+</header>
+<main>
+    <div class="container">
+        <h2>Select Available Date & Time</h2>
+        <form method="post" th:action="@{/saveTR}" th:object="${setTR}">
+            <div class="form-group">
+                <label for="date">Select Date:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="time">Select Time:</label>
+                <input type="time" id="time" name="time" required>
+            </div>
+            <br>
+            <h2>Service Charge</h2>
+            <div class="form-group">
+                <label for="services">Select Service:</label>
+                <select id="services" name="services" >
+                    <option value="Emergency Plumbing">Emergency Plumbing</option>
+                    <option value="Clogged Drains">Clogged Drains</option>
+                    <option value="Installation, Update, Repair">Installation, Update, Repair</option>
+                    <option value="Leaking Toilets, Faucet, Pipes">Leaking Toilets, Faucet, Pipes</option>
+                    <option value="Commercial Plumbing">Commercial Plumbing</option>
+                </select>
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="duration">Select Duration:</label>
+                <select id="duration" name="duration" >
+                    <option value="15">15 mins</option>
+                    <option value="30">30 mins</option>
+                    <option value="45">45 mins</option>
+                    <option value="60">60 mins</option>
+                </select>
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="rate">Rate:</label>
+                <input type="number" id="rate" name="rate"  required>
+                <span class="currency-symbol">CAD</span>
+            </div>
+            <br><br><br>
+            <a th:href="@{/index}">
+                <button type="button">Back</button></a>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</main>
+</body>
+
+</html>
