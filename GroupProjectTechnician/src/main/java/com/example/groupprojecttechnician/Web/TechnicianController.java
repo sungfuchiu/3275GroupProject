@@ -1,7 +1,9 @@
 package com.example.groupprojecttechnician.Web;
 
 
+import com.example.groupprojecttechnician.Entities.SetTR;
 import com.example.groupprojecttechnician.Entities.Technician;
+import com.example.groupprojecttechnician.Repositories.SetTRRepository;
 import com.example.groupprojecttechnician.Repositories.TechnicianRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
@@ -48,10 +50,25 @@ public class TechnicianController {
     }
 
 
-    @GetMapping(path = "/setTimeRate.html")
-    public String setTimeRate() {
-        return "setTimeRate";
-    }
+//    @GetMapping(path = "/setTimeRate.html")
+//    public String setTimeRate() {
+//        return "setTimeRate";
+//    }
+
+
+//    @PostMapping(path = "/saveTR")
+//    public String saveTR(SetTR setTR, BindingResult bindingResult) {
+//        if (bindingResult.hasErrors()) {
+//            // Handle validation errors
+//            return "setTimeRate";
+//        } else {
+//            // Save the data to the database
+//            setTRRepository.save(setTR);
+//            // Redirect to the main page or another page
+//            return "redirect:/index";
+//        }
+//    }
+
 
     @GetMapping(path = "/viewAppointment.html")
     public String viewAppointment() {
