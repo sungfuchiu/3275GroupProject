@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-
+         KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <style>
+        .pre-scrollable {
+            height: 500px;
+            overflow-y: scroll;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .login-body{
+            text-align: center;
+        }
+
+        .heart-button {
+            background-color: transparent;
+            border: none;
+            color: grey;
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .heart-button.clicked {
+            color: red;
+        }
+
+        .label1{
+           text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<script th:inline="javascript"> var u = [[${session.a}]];
+if (u == 1) {
+    alert('One record added');
+} </script>
+<script th:inline="javascript"> var u = [[${session.e}]];
+if (u == 2) {
+    alert('One record edited');
+}
+</script>
+<div layout:fragment="content">
+    <h1>Technician Info</h1>
+    <div class="container mt-2 pre-scrollable">
+        <div class="card-header"></div>
+        <div class="login-body">
+            <button class="heart-button" onclick="toggleHeart">&#10084;</button><br/>
+            <form method="get" th:action="@{index}"><label class="label1">Name</label><p>John Kelly</p></form>
+            <form method="get" th:action="@{index}"><label class="label1">Job field</label><p>Plumber</p></form>
+            <form method="get" th:action="@{index}"><label class="label1">Certification</label><p>Trade certificate</p></form>
+            <form method="get" th:action="@{index}"><label class="label1">Work experience</label><p>Plumbing 5years</p></form>
+            <form method="get" th:action="@{index}"><label class="label1">Last time review</label><p>2023/8/10 9:00-9:30 5/5 </p></form>
+            <form method="get" th:action="@{index}"><label class="label1">Available time</label><p>2023/9/10 9:00- </p></form>
+            <form>
+                <label for="schedule">schedule</label>
+                <input type="date" id="schedule" name="schedule"><br/>
+            </form>
+
+            <br/>
+            <button onclick="window.location.href='/confirmation'" class="btn-primary">Next</button><br/><br/>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    var u = [[${session.a}]];
+    if (u == 1) {
+        alert('One record added');
+    }
+</script>
+
+<script th:inline="javascript">
+    var u = [[${session.e}]];
+    if (u == 2) {
+        alert('One record edited');
+    }
+</script>
+
+<script>
+    let isHearted = false;
+
+    function toggleHeart() {
+        isHearted = !isHearted;
+        const heartButton = document.querySelector('.heart-button');
+        heartButton.classList.toggle('clicked', isHearted);
+    }
+</script>
+
+</body>
+</html>
