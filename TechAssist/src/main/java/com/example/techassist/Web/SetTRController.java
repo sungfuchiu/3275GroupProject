@@ -1,9 +1,9 @@
-package com.example.groupprojecttechnician.Web;
+package com.example.techassist.Web;
 
-import com.example.groupprojecttechnician.Entities.SetTR;
-import com.example.groupprojecttechnician.Entities.Technician;
-import com.example.groupprojecttechnician.Repositories.SetTRRepository;
-import com.example.groupprojecttechnician.Repositories.TechnicianRepository;
+import com.example.techassist.Entities.SetTR;
+import com.example.techassist.Entities.Technician;
+import com.example.techassist.Repositories.SetTRRepository;
+import com.example.techassist.Repositories.TechnicianRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

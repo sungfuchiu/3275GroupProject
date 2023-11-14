@@ -1,6 +1,6 @@
-package com.example.groupprojecttechnician.Repositories;
+package com.example.techassist.Repositories;
 
-import com.example.groupprojecttechnician.Entities.SetTR;
+import com.example.techassist.Entities.SetTR;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SetTRRepository extends JpaRepository<SetTR,Long> {

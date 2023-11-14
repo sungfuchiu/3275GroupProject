@@ -1,6 +1,6 @@
-package com.example.groupprojecttechnician.Repositories;
+package com.example.techassist.Repositories;
 
-import com.example.groupprojecttechnician.Entities.Technician;
+import com.example.techassist.Entities.Technician;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
