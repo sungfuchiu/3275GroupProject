@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-
+         KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5Kk
+         N" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="col-md-6 offset-3">
+        <form method="post" th:action="@{save}">
+            <div><label>ID</label> <input class="form-control" type="text" name="id" th:value="${student.id}"> <span
+                    th:errors="${student.id}"></span>
+            </div>
+            <div><label>Name</label> <input class="form-control" type="text" name="name"
+                                            th:value="${student.name}"> <span th:errors="${student.name}"></span>
+            </div>
+            <div><label>Date of Birth</label> <input class="form-control" type="date" name="dob"
+                                                     th:value="${student.dob}"> <span th:errors="${student.dob}"></span>
+            </div>
+            <div><label>Passed</label> <input type="checkbox" name="passed" th:checked="${student.passed}">
+                <span th:errors="${student.passed}"></span>
+            </div>
+            <div><label>GPA</label> <input class="form-control" type="text" name="gpa"
+                                           th:value="${student.gpa}"> <span th:errors="${student.gpa}"></span>
+            </div>
+            <button type="submit" class="btn-primary" th:href="@{/index}">Save</button>
+        </form>
+    </div>
+</section>
+</body>
+</html>
