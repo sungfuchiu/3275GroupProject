@@ -1,4 +1,4 @@
-package com.example.groupprojecttechnician.Entities;
+package com.example.techassist.Entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.Date;
 //Using Lombok, there is no need to create setters and getters
 @Data
@@ -27,3 +25,4 @@ public class SetTR {
     private String duration;
     private float rate;
 }
+

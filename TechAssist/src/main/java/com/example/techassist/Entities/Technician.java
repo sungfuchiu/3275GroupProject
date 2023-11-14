@@ -1,4 +1,4 @@
-package com.example.groupprojecttechnician.Entities;
+package com.example.techassist.Entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
