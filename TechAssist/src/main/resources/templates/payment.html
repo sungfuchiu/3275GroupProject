@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/history.css}"/>
+    <title>Payment</title>
+    <style>
+
+        h1 {
+            text-align: center;
+        }
+
+        .login-body{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo">
+        <img id="img1" src="images/logo.jpg" alt="Logo">
+    </div>
+    <h1>Payment</h1>
+</header>
+<main>
+    <div class="appointment-list">
+        <div class="container mt-2 pre-scrollable">
+            <div class="card-header"></div>
+            <div class="login-body">
+                <br/><br/>
+                <img src="images/cardtypes.png" alt="" width="200" height="50"/><br/><br/><br/>
+                <form method="get" th:action="@{index}"><label>Card number</label><br/><input type="text" name="paymentcardnumber"></form>
+                <form method="get" th:action="@{index}"><label>Name on card</label><br/><input type="text" name="paymentname"></form>
+                <form method="get" th:action="@{index}"><label>Expiry date</label><br/><input type="text" name="paymentexpiry"></form>
+                <form method="get" th:action="@{index}"><label>Security code</label><br/><input type="text" name="paymentsecurity"></form>
+                <br/><br/>
+                <button onclick="window.location.href='/complete.html'" class="btn-primary">PAY NOW</button><br/><br/>
+            </div>
+        </div>
+        <!-- Add more appointment items here as needed -->
+    </div>
+
+</main>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.example.techassist.Web;
 
 //import com.example.techassist.Entities.SetTR;
+import com.example.techassist.Entities.Customer;
 import com.example.techassist.Entities.Technician;
 //import com.example.techassist.Repositories.SetTRRepository;
 import com.example.techassist.Repositories.TechnicianRepository;
@@ -83,6 +84,48 @@ public class TechnicianController {
     public String history() {
         return "history";
     }
+
+    @GetMapping(path = "/login.html")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping(path = "/mainTomoya.html")
+    public String mainTomoya() {
+        return "mainTomoya";
+    }
+
+    @GetMapping(path = "/createaccount.html")
+    public String createaccount() {
+        return "createaccount";
+    }
+
+    @GetMapping(path = "/technicianinfo.html")
+    public String technicianinfo() {
+        return "technicianinfo";
+    }
+
+    @GetMapping(path = "/confirmation.html")
+    public String confirmation() {
+        return "confirmation";
+    }
+
+    @GetMapping(path = "/payment.html")
+    public String payment() {
+        return "payment";
+    }
+
+    @GetMapping(path = "/complete.html")
+    public String complete() {
+        return "complete";
+    }
+
+    @GetMapping(path = "/main.html")
+    public String main() {
+        return "main";
+    }
+
+
 
 }
 

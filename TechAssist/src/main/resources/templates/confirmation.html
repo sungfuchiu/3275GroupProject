@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/history.css}"/>
+    <title>Confirmation</title>
+    <style>
+
+        h1 {
+            text-align: center;
+        }
+
+        .login-body{
+            text-align: center;
+        }
+
+        .label1{
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo">
+        <img id="img1" src="images/logo.jpg" alt="Logo">
+    </div>
+    <h1>Confirmation</h1>
+</header>
+<main>
+    <div class="appointment-list">
+        <div class="container mt-2 pre-scrollable">
+            <div class="card-header"></div>
+            <div class="login-body">
+                <form method="get" th:action="@{index}"><label class="label1">Date/Time</label><br/><p>2023/9/10 9:00-</p></form><br/>
+                <form method="get" th:action="@{index}"><label class="label1">Service field</label><br/><p>Plumbing</p></form><br/>
+                <form method="get" th:action="@{index}"><label class="label1">Technician name</label><br/></form><p>John Kelly</p><br/>
+                <form method="get" th:action="@{index}"><label class="label1">Cost</label><br/></form><p>$30</p><br/>
+
+                <br/>
+                <button onclick="window.location.href='/payment.html'" class="btn-primary">Payment page</button><br/><br/>
+            </div>
+        </div>
+        <!-- Add more appointment items here as needed -->
+    </div>
+
+</main>
+</body>
+</html>

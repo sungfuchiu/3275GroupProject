@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/history.css}"/>
+    <title>Create Account</title>
+    <style>
+
+        h1 {
+            text-align: center;
+        }
+
+        .login-body{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo">
+        <img id="img1" src="images/logo.jpg" alt="Logo">
+    </div>
+    <h1>Create Account</h1>
+</header>
+<main>
+    <div class="appointment-list">
+        <div class="container mt-2 pre-scrollable">
+            <div class="card-header"></div>
+            <div class="login-body">
+                <br/>
+                <input type="radio" id="radioCustomer" name="userType" value="customer">
+                <label for="radioCustomer">Customer</label>
+                <input type="radio" id="radioTechnician" name="userType" value="technician">
+                <label for="radioTechnician">Technician</label>
+                <form method="get" th:action="@{index}"><label>Full Name</label><br/><input type="text" name="createfullname"></form>
+                <form method="get" th:action="@{index}"><label>Email</label><br/><input type="text" name="createemail"></form>
+                <form method="get" th:action="@{index}"><label>Username</label><br/><input type="text" name="createusername"></form>
+                <form method="get" th:action="@{index}"><label>Password</label><br/><input type="password" name="createpassword"></form>
+                <br/>
+                <button onclick="window.location.href='/mainTomoya.html'" class="btn-primary">Create account</button><br/><br/>
+                <p>Create account using</p>
+                <img src="images/googleicon.png" alt="" width="50" height="50"/><br/>
+                <a th:href="@{/login.html}">Log in</a>
+            </div>
+        </div>
+        <!-- Add more appointment items here as needed -->
+    </div>
+</main>
+</body>
+</html>

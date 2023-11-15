@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/history.css}"/>
+    <title>Technician Info</title>
+    <style>
+
+        h1 {
+            text-align: center;
+        }
+
+        .login-body{
+            text-align: center;
+        }
+
+        .heart-button {
+            background-color: transparent;
+            border: none;
+            color: grey;
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .heart-button.clicked {
+            color: red;
+        }
+
+        .label1{
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo">
+        <img id="img1" src="images/logo.jpg" alt="Logo">
+    </div>
+    <h1>Technician Info</h1>
+</header>
+<main>
+    <div class="appointment-list">
+        <div class="container mt-2 pre-scrollable">
+            <div class="card-header"></div>
+            <div class="login-body">
+                <button class="heart-button" onclick="toggleHeart">&#10084;</button><br/>
+                <form method="get" th:action="@{index}"><label class="label1">Name</label><p>John Kelly</p></form>
+                <form method="get" th:action="@{index}"><label class="label1">Job field</label><p>Plumber</p></form>
+                <form method="get" th:action="@{index}"><label class="label1">Certification</label><p>Trade certificate</p></form>
+                <form method="get" th:action="@{index}"><label class="label1">Work experience</label><p>Plumbing 5years</p></form>
+                <form method="get" th:action="@{index}"><label class="label1">Last time review</label><p>2023/8/10 9:00-9:30 5/5 </p></form>
+                <form method="get" th:action="@{index}"><label class="label1">Available time</label><p>2023/9/10 9:00- </p></form>
+                <form>
+                    <label for="schedule">schedule</label>
+                    <input type="date" id="schedule" name="schedule"><br/>
+                </form>
+
+                <br/>
+                <button onclick="window.location.href='/confirmation.html'" class="btn-primary">Next</button><br/><br/>
+            </div>
+        </div>
+        <!-- Add more appointment items here as needed -->
+    </div>
+
+</main>
+</body>
+</html>
