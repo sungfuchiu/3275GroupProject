@@ -34,15 +34,19 @@
             <div class="card-header"></div>
             <div class="login-body">
                 <br/>
-                <input type="radio" id="radioCustomer" name="userType" value="customer">
-                <label for="radioCustomer">Customer</label>
-                <input type="radio" id="radioTechnician" name="userType" value="technician">
-                <label for="radioTechnician">Technician</label>
-                <br/><br/>
-                <form method="get" th:action="@{index}"><label>Username</label><br/><input type="text" name="loginusername"></form>
-                <form method="get" th:action="@{index}"><label>Password</label><br/><input type="password" name="loginpassword"></form>
-                <br/><br/>
-                <button onclick="window.location.href='/mainTomoya.html'" class="btn-primary">Log in</button><br/><br/>
+                <div th:if="${error}" class="error-message">
+                    <p th:text="${error}"></p>
+                </div>
+                <form method="post" th:action="@{/login}">
+                    <input type="radio" id="radioCustomer" name="userType" value="customer">
+                    <label for="radioCustomer">Customer</label>
+                    <input type="radio" id="radioTechnician" name="userType" value="technician">
+                    <label for="radioTechnician">Technician</label>
+                    <br/><br/>
+                    <label>Username</label><br/><input type="text" name="loginusername"><br/>
+                    <label>Password</label><br/><input type="password" name="loginpassword"><br/><br/>
+                    <button type="submit" class="btn-primary">Log in</button><br/><br/>
+                </form>
                 <p>Sign in using</p>
                 <img src="images/googleicon.png" alt="" width="50" height="50"/><br/><br/><br/>
                 <a th:href="@{/createaccount.html}">create account</a>

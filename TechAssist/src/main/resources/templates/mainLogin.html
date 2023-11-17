@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/history.css}"/>
+    <title>Main After Login</title>
+</head>
+<body>
+<header>
+    <div class="logo">
+        <img id="img1" src="images/logo.jpg" alt="Logo">
+    </div>
+    <h1 th:text="'Hello ' + ${user.id} +', ' + ${user.username}">Hello User</h1>
+</header>
+<main>
+    <div class="appointment-list">
+        <div class="container mt-2 pre-scrollable">
+            <div class="card-header"></div>
+            <div class="login-body">
+                <br/><br/>
+                <!-- <a th:href="@{/main.html}">Go to tech main</a><br/><br/><br/><br/>  -->
+
+                <a th:href="@{/login.html}">Go to Login</a><br/><br/>
+                <a th:href="@{/createaccount.html}">Go to Create account</a><br/><br/>
+                <a th:href="@{/technicianinfo.html}">Go to see Tech Info</a><br/><br/>
+            </div>
+        </div>
+
+        <!-- Add more appointment items here as needed -->
+    </div>
+
+</main>
+</body>
+</html>

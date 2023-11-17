@@ -1,15 +1,12 @@
 package com.example.techassist.Web;
 
 //import com.example.techassist.Entities.SetTR;
-import com.example.techassist.Entities.Customer;
 import com.example.techassist.Entities.Technician;
 //import com.example.techassist.Repositories.SetTRRepository;
 import com.example.techassist.Repositories.TechnicianRepository;
-import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -79,52 +76,6 @@ public class TechnicianController {
     public String accountBalance() {
         return "accountBalance";
     }
-
-    @GetMapping(path = "/history.html")
-    public String history() {
-        return "history";
-    }
-
-    @GetMapping(path = "/login.html")
-    public String login() {
-        return "login";
-    }
-
-    @GetMapping(path = "/mainTomoya.html")
-    public String mainTomoya() {
-        return "mainTomoya";
-    }
-
-    @GetMapping(path = "/createaccount.html")
-    public String createaccount() {
-        return "createaccount";
-    }
-
-    @GetMapping(path = "/technicianinfo.html")
-    public String technicianinfo() {
-        return "technicianinfo";
-    }
-
-    @GetMapping(path = "/confirmation.html")
-    public String confirmation() {
-        return "confirmation";
-    }
-
-    @GetMapping(path = "/payment.html")
-    public String payment() {
-        return "payment";
-    }
-
-    @GetMapping(path = "/complete.html")
-    public String complete() {
-        return "complete";
-    }
-
-    @GetMapping(path = "/main.html")
-    public String main() {
-        return "main";
-    }
-
 
 
 }
