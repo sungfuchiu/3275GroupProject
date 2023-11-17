@@ -34,7 +34,12 @@
             <div class="card-header"></div>
             <div class="login-body">
                 <form method="get" th:action="@{index}"><label class="label1">Time</label><br/><p>2023/9/10 12:30-</p></form><br/>
-                <form method="get" th:action="@{index}"><label class="label1">Technician Name</label><br/></form><p>John</p><br/>
+                <form method="get" th:action="@{index}"><label class="label1">Technician Name</label><br/></form><p>Jame</p><br/>
+               <!-- <form method="get" th:action="@{index}">
+                    <label class="label1">Technician Name</label>
+                    <p th:text="${technician.fname}"></p>
+                </form>
+                -->
                 <form method="get" th:action="@{index}"><label class="label1">Cost</label><br/></form><p>$35</p><br/>
 
                 <br/>

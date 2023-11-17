@@ -31,17 +31,53 @@
             <div class="login-body">
                 <br/><br/>
                 <img src="images/cardtypes.png" alt="" width="200" height="50"/><br/><br/><br/>
-                <form method="get" th:action="@{index}"><label>Card number</label><br/><input type="text" name="paymentcardnumber"></form>
-                <form method="get" th:action="@{index}"><label>Name on card</label><br/><input type="text" name="paymentname"></form>
-                <form method="get" th:action="@{index}"><label>Expiry date</label><br/><input type="text" name="paymentexpiry"></form>
-                <form method="get" th:action="@{index}"><label>Security code</label><br/><input type="text" name="paymentsecurity"></form>
+                <form id="paymentForm">
+                    <label>Card number</label><br/>
+                    <input type="text" id="paymentcardnumber" name="paymentcardnumber" required><br/>
+
+                    <label>Name on card</label><br/>
+                    <input type="text" id="paymentname" name="paymentname" required><br/>
+
+                    <label>Expiry date</label><br/>
+                    <input type="text" id="paymentexpiry" name="paymentexpiry" placeholder="MM/YY" required><br/>
+
+                    <label>Security code</label><br/>
+                    <input type="text" id="paymentsecurity" name="paymentsecurity" required><br/>
+                </form>
+                <div class="error-message" id="errorMessage"></div>
                 <br/><br/>
-                <button onclick="window.location.href='/complete.html'" class="btn-primary">PAY NOW</button><br/><br/>
+                <button onclick="submitPayment()">PAY NOW</button><br/><br/>
             </div>
         </div>
         <!-- Add more appointment items here as needed -->
     </div>
 
 </main>
+
+<script>
+
+    function submitPayment() {
+        // Reset error message
+        document.getElementById('errorMessage').innerText = '';
+
+        // Perform client-side validation
+        var cardNumber = document.getElementById('paymentcardnumber').value;
+        var nameOnCard = document.getElementById('paymentname').value;
+        var expiryDate = document.getElementById('paymentexpiry').value;
+        var securityCode = document.getElementById('paymentsecurity').value;
+
+        if (cardNumber === '' || nameOnCard === '' || expiryDate === '' || securityCode === '') {
+            document.getElementById('errorMessage').innerText = 'Please fill in all required fields.';
+            return;
+        }
+
+        // Validate card number, expiry date, and security code format if needed
+
+        // Simulate payment success (replace this with actual payment processing logic)
+        window.location.href = '/complete.html';
+        // Redirect to the completion page
+         //window.location.href = '/complete.html';
+    }
+</script>
 </body>
 </html>

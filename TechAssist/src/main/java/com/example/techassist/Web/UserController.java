@@ -2,6 +2,7 @@ package com.example.techassist.Web;
 
 import com.example.techassist.Entities.Technician;
 import com.example.techassist.Entities.User;
+import com.example.techassist.Repositories.TechnicianRepository;
 import com.example.techassist.Repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -218,6 +219,24 @@ public class UserController {
 
             // Return to the createaccount page with an error message
             return "createaccount";
+        }
+    }
+
+
+    @Autowired
+    private TechnicianRepository technicianRepository;
+
+    @GetMapping("/technicianinfo/{technicianId}")
+    public String getTechnicianInfo(@PathVariable Long technicianId, Model model) {
+        Optional<Technician> technicianOptional = technicianRepository.findById(technicianId);
+
+        if (technicianOptional.isPresent()) {
+            Technician technician = technicianOptional.get();
+            model.addAttribute("technician", technician);
+            return "technicianinfo"; // Assuming your template is named "technicianinfo.html"
+        } else {
+            // Handle the case where the technician with the given ID is not found
+            return "error"; // You can create an error Thymeleaf template
         }
     }
 

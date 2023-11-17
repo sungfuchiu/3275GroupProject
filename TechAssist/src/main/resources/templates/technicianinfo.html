@@ -47,9 +47,18 @@
             <div class="card-header"></div>
             <div class="login-body">
                 <button class="heart-button" onclick="toggleHeart">&#10084;</button><br/>
-                <form method="get" th:action="@{index}"><label class="label1">Name</label><p>John</p></form>
-                <form method="get" th:action="@{index}"><label class="label1">Email</label><p>john@gmail.com</p></form>
-                <form method="get" th:action="@{index}"><label class="label1">Experience</label><p>5 years</p></form>
+                <form method="get" th:action="@{index}">
+                    <label class="label1">Name</label>
+                    <p th:text="${technician.firstName}"></p>
+                </form>
+                <form method="get" th:action="@{index}">
+                    <label class="label1">Email</label>
+                    <p th:text="${technician.email}"></p>
+                </form>
+                <form method="get" th:action="@{index}">
+                    <label class="label1">Experience</label>
+                    <p th:text="${technician.experience}"></p>
+                </form>
                 <form method="get" th:action="@{index}"><label class="label1">Rate</label><p>$35 / 15mins </p></form>
                 <form method="get" th:action="@{index}"><label class="label1">Available time</label><p>2023/9/10 12:30- </p></form>
             <!--
@@ -60,6 +69,7 @@
                -->
 
                 <br/>
+
                 <button onclick="window.location.href='/confirmation.html'" class="btn-primary">Next</button><br/><br/>
             </div>
         </div>
