@@ -30,19 +30,29 @@
             <div class="card-header"></div>
             <div class="login-body">
                 <br/>
-                <input type="radio" id="radioCustomer" name="userType" value="customer">
-                <label for="radioCustomer">Customer</label>
-                <input type="radio" id="radioTechnician" name="userType" value="technician">
-                <label for="radioTechnician">Technician</label>
-                <form method="get" th:action="@{index}"><label>Full Name</label><br/><input type="text" name="createfullname"></form>
-                <form method="get" th:action="@{index}"><label>Email</label><br/><input type="text" name="createemail"></form>
-                <form method="get" th:action="@{index}"><label>Username</label><br/><input type="text" name="createusername"></form>
-                <form method="get" th:action="@{index}"><label>Password</label><br/><input type="password" name="createpassword"></form>
-                <br/>
-                <button onclick="window.location.href='/mainTomoya.html'" class="btn-primary">Create account</button><br/><br/>
-                <p>Create account using</p>
-                <img src="images/googleicon.png" alt="" width="50" height="50"/><br/>
-                <a th:href="@{/login.html}">Log in</a>
+                <div th:if="${error}" class="alert alert-danger">
+                    <p th:text="${error}"></p>
+                </div>
+
+                <form method="post" th:action="@{/createaccount}">
+                    <input type="radio" id="radioCustomer" name="userType" value="Customer">
+                    <label for="radioCustomer">Customer</label>
+                    <input type="radio" id="radioTechnician" name="userType" value="Technician">
+                    <label for="radioTechnician">Technician</label>
+                    <br/><br/>
+                    <label>fullname</label><br/>
+                    <input type="text" name="createfullname"/><br/>
+                    <label>email</label><br/>
+                    <input type="text" name="createemail"/><br/>
+                    <label>username</label><br/>
+                    <input type="text" name="createusername"/><br/>
+                    <label>password</label><br/>
+                    <input type="password" name="createpassword"/><br/>
+
+                    <!-- ... other form elements ... -->
+                    <button type="submit" class="btn-primary">Create account</button><br/>
+                </form>
+                <a th:href="@{/login.html}">login</a>
             </div>
         </div>
         <!-- Add more appointment items here as needed -->

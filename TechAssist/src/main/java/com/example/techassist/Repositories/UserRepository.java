@@ -10,4 +10,6 @@ public interface UserRepository extends JpaRepository<User,Long> {
     //For searching records
     //List<User> findTechnicianById (long kw);
     Optional<User> findByUsernameAndPasswordAndUserType(String username, String password, String userType);
+
+    Optional<User> findByUsername(String username);
 }
