@@ -23,7 +23,7 @@ public class TechAssistApplication {
     @Bean
     CommandLineRunner techCommandLineRunner(TechnicianRepository technicianRepository) {
         return args -> {
-            technicianRepository.save(new Technician(null, "Jame", "Davis", 123456,"jame@gmail.com","burnaby BC","3 years",null,null));
+            //technicianRepository.save(new Technician(null, "Jame", "Davis", 123456,"jame@gmail.com","burnaby BC","3 years",null,null));
                  technicianRepository.findAll().forEach(p -> {
                 System.out.println(p.getFirstName());
             });
@@ -33,7 +33,7 @@ public class TechAssistApplication {
     @Bean
     CommandLineRunner setTRCommandLineRunner(SetTRRepository setTRRepository) {
         return args -> {
-            setTRRepository.save(new SetTR(null, null, "12:30", "Unclog","15",35));
+            //setTRRepository.save(new SetTR(null, null, "12:30", "Unclog","15",35));
             setTRRepository.findAll().forEach(p -> {
                 System.out.println(p.getServices());
             });

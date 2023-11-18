@@ -12,7 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 @SessionAttributes
 @Controller
@@ -27,7 +27,7 @@ public class TechnicianController {
 
     @GetMapping(path = "/index")
     public String index() {
-        return "main";
+        return "mainTechnician";
     }
 
     @GetMapping(path = "/technicianProfile.html")
@@ -49,27 +49,6 @@ public class TechnicianController {
         }
     }
 
-
-//    @GetMapping(path = "/setTimeRate.html")
-//    public String setTimeRate() {
-//        return "setTimeRate";
-//    }
-
-
-//    @PostMapping(path = "/saveTR")
-//    public String saveTR(SetTR setTR, BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            // Handle validation errors
-//            return "setTimeRate";
-//        } else {
-//            // Save the data to the database
-//            setTRRepository.save(setTR);
-//            // Redirect to the main page or another page
-//            return "redirect:/index";
-//        }
-//    }
-
-
     @GetMapping(path = "/viewAppointment.html")
     public String viewAppointment() {
         return "viewAppointment";
@@ -78,6 +57,13 @@ public class TechnicianController {
     @GetMapping(path = "/accountBalance.html")
     public String accountBalance() {
         return "accountBalance";
+    }
+
+    @GetMapping(path = "/history.html")
+    public String showhistory(Model model) {
+        List<Technician> listTechnicians = technicianRepository.findAll();
+        model.addAttribute("listTechnicians", listTechnicians);
+        return "history";
     }
 
 

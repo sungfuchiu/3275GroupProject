@@ -31,10 +31,10 @@ public class UserController {
     private UserRepository userRepository;
 
 
-    @GetMapping(path = "/history.html")
-    public String history() {
-        return "history";
-    }
+//    @GetMapping(path = "/history.html")
+//    public String history() {
+//        return "history";
+//    }
 
     @GetMapping(path = "/login.html")
     public String login() {

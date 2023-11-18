@@ -16,14 +16,15 @@
 </header>
 <main>
     <div class="appointment-list">
-        <div class="appointment-item">
+        <div th:each="technician:${listTechnicians}" class="appointment-item">
             <div class="appointment-details">
-                <p>No.1</p>
-                <p>Date: 02/12/2023</p>
-                <p>Service: P-trapes</p>
-                <p>Actual Time: 83 Mins</p>
-                <p>Customer Name: John</p>
-                <p>Star Rating: 4</p>
+                <p th:text="${'No.' + technician.id}"></p>
+                <p th:text="${'FirstName' + technician.firstName}"></p>
+                <p th:text="${'LastName' + technician.lastName}"></p>
+                <p th:text="${'Phone' + technician.phone}"></p>
+                <p th:text="${'Email' + technician.email}"></p>
+                <p th:text="${'Address' + technician.address}"></p>
+                <p th:text="${'Experience' + technician.experience}"></p>
             </div>
         </div>
 
