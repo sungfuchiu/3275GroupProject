@@ -18,7 +18,7 @@
 </header>
 <main>
     <div class="container">
-        <form method="post" th:action="@{/save}" th:object="${technician}">
+        <form method="post" th:action="@{/save}" th:object="${technician}" onsubmit="return confirmSave()">
             <div class="form-group">
                 <label for="firstName">First Name:</label>
                 <input type="text" id="firstName" name="firstName" required>
@@ -61,10 +61,19 @@
 
             <a th:href="@{/index}">
                 <button type="button">Back</button></a>
-            <button type="submit">Save</button>
+                <button type="submit">Save</button>
         </form>
+
+        <div th:if="${duplicateError}" class="error-message">
+            <p th:text="${duplicateError}"></p>
+        </div>
+
     </div>
 </main>
 </body>
-
+<script>
+    function confirmSave() {
+        return confirm("Are you sure you want to save?");
+    }
+</script>
 </html>

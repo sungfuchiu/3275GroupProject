@@ -37,6 +37,13 @@ public class TechnicianController {
 
     @PostMapping(path = "/save")
     public String save(@ModelAttribute Technician technician, BindingResult bindingResult, ModelMap mm) {
+        // Check for duplicate email
+        if (technicianRepository.existsByEmail(technician.getEmail())) {
+            mm.addAttribute("duplicateError", "Email already exists");
+            mm.addAttribute("technician", technician);
+            return "technicianProfile";
+        }
+
         if (bindingResult.hasErrors()) {
             // Handle validation errors
             mm.addAttribute("technician", technician);
