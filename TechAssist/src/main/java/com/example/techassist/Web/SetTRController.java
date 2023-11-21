@@ -36,8 +36,9 @@ public class SetTRController {
         } else {
             // Save the data to the database
             setTRRepository.save(setTR);
+            mm.addAttribute("successMessage", "Data successfully saved");
             // Redirect to the main page or another page
-            return "redirect:/index";
+            return "setTimeRate";
         }
     }
 }

@@ -19,7 +19,7 @@
 <main>
     <div class="container">
         <h2>Select Available Date & Time</h2>
-        <form method="post" th:action="@{/saveTR}" th:object="${setTR}">
+        <form method="post" th:action="@{/saveTR}" th:object="${setTR}" onsubmit="return confirmSave()">
             <div class="form-group">
                 <label for="date">Select Date:</label>
                 <input type="date" id="date" name="date" required>
@@ -62,8 +62,15 @@
                 <button type="button">Back</button></a>
             <button type="submit">Save</button>
         </form>
+        <div th:if="${successMessage}" class="success-message">
+            <p th:text="${successMessage}"></p>
+        </div>
     </div>
 </main>
 </body>
-
+<script>
+    function confirmSave() {
+        return confirm("Are you sure you want to save?");
+    }
+</script>
 </html>

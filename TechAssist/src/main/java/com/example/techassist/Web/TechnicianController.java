@@ -51,8 +51,9 @@ public class TechnicianController {
         } else {
             // Save the technician data to the database
             technicianRepository.save(technician);
+            mm.addAttribute("successMessage", "Data successfully saved");
             // Redirect to the main page
-            return "redirect:/index";
+            return "technicianProfile";
         }
     }
 

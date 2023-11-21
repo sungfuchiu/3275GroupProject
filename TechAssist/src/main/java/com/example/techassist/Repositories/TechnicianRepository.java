@@ -7,5 +7,6 @@ import java.util.List;
 public interface TechnicianRepository extends JpaRepository<Technician,Long>{
     //For searching records
     List<Technician> findTechnicianById (long kw);
+    //For error message duplicated email
     boolean existsByEmail(String email);
 }
