@@ -1,13 +1,7 @@
 package com.example.techassist;
 
-import com.example.techassist.Entities.ServiceField;
-import com.example.techassist.Entities.Technician;
-import com.example.techassist.Entities.TechnicianExperience;
-import com.example.techassist.Entities.User;
-import com.example.techassist.Repositories.ServiceFieldRepository;
-import com.example.techassist.Repositories.TechnicianExperienceRepository;
-import com.example.techassist.Repositories.TechnicianRepository;
-import com.example.techassist.Repositories.UserRepository;
+import com.example.techassist.Entities.*;
+import com.example.techassist.Repositories.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
@@ -40,16 +34,17 @@ public class TechAssistApplication {
 
     @Transactional
     public void ManipulateUser(ServiceFieldRepository serviceFieldRepository,
-                                            UserRepository userRepository,
-                                            TechnicianRepository technicianRepository,
-                                            TechnicianExperienceRepository technicianExperienceRepository){
+                               UserRepository userRepository,
+                               TechnicianRepository technicianRepository,
+                               TechnicianExperienceRepository technicianExperienceRepository)
+    {
 
         System.out.println("Create User.");
         var newServiceField = serviceFieldRepository.save(new ServiceField(null, "test"));
-        var newTechnicianExperiences = new ArrayList<TechnicianExperience>();
         var newTechnician = technicianRepository.save(
-                new Technician(null, "test description", 23.4F, "photo.jpg", newServiceField, newTechnicianExperiences));
-        var newUser = userRepository.save(new User("test@test.test", "test", "test", newTechnician));
+                new Technician("test description", 23.4F, "photo.jpg", newServiceField));
+        var newTechnicianExperiences = newTechnician.getExperiences();
+        var newUser = userRepository.save(new User("test@test.test", "test", "test", newTechnician, null));
         newTechnicianExperiences.add(technicianExperienceRepository.save(new TechnicianExperience(null, "pluming apprentice", 2000, 5, newTechnician )));
         newTechnicianExperiences.add(technicianExperienceRepository.save(new TechnicianExperience(null, "pluming master", 2006, 8, newTechnician )));
         technicianRepository.save(newTechnician);

@@ -19,4 +19,8 @@ public class User {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "technician_id", referencedColumnName = "id")
     private Technician technician;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    private Client client;
 }

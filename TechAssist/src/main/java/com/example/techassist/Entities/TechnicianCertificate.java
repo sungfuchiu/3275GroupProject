@@ -1,21 +1,19 @@
 package com.example.techassist.Entities;
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.*;
 
-//Using Lombok, there is no need to create setters and getters
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class TechnicianExperience {
+public class TechnicianCertificate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String experience_description;
-    private int start_year;
-    private int year;
+    private String certificate_url;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "technician_id", nullable = false)
