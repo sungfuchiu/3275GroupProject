@@ -1,3 +1,4 @@
+USE TechAssist;
 -- @block
 DROP TABLE Technician_Experience;
 DROP TABLE Technician_Certificate;
@@ -8,3 +9,4 @@ DROP TABLE Technician;
 DROP TABLE Client;
 DROP TABLE Time_Slot;
 DROP TABLE Service_Field;
+DROP DATABASE TechAssist;
