@@ -2,7 +2,7 @@
 CREATE DATABASE IF NOT EXISTS TechAssist;
 USE TechAssist;
 CREATE TABLE Service_Field(
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id bigint(20) PRIMARY KEY AUTO_INCREMENT,
     field char(50) NOT NULL
 );
 INSERT INTO Service_Field (field)
@@ -15,7 +15,7 @@ VALUES
 	("Automotive Services"),
 	("Plumbing");
 CREATE TABLE Time_Slot(
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id bigint(20) PRIMARY KEY AUTO_INCREMENT,
     duration int NOT NULL UNIQUE
 );
 INSERT Time_Slot(duration)
@@ -25,7 +25,7 @@ INSERT Time_Slot(duration)
             (45),
             (60);
 CREATE TABLE Client(
-    id INT PRIMARY KEY AUTO_INCREMENT
+    id bigint(20) PRIMARY KEY AUTO_INCREMENT
 );
 INSERT INTO Client(id) 
 	VALUES (NULL),(NULL),(NULL),(NULL),(NULL)
@@ -33,10 +33,10 @@ INSERT INTO Client(id)
             ,(NULL),(NULL),(NULL),(NULL),(NULL)
             ,(NULL),(NULL),(NULL),(NULL),(NULL);
 CREATE TABLE Technician(
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id bigint(20) PRIMARY KEY AUTO_INCREMENT,
     job_description VARCHAR(300) NOT NULL,
     rate FLOAT NOT NULL,
-    service_field_id INT NOT NULL,
+    service_field_id bigint(20) NOT NULL,
     image_url VARCHAR(100),
     FOREIGN KEY (service_field_id) REFERENCES Service_Field(id)
 );
@@ -67,8 +67,8 @@ CREATE TABLE User(
     username  VARCHAR(50) PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     password VARCHAR(50) NOT NULL,
-    client_id INT UNIQUE,
-    technician_id INT UNIQUE,
+    client_id bigint(20) UNIQUE,
+    technician_id bigint(20) UNIQUE,
     FOREIGN KEY (client_id) REFERENCES Client(id),
     FOREIGN KEY (technician_id) REFERENCES Technician(id)
 );
@@ -117,15 +117,15 @@ VALUES
 ('user40', 'User Forty', 'password40', NULL, 20);
 -- @block
 CREATE TABLE Phone_Call(
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id bigint(20) PRIMARY KEY AUTO_INCREMENT,
     start_time DATETIME NOT NULL,
     rating INT,
     review VARCHAR(200),
     cost FLOAT NOT NULL,
-    duration_slot INT NOT NULL,
-    start_slot INT NOT NULL,
-    client_id INT NOT NULL,
-    technician_id INT NOT NULL,
+    duration_slot bigint(20) NOT NULL,
+    start_slot bigint(20) NOT NULL,
+    client_id bigint(20) NOT NULL,
+    technician_id bigint(20) NOT NULL,
     FOREIGN KEY (duration_slot) REFERENCES time_slot(id),
     FOREIGN KEY (start_slot) REFERENCES time_slot(id),
     FOREIGN KEY (client_id) REFERENCES Client(id),
@@ -196,12 +196,12 @@ VALUES
 ('2024-01-25 11:45:00', 4, 'Professional attitude', 44.0, 3, 3, 19, 20),
 ('2024-01-30 13:00:00', 5, 'Excellent communication', 54.0, 4, 4, 20, 1);
 CREATE TABLE Available_Time(
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id bigint(20) PRIMARY KEY AUTO_INCREMENT,
     week_day int NOT NULL CHECK (week_day >= 1 AND week_day <= 7),
     hour int NOT NULL CHECK (hour >= 0 AND hour <= 23),
-    duration_slot INT NOT NULL,
-    start_slot INT NOT NULL,
-    technician_id INT NOT NULL,
+    duration_slot bigint(20) NOT NULL,
+    start_slot bigint(20) NOT NULL,
+    technician_id bigint(20) NOT NULL,
     FOREIGN KEY (duration_slot) REFERENCES time_slot(id),
     FOREIGN KEY (start_slot) REFERENCES time_slot(id),
     FOREIGN KEY (technician_id) REFERENCES Technician(id)
@@ -248,9 +248,9 @@ VALUES
 (3, 11, 3, 4, 13),
 (5, 14, 2, 1, 13);
 CREATE TABLE Technician_Certificate(
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id bigint(20) PRIMARY KEY AUTO_INCREMENT,
     certificate_url VARCHAR(200) NOT NULL,
-    technician_id INT NOT NULL,
+    technician_id bigint(20) NOT NULL,
     FOREIGN KEY (technician_id) REFERENCES Technician(id)
 );
 -- Insert dummy data for the technician_certificate table
@@ -277,11 +277,11 @@ VALUES
 ('certificate_url_19', 19),
 ('certificate_url_20', 20);
 CREATE TABLE Technician_Experience(
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id bigint(20) PRIMARY KEY AUTO_INCREMENT,
     experience_description VARCHAR(200) NOT NULL,
     start_year INT NOT NULL,
     year INT NOT NULL,
-    technician_id INT NOT NULL,
+    technician_id bigint(20) NOT NULL,
     FOREIGN KEY (technician_id) REFERENCES Technician(id)
 );
 INSERT INTO Technician_Experience (experience_description, start_year, year, technician_id)

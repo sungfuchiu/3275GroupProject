@@ -12,13 +12,16 @@ import jakarta.persistence.*;
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String username;
+    private String name;
     private String password;
-    private String userType;
 
-    private String fullName;
-    private String email;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "technician_id", referencedColumnName = "id")
+    private Technician technician;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    private Client client;
 
 }
