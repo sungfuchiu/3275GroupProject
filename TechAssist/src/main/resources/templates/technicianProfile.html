@@ -18,45 +18,48 @@
 </header>
 <main>
     <div class="container">
-        <form method="post" th:action="@{/save}" th:object="${technician}" onsubmit="return confirmSave()">
+        <form method="post" th:action="@{/save}" th:object="${user}" onsubmit="return confirmSave()">
             <div class="form-group">
-                <label for="firstName">First Name:</label>
-                <input type="text" id="firstName" name="firstName" required>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="firstName" th:value="${user.name}" required>
             </div>
 
             <div class="form-group">
-                <label for="lastName">Last Name:</label>
-                <input type="text" id="lastName" name="lastName" required>
+                <label for="email">Username:</label>
+                <input type="email" id="email" name="email" th:value="${user.username}" required>
             </div>
 
             <div class="form-group">
-                <label for="phone">Phone:</label>
-                <input type="tel" id="phone" name="phone" required>
+                <label for="job_description">Job Description:</label>
+                <input type="text" id="job_description" name="job_description" th:value="${user.technician.getJob_description()}" required>
             </div>
 
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <table th:each="e:${user.technician.experiences}">
+                    <tr><td colspan="3" th:text="${e.getExperience_description()}"></td></tr>
+                    <tr><td th:text="'From:'+${e.getStart_year()}"></td><td th:text="'Years:'+${e.getYear()}"></td><td><button>Edit</button></td></tr>
+                </table>
+                <div><button>Add</button></div>
             </div>
 
             <div class="form-group">
-                <label for="address">Address:</label>
-                <textarea id="address" name="address" rows="4" required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="experience">Work Experience:</label>
-                <textarea id="experience" name="experience" rows="4" required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="certification">Upload Certification:</label>
-                <input type="file" id="certification" name="certification" accept=".pdf, .jpg, .png">
+                <div th:each="c:${user.technician.certificates}">
+                    <label th:text="${c.getCertificate_url()}"></label>
+                    <button>Edit</button>
+                </div>
+<!--                <label for="certification">Upload Certification:</label>-->
+<!--                <input type="file" id="certification" name="certification" accept=".pdf, .jpg, .png">-->
             </div>
 
             <div class="form-group">
                 <label for="picture">Upload Technician's Image:</label>
-                <input type="file" id="picture" name="picture" accept=".jpg, .png">
+                <input type="file" id="picture" name="picture" accept=".jpg, .png" th:value="${user.technician.getImage_url()}" >
+            </div>
+
+            <div class="form-group">
+                <label for="rate">Rate:</label>
+                <input type="number" id="rate" name="rate" th:value="${user.technician.getRate()}" required>
+                <span class="currency-symbol">CAD</span>
             </div>
 
             <a th:href="@{/index}">

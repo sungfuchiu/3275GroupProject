@@ -4,6 +4,7 @@ import com.example.techassist.Entities.Technician;
 import com.example.techassist.Entities.User;
 import com.example.techassist.Repositories.TechnicianRepository;
 import com.example.techassist.Repositories.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserController {
 
+    private final HttpSession httpSession;
     @Autowired
     private UserRepository userRepository;
 
@@ -91,16 +93,17 @@ public class UserController {
         try {
             System.out.println("Received parameters - username: " + username + ", password: " + password + ", userType: " + userType);
 
-            Optional<User> user = userRepository.findByUsernameAndPasswordAndUserType(username, password, userType);
+            Optional<User> user = userRepository.findByUsernameAndPassword(username, password);
 
             if (user.isPresent()) {
                 User loggedInUser = user.get();
                 model.addAttribute("user", loggedInUser);
+                httpSession.setAttribute("username", username);//Add username session for other page to use
 
                 // Redirect based on userType
-                if ("Customer".equals(loggedInUser.getUserType())) {
+                if (loggedInUser.getClient() != null) {
                     return "redirect:/mainLogin.html";
-                } else if ("Technician".equals(loggedInUser.getUserType())) {
+                } else if (loggedInUser.getTechnician() != null) {
                     return "redirect:/main.html";
                 } else {
                     // Handle other user types as needed
@@ -186,20 +189,19 @@ public class UserController {
 
             // Create a new User object and set its properties
             User newUser = new User();
-            newUser.setFullName(fullName);
-            newUser.setEmail(email);
-            newUser.setUsername(username);
+            newUser.setName(fullName);
+            newUser.setUsername(email);
             newUser.setPassword(password);
-            newUser.setUserType(userType);
 
             // Save the user to the database
             userRepository.save(newUser);
 
             // Retrieve the saved user from the database to get the generated ID
-            User savedUser = userRepository.findById(newUser.getId()).orElseThrow();
+            User savedUser = userRepository.findByUsername(newUser.getUsername()).orElseThrow();
 
             // Add the user to the model
             model.addAttribute("user", savedUser);
+            httpSession.setAttribute("username", username);//Add username session for other page to use
 
             // Redirect based on userType
             if ("Customer".equals(userType)) {
