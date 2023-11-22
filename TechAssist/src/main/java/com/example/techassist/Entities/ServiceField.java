@@ -1,5 +1,4 @@
 package com.example.techassist.Entities;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,13 +9,9 @@ import jakarta.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User {
+public class ServiceField {
     @Id
-    private String username;
-    private String name;
-    private String password;
-
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "technician_id", referencedColumnName = "id")
-    private Technician technician;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String field;
 }
