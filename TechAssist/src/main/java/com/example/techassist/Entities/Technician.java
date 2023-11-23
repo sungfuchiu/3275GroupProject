@@ -35,6 +35,9 @@ public class Technician {
     @JoinColumn(name = "service_field_id", nullable = false)
     private ServiceField serviceField;
 
+    @OneToOne(mappedBy = "technician", fetch = FetchType.EAGER)
+    private User user;
+
     @OneToMany(mappedBy = "technician", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<TechnicianCertificate> certificates;
 

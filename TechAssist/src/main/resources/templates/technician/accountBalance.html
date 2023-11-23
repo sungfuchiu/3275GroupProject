@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="technicianLayout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/style/technician/accountBalance.css}"/>
+    <title>Account Balance</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <main>
+        <h1>Account Balance</h1>
+        <div class="appointment-list">
+            <div class="appointment-item">
+                <div class="appointment-details">
+                    <p>No.1</p>
+                    <p>Date: 02/12/2023</p>
+                    <p>Service: P-trapes</p>
+                    <p>Actual Time: 83 Mins</p>
+                    <p>Service Length: 60 Mins</p>
+                    <p>Service Fee: 40 CAD</p>
+                    <p>Status: Paid</p>
+                    <p>Detail: In-time Service</p>
+                </div>
+            </div>
+
+            <div class="appointment-item">
+                <div class="appointment-details">
+                    <p>No.2</p>
+                    <p>Date: 02/12/2023</p>
+                    <p>Service: P-trapes</p>
+                    <p>Actual Time: 83 Mins</p>
+                    <p>Service Length: 60 Mins</p>
+                    <p>Service Fee: 23 CAD</p>
+                    <p>Status: Pending</p>
+                    <p>Detail: Extra-time Service</p>
+                </div>
+            </div>
+
+            <!-- Add more appointment items here as needed -->
+
+            <h3>Summary</h3>
+            <div class="summary">
+                <p>Paid: 60 CAD</p>
+                <p>Pending: 23 CAD</p>
+                <p>Total Service Fee: 113 CAD</p>
+            </div>
+        </div>
+        <a th:href="@{/technicianHome}">
+            <button type="button">Back</button>
+        </a>
+    </main>
+
+</section>
+</body>
+</html>

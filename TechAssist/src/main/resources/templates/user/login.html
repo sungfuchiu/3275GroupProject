@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/history.css}"/>
+    <link rel="stylesheet" th:href="@{/style/technician/history.css}"/>
     <title>Log in</title>
     <style>
 
@@ -37,7 +37,7 @@
                 <div th:if="${error}" class="error-message">
                     <p th:text="${error}"></p>
                 </div>
-                <form method="post" th:action="@{/login}">
+                <form method="post" th:action="@{login}">
                     <input type="radio" id="radioCustomer" name="userType" value="customer">
                     <label for="radioCustomer">Customer</label>
                     <input type="radio" id="radioTechnician" name="userType" value="technician">
@@ -47,7 +47,7 @@
                     <label>Password</label><br/><input type="password" name="loginpassword"><br/><br/>
                     <button type="submit" class="btn-primary">Log in</button><br/><br/>
                 </form>
-                <a th:href="@{/createaccount.html}">create account</a>
+                <a th:href="@{register}">create account</a>
             </div>
         </div>
 

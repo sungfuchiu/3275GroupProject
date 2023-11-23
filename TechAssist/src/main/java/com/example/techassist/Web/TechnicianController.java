@@ -1,8 +1,6 @@
 package com.example.techassist.Web;
 
-//import com.example.techassist.Entities.SetTR;
 import com.example.techassist.Entities.Technician;
-//import com.example.techassist.Repositories.SetTRRepository;
 import com.example.techassist.Repositories.TechnicianRepository;
 import com.example.techassist.Repositories.UserRepository;
 import jakarta.servlet.http.HttpSession;
@@ -30,17 +28,17 @@ public class TechnicianController {
 
     static int num = 0;
 
-    @GetMapping(path = "/index")
-    public String index() {
-        return "mainTechnician";
+    @GetMapping(path = "/technicianHome")
+    public String technicianHome() {
+        return "technician/technicianHome";
     }
 
-    @GetMapping(path = "/technicianProfile.html")
+    @GetMapping(path = "/technicianProfile")
     public String technicianProfile(Model model) {
         String username = (String) httpSession.getAttribute("username");
         var user = userRepository.findByUsername(username).orElse(null);
         model.addAttribute("user", user);
-        return "technicianProfile";
+        return "technician/technicianProfile";
     }
 
     @PostMapping(path = "/save")
@@ -49,7 +47,7 @@ public class TechnicianController {
         if (bindingResult.hasErrors()) {
             // Handle validation errors
             mm.addAttribute("technician", technician);
-            return "technicianProfile";
+            return "technician/technicianProfile";
         } else {
             // Save the technician data to the database
             String username = (String) httpSession.getAttribute("username");
@@ -60,25 +58,30 @@ public class TechnicianController {
             userRepository.save(user);
             mm.addAttribute("successMessage", "Data successfully saved");
             // Redirect to the main page
-            return "technicianProfile";
+            return "technician/technicianProfile";
         }
     }
+    //availableTimeSetting
+    @GetMapping(path = "/availableTimeSetting")
+    public String AvailableTimeSetting() {
+        return "technician/availableTimeSetting";
+    }
 
-    @GetMapping(path = "/viewAppointment.html")
+    @GetMapping(path = "/viewAppointment")
     public String viewAppointment() {
-        return "viewAppointment";
+        return "technician/viewAppointment";
     }
 
-    @GetMapping(path = "/accountBalance.html")
+    @GetMapping(path = "/accountBalance")
     public String accountBalance() {
-        return "accountBalance";
+        return "technician/accountBalance";
     }
 
-    @GetMapping(path = "/history.html")
+    @GetMapping(path = "/history")
     public String showhistory(Model model) {
         List<Technician> listTechnicians = technicianRepository.findAll();
         model.addAttribute("listTechnicians", listTechnicians);
-        return "history";
+        return "technician/history";
     }
 
 

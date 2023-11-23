@@ -1,22 +1,17 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="technicianLayout">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/techProfile.css}"/>
-    <title>TechnicianProfile</title>
+    <link rel="stylesheet" th:href="@{/style/technician/technicianProfile.css}"/>
+    <title>Technician Profile</title>
 </head>
 
 <body>
-<header>
-    <div class="logo">
-        <img id="img1" src="images/logo.jpg" alt="Logo">
-    </div>
-    <h1>Technician Profile</h1>
-</header>
+<section layout:fragment="content">
 <main>
+    <h1>Technician Profile</h1>
     <div class="container">
         <form method="post" th:action="@{/save}" th:object="${user}" onsubmit="return confirmSave()">
             <div class="form-group">
@@ -62,9 +57,10 @@
                 <span class="currency-symbol">CAD</span>
             </div>
 
-            <a th:href="@{/index}">
-                <button type="button">Back</button></a>
-                <button type="submit">Save</button>
+            <a th:href="@{/technicianHome}">
+                <button type="button">Back</button>
+            </a>
+            <button type="submit">Save</button>
         </form>
 
         <div th:if="${duplicateError}" class="error-message">
@@ -76,6 +72,7 @@
 
     </div>
 </main>
+</section>
 </body>
 <script>
     function confirmSave() {

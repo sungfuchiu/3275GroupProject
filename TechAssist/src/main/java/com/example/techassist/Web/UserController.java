@@ -8,19 +8,10 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.techassist.Entities.User;
-import com.example.techassist.Repositories.UserRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @SessionAttributes("user")
@@ -38,9 +29,9 @@ public class UserController {
 //        return "history";
 //    }
 
-    @GetMapping(path = "/login.html")
+    @GetMapping(path = "/login")
     public String login() {
-        return "login";
+        return "user/login";
     }
 
 
@@ -49,29 +40,9 @@ public class UserController {
         return "mainTomoya";
     }
 
-    @GetMapping(path = "/createaccount.html")
-    public String createaccount() {
-        return "createaccount";
-    }
-
-    @GetMapping(path = "/technicianinfo.html")
-    public String technicianinfo() {
-        return "technicianinfo";
-    }
-
-    @GetMapping(path = "/confirmation.html")
-    public String confirmation() {
-        return "confirmation";
-    }
-
-    @GetMapping(path = "/payment.html")
-    public String payment() {
-        return "payment";
-    }
-
-    @GetMapping(path = "/complete.html")
-    public String complete() {
-        return "complete";
+    @GetMapping(path = "/register")
+    public String register() {
+        return "user/register";
     }
 
     @GetMapping(path = "/main.html")
@@ -102,9 +73,9 @@ public class UserController {
 
                 // Redirect based on userType
                 if (loggedInUser.getClient() != null) {
-                    return "redirect:/mainLogin.html";
+                    return "redirect:/clientHome";
                 } else if (loggedInUser.getTechnician() != null) {
-                    return "redirect:/main.html";
+                    return "redirect:/technicianHome";
                 } else {
                     // Handle other user types as needed
                     return "redirect:/mainLogin.html";
@@ -117,7 +88,7 @@ public class UserController {
             // Log the exception for debugging
             e.printStackTrace();
             model.addAttribute("error", "An unexpected error occurred");
-            return "login";
+            return "user/login";
         }
     }
 
@@ -170,7 +141,7 @@ public class UserController {
     }
 
      */
-    @PostMapping("/createaccount")
+    @PostMapping("/register")
     public String createAccount(@RequestParam("createfullname") String fullName,
                                 @RequestParam("createemail") String email,
                                 @RequestParam("createusername") String username,
@@ -184,7 +155,7 @@ public class UserController {
             if (existingUser.isPresent()) {
                 // Username already exists, redirect to login page
                 model.addAttribute("error", "Username already exists. Please choose a different username or go to login.");
-                return "createaccount";
+                return "user/register";
             }
 
             // Create a new User object and set its properties
@@ -220,7 +191,7 @@ public class UserController {
             model.addAttribute("error", "An unexpected error occurred while creating the account: " + e.getMessage());
 
             // Return to the createaccount page with an error message
-            return "createaccount";
+            return "user/register";
         }
     }
 
@@ -235,7 +206,7 @@ public class UserController {
         if (technicianOptional.isPresent()) {
             Technician technician = technicianOptional.get();
             model.addAttribute("technician", technician);
-            return "technicianinfo"; // Assuming your template is named "technicianinfo.html"
+            return "technicianinfo"; // Assuming your template is named "technicianInfo.html"
         } else {
             // Handle the case where the technician with the given ID is not found
             return "error"; // You can create an error Thymeleaf template

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="technicianLayout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/style/technician/history.css}"/>
+    <title>History</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <main>
+        <h1>History</h1>
+        <div class="appointment-list">
+            <div th:each="technician:${listTechnicians}" class="appointment-item">
+                <div class="appointment-details">
+                    <p th:text="${'No.' + technician.getId()}"></p>
+                    <p th:text="${'Name' + technician.getUser().getName()}"></p>
+                </div>
+            </div>
+
+            <div class="appointment-item">
+                <div class="appointment-details">
+                    <p>No.2</p>
+                    <p>Date: 02/12/2023</p>
+                    <p>Service: Unclog</p>
+                    <p>Actual Time: 27 Mins</p>
+                    <p>Customer Name: Andy</p>
+                    <p>Star Rating: 5</p>
+                </div>
+            </div>
+
+            <!-- Add more appointment items here as needed -->
+        </div>
+        <a th:href="@{/technicianHome}">
+            <button type="button">Back</button>
+        </a>
+    </main>
+</section>
+</body>
+</html>

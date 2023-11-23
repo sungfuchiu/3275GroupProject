@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="technicianLayout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/style/technician/technicianHome.css}"/>
+    <title>Technician Home Page</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <main>
+        <ul class="image-list">
+            <li>
+                <a th:href="@{/technicianProfile}">
+                    <img id="img2" src="images/technician_profile.png" alt="Technician Profile">
+                    <p>Technician Profile</p>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{availableTimeSetting}">
+                    <img id="img3" src="images/SetDR.jpg" alt="Setting Time Rate">
+                    <p>Available Time Setting</p>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{viewAppointment}">
+                    <img id="img4" src="images/viewAppointment.jpg" alt="View Appointment">
+                    <p>View Appointment</p>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{accountBalance}">
+                    <img id="img5" src="images/account.png" alt="Account Balance">
+                    <p>Account Balance</p>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{history}">
+                    <img id="img6" src="images/History.jpg" alt="History">
+                    <p>History</p>
+                </a>
+            </li>
+        </ul>
+    </main>
+</section>
+</body>
+</html>

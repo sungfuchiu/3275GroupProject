@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>tech assist</title>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{clientHome}">
+                <img th:src="@{images/logo.jpg}" alt="" width="50" height="50"/>
+            </a>
+        </div>
+    </nav>
+</header>
+<section layout:fragment="content"></section>
+</body>
+</html>
