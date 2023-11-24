@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface ServiceFieldRepository extends JpaRepository<ServiceField,Long> {
     Optional<ServiceField> findById(Long id);
+    List<ServiceField> findAllByOrderByIdAsc();
+
 }
