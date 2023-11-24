@@ -1,0 +1,165 @@
+html {
+    height: 100%;
+    width: 100%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    height: inherit;
+    width: inherit;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    flex-basis: 10%;
+}
+
+.logo {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#img1 {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.contents {
+    flex-basis: 80%;
+    height: inherit;
+    width: inherit;
+}
+
+.errorMessagePanel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    size: 20px;
+    color: red;
+    text-align: center;
+}
+
+.inputAccountInfoPanel {
+    height: max-content;
+    width: inherit;
+    display: block;
+    padding: 10px;
+}
+
+.typeAccountPanel {
+    height: 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.radioItem {
+    height: inherit;
+    width: 40%;
+    padding-left: 2px;
+}
+
+input[type="radio"] {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+}
+
+.lblRadType {
+    font-size: 23px;
+    color: #000000;
+    text-align: center;
+}
+
+.commonInputArea {
+    height: max-content;
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.technicianInputArea {
+    height: max-content;
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: pink;
+}
+
+.tblInput {
+    height: 15rem;
+    width: inherit;
+}
+
+.tdInputTitle {
+    height: 5rem;
+    width: 30%;
+    padding: 1px;
+    font-size: 20px;
+    color:#000000;
+}
+
+.tdInput {
+    height: 5rem;
+    width: 70%;
+}
+
+.inputInfo {
+    height: 2rem;
+    width: 100%;
+    padding: 1px;
+}
+
+.inputLong {
+    height: 4rem !important;
+}
+
+.selServiceField {
+    height: 2rem;
+    width: 90%;
+    padding: 1px;
+}
+
+#trForTechnicianDes, #trForTechnicianService {
+    display: none;
+}
+
+.createButtonPanel {
+    height: 3rem;
+    width: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btnCreateAccount {
+    height: 80%;
+    width: 60%;
+    font-size: 20px;
+    color: #000000;
+    text-align: center;
+    background-color: lightgray;
+    border-radius: 1rem;
+}
+
+.loginAnckerPanel {
+    text-align: center;
+    font-size: 25px;
+}
+
+footer {
+    flex-basis: 10%;
+    background-color: yellow;
+}
+

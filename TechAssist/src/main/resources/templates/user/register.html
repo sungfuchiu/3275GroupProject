@@ -1,62 +1,73 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/style/technician/history.css}"/>
+    <link rel="stylesheet" th:href="@{/style/user/register.css}"/>
     <title>Create Account</title>
-    <style>
-
-        h1 {
-            text-align: center;
-        }
-
-        .login-body{
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
-<header>
-    <div class="logo">
-        <img id="img1" src="images/logo.jpg" alt="Logo">
-    </div>
-    <h1>Create Account</h1>
-</header>
-<main>
-    <div class="appointment-list">
-        <div class="container mt-2 pre-scrollable">
-            <div class="card-header"></div>
-            <div class="login-body">
-                <br/>
-                <div th:if="${error}" class="alert alert-danger">
-                    <p th:text="${error}"></p>
+    <header>
+        <div class="logo">
+            <img id="img1" src="images/logo.jpg" alt="Logo">
+        </div>
+        <h1>Create Account</h1>
+    </header>
+    <div class="contents">
+        <div class="errorMessagePanel">
+            <p th:text="${errorMessage}"></p>
+        </div>
+        <div class="inputAccountInfoPanel">
+            <form method="POST" th:action="@{/createAccount}">
+                <div class="typeAccountPanel">
+                    <div class="radioItem">
+                        <input type="radio" id="radClient" class="radUsertype" name="userType" value="client" checked="true" onclick="changeInputInfo()">
+                        <label for="radClient" class="lblRadType">Client</label>
+                    </div>
+                    <div class="radioItem">
+                        <input type="radio" id="radTechnician" class="radUsertype" name="userType" value="technician" onclick="changeInputInfo()">
+                        <label for="radTechnician" class="lblRadType">Technician</label>
+                    </div>
                 </div>
-
-                <form method="post" th:action="@{register}">
-                    <input type="radio" id="radioCustomer" name="userType" value="Customer">
-                    <label for="radioCustomer">Customer</label>
-                    <input type="radio" id="radioTechnician" name="userType" value="Technician">
-                    <label for="radioTechnician">Technician</label>
-                    <br/><br/>
-                    <label>fullname</label><br/>
-                    <input type="text" name="createfullname"/><br/>
-                    <label>email</label><br/>
-                    <input type="text" name="createemail"/><br/>
-                    <label>username</label><br/>
-                    <input type="text" name="createusername"/><br/>
-                    <label>password</label><br/>
-                    <input type="password" name="createpassword"/><br/>
-
-                    <!-- ... other form elements ... -->
-                    <button type="submit" class="btn-primary">Create account</button><br/>
-                </form>
-                <a th:href="@{login}">login</a>
+                <div class="commonInputArea">
+                    <table class="tblInput">
+                        <tr>
+                            <td class="tdInputTitle">User Name</td>
+                            <td class="tdInput"><input type="email" class="inputInfo" name="inUserName" required></td>
+                        </tr>
+                        <tr>
+                            <td class="tdInputTitle">Full Name</td>
+                            <td class="tdInput"><input type="text" class="inputInfo" name="inFullName" required></td>
+                        </tr>
+                        <tr>
+                            <td class="tdInputTitle">Password</td>
+                            <td class="tdInput"><input type="password" class="inputInfo" name="inPassword" required></td>
+                        </tr>
+                        <tr id="trForTechnicianDes">
+                            <td class="tdInputTitle">Job Description</td>
+                            <td class="tdInput"><textarea class="inputInfo inputLong" id="idJobDescription" name="inJobDescription" rows="5"></textarea></td>
+                        </tr>
+                        <tr id="trForTechnicianService">
+                            <td class="tdInputTitle">Service Field</td>
+                            <td class="tdInput">
+                                <select name="selServiceField" id="selServiceField" class="selServiceField">
+                                    <option value="" disabled selected hidden>Service Field</option>
+                                    <option th:each="serviceField:${serviceFieldList}" th:value="${serviceField.id}" th:text="${serviceField.field}"></option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="createButtonPanel">
+                    <button type="submit" class="btnCreateAccount">Create account</button>
+                </div>  
+            </form>
+            <div class="loginAnckerPanel">
+                <a th:href="@{/login.html}">login</a>
             </div>
         </div>
-        <!-- Add more appointment items here as needed -->
     </div>
-</main>
+    <footer></footer>
+    <script type="text/javascript" src="/register.js"></script>
 </body>
 </html>
