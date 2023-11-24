@@ -25,10 +25,21 @@ public class LoginController {
     @Autowired
     ConstList constList;
 
+    @GetMapping(path="/")
+    public String initialPage() {
+        return "user/login";
+    }
+    
     @GetMapping(path = "/login")
     public String login(ModelMap model) {
 
         return "user/login";
+    }
+
+    @GetMapping(path="/user/login")
+    public String moveToLogin() {
+
+        return"user/login";
     }
 
     @GetMapping(path="/loginUser")
