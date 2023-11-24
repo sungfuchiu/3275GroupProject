@@ -76,12 +76,12 @@ public class RegisterController {
        if(count != 0) {
            if(type == 0) {
                //client
-               httpSession.setAttribute(constList.USER_NAME, userName);
+               httpSession.setAttribute(constList.KEY_USER_NAME, userName);
 
                return "/client/clientHome";
            } else {
                //technician
-               httpSession.setAttribute(constList.USER_NAME, userName);
+               httpSession.setAttribute(constList.KEY_USER_NAME, userName);
 
                return "technician/technicianHome";
            }

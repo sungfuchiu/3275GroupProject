@@ -29,10 +29,10 @@ public class UserController {
 //        return "history";
 //    }
 
-    @GetMapping(path = "/login")
-    public String login() {
-        return "user/login";
-    }
+//    @GetMapping(path = "/login")
+//    public String login() {
+//        return "user/login";
+//    }
 
 
     @GetMapping(path = "/mainTomoya.html")
