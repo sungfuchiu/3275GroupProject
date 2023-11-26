@@ -15,7 +15,6 @@ import java.util.List;
 
 @RequestMapping
 @Controller
-@SessionAttributes({"errorMessage"})
 @AllArgsConstructor
 public class RegisterController {
 
@@ -28,7 +27,7 @@ public class RegisterController {
     @Autowired
     ConstList constList;
 
-    @GetMapping(path="/user/register")
+    @GetMapping(path="/register")
     public String initialCreateAccount(ModelMap model) {
         serviceFieldList = serviceFieldRepository.findAllByOrderByIdAsc();
         model.addAttribute(constList.KEY_SERVICE_FIELD_LIST, serviceFieldList);
@@ -48,6 +47,16 @@ public class RegisterController {
         int count = 0;
         int type = 0;
         int id = 0;
+
+        count = registerDAO.checkUserDuplicate(userName);
+        if(count != 0) {
+            model.addAttribute(constList.KEY_ERROR_MESSAGE, "This user name is already used, please input another user name.");
+
+            return "user/register";
+        } else {
+            count = 0;
+        }
+
         if(userType.equals(constList.KEY_CLIENT)) {
             count = registerDAO.insertClient();
             if(count != 0) {
@@ -56,7 +65,7 @@ public class RegisterController {
             } else {
                 model.addAttribute(constList.KEY_ERROR_MESSAGE, "Failure to create account.");
 
-                return "redirect:/user/register";
+                return "user/register";
             }
         } else {
             int serviceField = Integer.parseInt(selServiceField);
@@ -68,7 +77,7 @@ public class RegisterController {
             } else {
                 model.addAttribute(constList.KEY_ERROR_MESSAGE, "Failure to create account.");
 
-                return "redirect:/user/register";
+                return "user/register";
             }
         }
 
@@ -78,12 +87,12 @@ public class RegisterController {
                //client
                httpSession.setAttribute(constList.KEY_USER_NAME, userName);
 
-               return "clientHome";
+               return "redirect:/clientHome";
            } else {
                //technician
                httpSession.setAttribute(constList.KEY_USER_NAME, userName);
 
-               return "technician/technicianHome";
+               return "redirect:/technicianHome";
            }
        }
 

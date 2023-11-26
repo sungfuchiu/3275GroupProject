@@ -20,6 +20,14 @@ public class RegisterDAO {
         this.template = template;
     }
 
+    public int checkUserDuplicate(String userName) {
+        sql.setLength(0);
+
+        sql.append("SELECT COUNT(username) FROM user WHERE username = '" + userName + "'");
+
+        return template.queryForObject(sql.toString(), Integer.class);
+    }
+
     public int insertClient() {
         sql.setLength(0);
 

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 @RequestMapping
 @Controller
-@SessionAttributes({"errorMessage"})
 @AllArgsConstructor
 public class LoginController {
 
@@ -31,16 +30,16 @@ public class LoginController {
     }
 
     @GetMapping(path = "/login")
-    public String login(ModelMap model) {
+    public String loginPage(ModelMap model) {
 
         return "user/login";
     }
 
-    @GetMapping(path="/user/login")
-    public String moveToLogin() {
-
-        return"user/login";
-    }
+//    @GetMapping(path="/user/login")
+//    public String moveToLogin() {
+//
+//        return"user/login";
+//    }
 
     @GetMapping(path="/loginUser")
     public String loginUser(ModelMap model, @RequestParam("inUserName") String userName, @RequestParam("inPassword") String password) {

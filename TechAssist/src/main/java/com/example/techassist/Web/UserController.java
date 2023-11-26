@@ -40,10 +40,10 @@ public class UserController {
         return "mainTomoya";
     }
 
-    @GetMapping(path = "/register")
-    public String register() {
-        return "user/register";
-    }
+//    @GetMapping(path = "/register")
+//    public String register() {
+//        return "user/register";
+//    }
 
     @GetMapping(path = "/main.html")
     public String main() {
@@ -56,41 +56,41 @@ public class UserController {
     }
 
 
-    @PostMapping("/login")
-    public String loginUser(@RequestParam("loginusername") String username,
-                            @RequestParam("loginpassword") String password,
-                            @RequestParam("userType") String userType,
-                            Model model) {
-        try {
-            System.out.println("Received parameters - username: " + username + ", password: " + password + ", userType: " + userType);
-
-            Optional<User> user = userRepository.findByUsernameAndPassword(username, password);
-
-            if (user.isPresent()) {
-                User loggedInUser = user.get();
-                model.addAttribute("user", loggedInUser);
-                httpSession.setAttribute("username", username);//Add username session for other page to use
-
-                // Redirect based on userType
-                if (loggedInUser.getClient() != null) {
-                    return "redirect:/clientHome";
-                } else if (loggedInUser.getTechnician() != null) {
-                    return "redirect:/technicianHome";
-                } else {
-                    // Handle other user types as needed
-                    return "redirect:/mainLogin.html";
-                }
-            } else {
-                model.addAttribute("error", "Invalid username, password, or user type");
-                return "login";
-            }
-        } catch (Exception e) {
-            // Log the exception for debugging
-            e.printStackTrace();
-            model.addAttribute("error", "An unexpected error occurred");
-            return "user/login";
-        }
-    }
+//    @PostMapping("/login")
+//    public String loginUser(@RequestParam("loginusername") String username,
+//                            @RequestParam("loginpassword") String password,
+//                            @RequestParam("userType") String userType,
+//                            Model model) {
+//        try {
+//            System.out.println("Received parameters - username: " + username + ", password: " + password + ", userType: " + userType);
+//
+//            Optional<User> user = userRepository.findByUsernameAndPassword(username, password);
+//
+//            if (user.isPresent()) {
+//                User loggedInUser = user.get();
+//                model.addAttribute("user", loggedInUser);
+//                httpSession.setAttribute("username", username);//Add username session for other page to use
+//
+//                // Redirect based on userType
+//                if (loggedInUser.getClient() != null) {
+//                    return "redirect:/clientHome";
+//                } else if (loggedInUser.getTechnician() != null) {
+//                    return "redirect:/technicianHome";
+//                } else {
+//                    // Handle other user types as needed
+//                    return "redirect:/mainLogin.html";
+//                }
+//            } else {
+//                model.addAttribute("error", "Invalid username, password, or user type");
+//                return "login";
+//            }
+//        } catch (Exception e) {
+//            // Log the exception for debugging
+//            e.printStackTrace();
+//            model.addAttribute("error", "An unexpected error occurred");
+//            return "user/login";
+//        }
+//    }
 
     /*
 
@@ -141,59 +141,59 @@ public class UserController {
     }
 
      */
-    @PostMapping("/register")
-    public String createAccount(@RequestParam("createfullname") String fullName,
-                                @RequestParam("createemail") String email,
-                                @RequestParam("createusername") String username,
-                                @RequestParam("createpassword") String password,
-                                @RequestParam("userType") String userType,
-                                Model model) {
-        try {
-            // Check if the username already exists
-            Optional<User> existingUser = userRepository.findByUsername(username);
-
-            if (existingUser.isPresent()) {
-                // Username already exists, redirect to login page
-                model.addAttribute("error", "Username already exists. Please choose a different username or go to login.");
-                return "user/register";
-            }
-
-            // Create a new User object and set its properties
-            User newUser = new User();
-            newUser.setName(fullName);
-            newUser.setUsername(email);
-            newUser.setPassword(password);
-
-            // Save the user to the database
-            userRepository.save(newUser);
-
-            // Retrieve the saved user from the database to get the generated ID
-            User savedUser = userRepository.findByUsername(newUser.getUsername()).orElseThrow();
-
-            // Add the user to the model
-            model.addAttribute("user", savedUser);
-            httpSession.setAttribute("username", username);//Add username session for other page to use
-
-            // Redirect based on userType
-            if ("Customer".equals(userType)) {
-                return "redirect:/mainLogin.html";
-            } else if ("Technician".equals(userType)) {
-                return "redirect:/main.html";
-            } else {
-                // Handle other user types as needed
-                return "redirect:/mainLogin.html";
-            }
-        } catch (Exception e) {
-            // Log the exception for debugging
-            e.printStackTrace();
-
-            // Add the exception message to the model for display on the createaccount page
-            model.addAttribute("error", "An unexpected error occurred while creating the account: " + e.getMessage());
-
-            // Return to the createaccount page with an error message
-            return "user/register";
-        }
-    }
+//    @PostMapping("/register")
+//    public String createAccount(@RequestParam("createfullname") String fullName,
+//                                @RequestParam("createemail") String email,
+//                                @RequestParam("createusername") String username,
+//                                @RequestParam("createpassword") String password,
+//                                @RequestParam("userType") String userType,
+//                                Model model) {
+//        try {
+//            // Check if the username already exists
+//            Optional<User> existingUser = userRepository.findByUsername(username);
+//
+//            if (existingUser.isPresent()) {
+//                // Username already exists, redirect to login page
+//                model.addAttribute("error", "Username already exists. Please choose a different username or go to login.");
+//                return "user/register";
+//            }
+//
+//            // Create a new User object and set its properties
+//            User newUser = new User();
+//            newUser.setName(fullName);
+//            newUser.setUsername(email);
+//            newUser.setPassword(password);
+//
+//            // Save the user to the database
+//            userRepository.save(newUser);
+//
+//            // Retrieve the saved user from the database to get the generated ID
+//            User savedUser = userRepository.findByUsername(newUser.getUsername()).orElseThrow();
+//
+//            // Add the user to the model
+//            model.addAttribute("user", savedUser);
+//            httpSession.setAttribute("username", username);//Add username session for other page to use
+//
+//            // Redirect based on userType
+//            if ("Customer".equals(userType)) {
+//                return "redirect:/mainLogin.html";
+//            } else if ("Technician".equals(userType)) {
+//                return "redirect:/main.html";
+//            } else {
+//                // Handle other user types as needed
+//                return "redirect:/mainLogin.html";
+//            }
+//        } catch (Exception e) {
+//            // Log the exception for debugging
+//            e.printStackTrace();
+//
+//            // Add the exception message to the model for display on the createaccount page
+//            model.addAttribute("error", "An unexpected error occurred while creating the account: " + e.getMessage());
+//
+//            // Return to the createaccount page with an error message
+//            return "user/register";
+//        }
+//    }
 
 
     @Autowired
