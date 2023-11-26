@@ -7,6 +7,7 @@ public class ConstList {
     public final static String KEY_ID = "id";
     public final static String KEY_USER_NAME = "userName";
     public final static String KEY_PASSWORD = "password";
+    public final static String KEY_USER_TYPE = "userType";
     public final static String KEY_CLIENT_ID = "clientId";
     public final static String KEY_TECHNICIAN_ID = "technicianId";
     public final static String KEY_APPOINTMENT_DATE = "appointmentDATE";
@@ -16,10 +17,12 @@ public class ConstList {
     public final static String FORMAT_DATE_TIME = "MM/dd/yyyy HH:mm:ss";
     public final static String KEY_CALL_ID = "callId";
     public final static String KEY_TIME_SLOT_LIST = "timeSlotList";
-
     public final static String KEY_CLIENT = "client";
     public final static String KEY_TECHNICIAN = "technician";
     public final static String KEY_SERVICE_FIELD_LIST = "serviceFieldList";
     public final static String KEY_ERROR_MESSAGE = "errorMessage";
+    public final static String KEY_FULL_NAME = "fullName";
+    public final static String KEY_JOB_DESCRIPTION = "jobDescription";
+    public final static String KEY_SERVICE_FIELD = "serviceField";
 
 }

@@ -19,12 +19,13 @@
             <div class="inputAccountInfoPanel">
                 <form method="POST" th:action="@{/createAccount}">
                     <div class="typeAccountPanel">
+                        <input type="hidden" id="hidUserType" th:value="${userType}">
                         <div class="radioItem">
-                            <input type="radio" id="radClient" class="radUsertype" name="userType" value="client" checked="true" onclick="changeInputInfo()">
+                            <input type="radio" id="radClient" class="radUsertype" name="userType" value="client" checked="true" onchange="changeInputInfo()">
                             <label for="radClient" class="lblRadType">Client</label>
                         </div>
                         <div class="radioItem">
-                            <input type="radio" id="radTechnician" class="radUsertype" name="userType" value="technician" onclick="changeInputInfo()">
+                            <input type="radio" id="radTechnician" class="radUsertype" name="userType" value="technician" onchange="changeInputInfo()">
                             <label for="radTechnician" class="lblRadType">Technician</label>
                         </div>
                     </div>
@@ -32,23 +33,24 @@
                         <table class="tblInput">
                             <tr>
                                 <td class="tdInputTitle">User Name</td>
-                                <td class="tdInput"><input type="email" class="inputInfo" name="inUserName" required></td>
+                                <td class="tdInput"><input type="email" class="inputInfo" name="inUserName" th:value="${userName}" required></td>
                             </tr>
                             <tr>
                                 <td class="tdInputTitle">Full Name</td>
-                                <td class="tdInput"><input type="text" class="inputInfo" name="inFullName" required></td>
+                                <td class="tdInput"><input type="text" class="inputInfo" name="inFullName" th:value="${fullName}" required></td>
                             </tr>
                             <tr>
                                 <td class="tdInputTitle">Password</td>
-                                <td class="tdInput"><input type="password" class="inputInfo" name="inPassword" required></td>
+                                <td class="tdInput"><input type="password" class="inputInfo" name="inPassword" th:value="${password}" required></td>
                             </tr>
                             <tr id="trForTechnicianDes">
                                 <td class="tdInputTitle">Job Description</td>
-                                <td class="tdInput"><textarea class="inputInfo inputLong" id="idJobDescription" name="inJobDescription" rows="5"></textarea></td>
+                                <td class="tdInput"><textarea class="inputInfo inputLong" id="idJobDescription" name="inJobDescription" rows="5" th:text="${jobDescription}"></textarea></td>
                             </tr>
                             <tr id="trForTechnicianService">
                                 <td class="tdInputTitle">Service Field</td>
                                 <td class="tdInput">
+                                    <input type="hidden" id="hidServiceField" th:value="${serviceField}">
                                     <select name="selServiceField" id="selServiceField" class="selServiceField">
                                         <option value="" disabled selected hidden>Service Field</option>
                                         <option th:each="serviceField:${serviceFieldList}" th:value="${serviceField.id}" th:text="${serviceField.field}"></option>

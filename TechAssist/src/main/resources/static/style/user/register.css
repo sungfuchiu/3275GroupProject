@@ -29,7 +29,8 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    size: 20px;
+    size: 15px;
+    font-weight: bold;
     color: red;
     text-align: center;
 }

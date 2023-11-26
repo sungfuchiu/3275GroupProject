@@ -22,11 +22,14 @@
                         <table class="tblInput">
                             <tr>
                                 <td class="tdInputTitle">User Name</td>
-                                <td class="tdInput"><input type="email" class="inputInfo" name="inUserName" required></td>
+                                <td class="tdInput">
+                                    <input type="email" class="inputInfo" name="inUserName" th:value="${userName}" required>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="tdInputTitle">Password</td>
-                                <td class="tdInput"><input type="password" class="inputInfo" name="inPassword" required></td>
+                                <td class="tdInput">
+                                    <input type="password" class="inputInfo" name="inPassword" th:value="${password}" required></td>
                             </tr>
                         </table>
                     </div>

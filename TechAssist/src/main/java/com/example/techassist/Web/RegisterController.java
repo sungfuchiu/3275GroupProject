@@ -35,6 +35,7 @@ public class RegisterController {
         return "user/register";
     }
 
+
     @PostMapping(path="/createAccount")
     public String createAccount(ModelMap model, @RequestParam("inUserName")String userName, @RequestParam("inFullName")String fullName,
                                 @RequestParam("inPassword")String password, @RequestParam(value="inJobDescription",defaultValue = "")String jobDescription,
@@ -50,7 +51,17 @@ public class RegisterController {
 
         count = registerDAO.checkUserDuplicate(userName);
         if(count != 0) {
-            model.addAttribute(constList.KEY_ERROR_MESSAGE, "This user name is already used, please input another user name.");
+            model.addAttribute(constList.KEY_ERROR_MESSAGE, "This user name is already used.");
+            model.addAttribute(constList.KEY_USER_NAME, userName);
+            model.addAttribute(constList.KEY_FULL_NAME, fullName);
+            model.addAttribute(constList.KEY_PASSWORD, password);
+            model.addAttribute(constList.KEY_USER_TYPE, userType);
+            if(userType.equals(constList.KEY_TECHNICIAN)) {
+                model.addAttribute(constList.KEY_JOB_DESCRIPTION, jobDescription);
+                model.addAttribute(constList.KEY_SERVICE_FIELD, selServiceField);
+            }
+            serviceFieldList = serviceFieldRepository.findAllByOrderByIdAsc();
+            model.addAttribute(constList.KEY_SERVICE_FIELD_LIST, serviceFieldList);
 
             return "user/register";
         } else {
@@ -64,6 +75,16 @@ public class RegisterController {
                 count = 0;
             } else {
                 model.addAttribute(constList.KEY_ERROR_MESSAGE, "Failure to create account.");
+                model.addAttribute(constList.KEY_USER_NAME, userName);
+                model.addAttribute(constList.KEY_FULL_NAME, fullName);
+                model.addAttribute(constList.KEY_PASSWORD, password);
+                model.addAttribute(constList.KEY_USER_TYPE, userType);
+                if(userType.equals(constList.KEY_TECHNICIAN)) {
+                    model.addAttribute(constList.KEY_JOB_DESCRIPTION, jobDescription);
+                    model.addAttribute(constList.KEY_SERVICE_FIELD, selServiceField);
+                }
+                serviceFieldList = serviceFieldRepository.findAllByOrderByIdAsc();
+                model.addAttribute(constList.KEY_SERVICE_FIELD_LIST, serviceFieldList);
 
                 return "user/register";
             }
@@ -76,6 +97,16 @@ public class RegisterController {
                 count = 0;
             } else {
                 model.addAttribute(constList.KEY_ERROR_MESSAGE, "Failure to create account.");
+                model.addAttribute(constList.KEY_USER_NAME, userName);
+                model.addAttribute(constList.KEY_FULL_NAME, fullName);
+                model.addAttribute(constList.KEY_PASSWORD, password);
+                model.addAttribute(constList.KEY_USER_TYPE, userType);
+                if(userType.equals(constList.KEY_TECHNICIAN)) {
+                    model.addAttribute(constList.KEY_JOB_DESCRIPTION, jobDescription);
+                    model.addAttribute(constList.KEY_SERVICE_FIELD, selServiceField);
+                }
+                serviceFieldList = serviceFieldRepository.findAllByOrderByIdAsc();
+                model.addAttribute(constList.KEY_SERVICE_FIELD_LIST, serviceFieldList);
 
                 return "user/register";
             }

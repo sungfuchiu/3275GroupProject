@@ -35,12 +35,6 @@ public class LoginController {
         return "user/login";
     }
 
-//    @GetMapping(path="/user/login")
-//    public String moveToLogin() {
-//
-//        return"user/login";
-//    }
-
     @GetMapping(path="/loginUser")
     public String loginUser(ModelMap model, @RequestParam("inUserName") String userName, @RequestParam("inPassword") String password) {
         userName = userName.trim();
@@ -49,7 +43,9 @@ public class LoginController {
         var user = userRepository.findByUsernameAndPassword(userName, password).orElse(null);
 
         if(user == null) {
-            model.addAttribute(constList.KEY_ERROR_MESSAGE, "Not found your account. Please try again. WHY");
+            model.addAttribute(constList.KEY_ERROR_MESSAGE, "Not found your account.");
+            model.addAttribute(constList.KEY_USER_NAME, userName);
+            model.addAttribute(constList.KEY_PASSWORD, password);
 
             return "user/login";
         } else {
