@@ -23,17 +23,6 @@ window.addEventListener("load",function loadRegister() {
         serviceField.required = false;
     }
 
-    // if(btnClient.checked == true) {
-    //     targetRow1.style.display = 'none';
-    //     targetRow2.style.display = 'none';
-    //     jobDescribtion.required = false;
-    //     serviceField.required = false;
-    // } else if(btnTechnician.checked == true) {
-    //     targetRow1.style.display = 'table-row';
-    //     targetRow2.style.display = 'table-row';
-    //     jobDescribtion.required = true;
-    //     serviceField.required = true;
-    // }
 });
 
 function changeInputInfo() {
