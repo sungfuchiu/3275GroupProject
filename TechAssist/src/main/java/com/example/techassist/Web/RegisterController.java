@@ -78,7 +78,7 @@ public class RegisterController {
                //client
                httpSession.setAttribute(constList.KEY_USER_NAME, userName);
 
-               return "/client/clientHome";
+               return "clientHome";
            } else {
                //technician
                httpSession.setAttribute(constList.KEY_USER_NAME, userName);

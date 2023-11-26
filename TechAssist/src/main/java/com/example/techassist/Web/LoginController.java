@@ -29,7 +29,7 @@ public class LoginController {
     public String initialPage() {
         return "user/login";
     }
-    
+
     @GetMapping(path = "/login")
     public String login(ModelMap model) {
 
@@ -56,9 +56,9 @@ public class LoginController {
         } else {
             httpSession.setAttribute(constList.KEY_USER_NAME, userName);
             if(user.getClient() != null) {
-                return "/client/clientHome";
+                return "redirect:/clientHome";
             } else {
-                return "/technician/technicianHome";
+                return "redirect:/technicianHome";
             }
         }
     }
