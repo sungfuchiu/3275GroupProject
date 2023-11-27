@@ -16,16 +16,17 @@ public class PhoneCall {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime start_time;
+    @Column(name = "start_time", nullable = false)
+    private LocalDateTime startTime;
     private Integer rating;
     private String review;
     private Float cost;
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "duration_slot", referencedColumnName = "id")
-    private TimeSlot duration_slot;
+    private TimeSlot durationSlot;
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "start_slot", referencedColumnName = "id")
-    private TimeSlot start_slot;
+    private TimeSlot startSlot;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;

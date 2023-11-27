@@ -12,25 +12,18 @@
     <main>
         <h1>History</h1>
         <div class="appointment-list">
-            <div th:each="technician:${listTechnicians}" class="appointment-item">
-                <div class="appointment-details">
-                    <p th:text="${'No.' + technician.getId()}"></p>
-                    <p th:text="${'Name' + technician.getUser().getName()}"></p>
+            <div class="appointment-list">
+                <div class="appointment-item" th:each="history:${histories}">
+                    <div class="appointment-details">
+                        <p th:text="'Date:'+${history.date}"></p>
+                        <p th:text="'Start time:'+${history.startTime}"></p>
+                        <p th:text="'Duration:'+${history.duration}+' minutes'"></p>
+                        <p th:text="'Customer Name:'+${history.customerName}"></p>
+                        <p th:text="'Rating:'+${history.rating}"></p>
+                        <p th:text="'Review:'+${history.review}"></p>
+                    </div>
                 </div>
             </div>
-
-            <div class="appointment-item">
-                <div class="appointment-details">
-                    <p>No.2</p>
-                    <p>Date: 02/12/2023</p>
-                    <p>Service: Unclog</p>
-                    <p>Actual Time: 27 Mins</p>
-                    <p>Customer Name: Andy</p>
-                    <p>Star Rating: 5</p>
-                </div>
-            </div>
-
-            <!-- Add more appointment items here as needed -->
         </div>
         <a th:href="@{/technicianHome}">
             <button type="button">Back</button>

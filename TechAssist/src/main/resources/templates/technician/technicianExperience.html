@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="technicianLayout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/style/technician/technicianProfile.css}"/>
+  <title>Technician Experience</title>
+</head>
+
+<body>
+<section layout:fragment="content">
+  <main>
+    <h1>Technician Profile</h1>
+    <div class="container">
+      <form method="post" th:action="@{/technicianExperience/edit}" th:object="${experience}"
+            onsubmit="return confirmSave()">
+        <input type="text" id="id" name="id" th:value="${experience != null ? experience.id : ''}" hidden="hidden">
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input type="text" id="title" name="title" th:value="${experience != null ? experience.title : ''}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="start_year">Start:</label>
+          <input type="number" id="start_year" name="start_year" th:value="${experience != null ? experience.start_year : ''}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="year">Year:</label>
+          <input type="number" id="year" name="year" th:value="${experience != null ? experience.year : ''}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea id="description" name="description" rows="6"
+                    th:text="${experience != null ? experience.description : ''}" required></textarea>
+        </div>
+
+        <div class="button-container">
+          <a th:href="@{/technicianProfile}">
+            <button type="button" class="cancel-button">Back</button>
+          </a>
+          <button type="submit">Save</button>
+        </div>
+      </form>
+
+      <div th:if="${duplicateError}" class="error-message">
+        <p th:text="${duplicateError}"></p>
+      </div>
+      <div th:if="${successMessage}" class="success-message">
+        <p th:text="${successMessage}"></p>
+      </div>
+
+    </div>
+  </main>
+</section>
+</body>
+<script>
+  function confirmSave() {
+    return confirm("Are you sure you want to save?");
+  }
+</script>
+</html>

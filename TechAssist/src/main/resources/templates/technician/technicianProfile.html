@@ -5,73 +5,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/style/technician/technicianProfile.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Technician Profile</title>
 </head>
 
 <body>
 <section layout:fragment="content">
-<main>
-    <h1>Technician Profile</h1>
-    <div class="container">
-        <form method="post" th:action="@{/save}" th:object="${user}" onsubmit="return confirmSave()">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="firstName" th:value="${user.name}" required>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Username:</label>
-                <input type="email" id="email" name="email" th:value="${user.username}" required>
-            </div>
-
-            <div class="form-group">
-                <label for="job_description">Job Description:</label>
-                <input type="text" id="job_description" name="job_description" th:value="${user.technician.getJob_description()}" required>
-            </div>
-
-            <div class="form-group">
-                <table th:each="e:${user.technician.experiences}">
-                    <tr><td colspan="3" th:text="${e.getExperience_description()}"></td></tr>
-                    <tr><td th:text="'From:'+${e.getStart_year()}"></td><td th:text="'Years:'+${e.getYear()}"></td><td><button>Edit</button></td></tr>
-                </table>
-                <div><button>Add</button></div>
-            </div>
-
-            <div class="form-group">
-                <div th:each="c:${user.technician.certificates}">
-                    <label th:text="${c.getCertificate_url()}"></label>
-                    <button>Edit</button>
+    <main>
+        <h1>Technician Profile</h1>
+        <div class="container">
+            <form method="post" th:action="@{/technicianProfile}" enctype="multipart/form-data" th:object="${user}"
+                  onsubmit="return confirmSave()">
+                <div class="form-group">
+                    <img th:if="${user.technician.getImage_url()}" th:src="${user.technician.getImage_url()}"
+                         width="100" height="100" alt="Technician's Image">
+                    <img th:unless="${user.technician.getImage_url()}" src="/images/user/default.jpg" width="100"
+                         height="100" alt="Default Image">
+                    <input type="file" id="picture" name="picture" accept=".jpg, .png">
                 </div>
-<!--                <label for="certification">Upload Certification:</label>-->
-<!--                <input type="file" id="certification" name="certification" accept=".pdf, .jpg, .png">-->
+                <div class="form-group">
+                    <label for="dropdown">Field:</label>
+                    <select id="dropdown" name="selectedField">
+                        <option th:each="field:${serviceField}" th:value="${field.id}" th:text="${field.field}"
+                                th:selected="${field.id eq user.technician.serviceField.id}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" th:value="${user.name}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="email" id="username" name="username" th:value="${user.username}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="job_description">Job Description:</label>
+                    <textarea id="job_description" name="job_description" rows="6"
+                              th:text="${user.technician.getJob_description()}" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="rate">Rate:</label>
+                    <input type="number" id="rate" name="rate" th:value="${user.technician.getRate()}" required>
+                    <span class="currency-symbol">CAD</span>
+                </div>
+
+                <div>
+                    <div class="experience-block">
+                        <label class="experience-header">Experiences</label>
+                        <a  class="link image" th:href="@{/technicianExperience/edit}">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <style>svg {
+                                    fill: #ffffff
+                                }</style>
+                                <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <div th:each="e:${user.technician.experiences}">
+                        <div>
+                            <div class="experience-title">
+                                <span th:text="${e.title}"></span>
+                                <a class="link image" th:href="@{'/technicianExperience/edit?id=' + ${e.getId()}}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
+                                        <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                        <style>svg {
+                                            fill: #ffffff
+                                        }</style>
+                                        <path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div>
+                                <span th:text="${e.getStart_year()}+'~'+${e.getStart_year()+e.getYear()}"></span>
+                            </div>
+                            <div>
+                                <span th:text="${e.getDescription()}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-container">
+                    <a class="link cancel" th:href="@{/technicianHome}">
+                        Back
+                    </a>
+                    <button type="submit">Save</button>
+                </div>
+            </form>
+
+            <div th:if="${duplicateError}" class="error-message">
+                <p th:text="${duplicateError}"></p>
+            </div>
+            <div th:if="${successMessage}" class="success-message">
+                <p th:text="${successMessage}"></p>
             </div>
 
-            <div class="form-group">
-                <label for="picture">Upload Technician's Image:</label>
-                <input type="file" id="picture" name="picture" accept=".jpg, .png" th:value="${user.technician.getImage_url()}" >
-            </div>
-
-            <div class="form-group">
-                <label for="rate">Rate:</label>
-                <input type="number" id="rate" name="rate" th:value="${user.technician.getRate()}" required>
-                <span class="currency-symbol">CAD</span>
-            </div>
-
-            <a th:href="@{/technicianHome}">
-                <button type="button">Back</button>
-            </a>
-            <button type="submit">Save</button>
-        </form>
-
-        <div th:if="${duplicateError}" class="error-message">
-            <p th:text="${duplicateError}"></p>
         </div>
-        <div th:if="${successMessage}" class="success-message">
-            <p th:text="${successMessage}"></p>
-        </div>
-
-    </div>
-</main>
+    </main>
 </section>
 </body>
 <script>

@@ -13,7 +13,8 @@ public class TechnicianExperience {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String experience_description;
+    private String title;
+    private String description;
     private int start_year;
     private int year;
 
