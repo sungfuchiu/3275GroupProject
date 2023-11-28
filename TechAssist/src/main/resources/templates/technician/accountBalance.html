@@ -11,41 +11,28 @@
 <section layout:fragment="content">
     <main>
         <h1>Account Balance</h1>
-        <div class="appointment-list">
-            <div class="appointment-item">
-                <div class="appointment-details">
-                    <p>No.1</p>
-                    <p>Date: 02/12/2023</p>
-                    <p>Service: P-trapes</p>
-                    <p>Actual Time: 83 Mins</p>
-                    <p>Service Length: 60 Mins</p>
-                    <p>Service Fee: 40 CAD</p>
-                    <p>Status: Paid</p>
-                    <p>Detail: In-time Service</p>
+        <div class="appointment" th:object="${accountBalance}">
+            <div class="appointment-list" th:if="${accountBalance.callDTOList.size() > 0}">
+                <div class="appointment-item" th:each="call:${accountBalance.callDTOList}">
+                    <div class="appointment-details">
+                        <p th:text="'Date:'+${call.date}"></p>
+                        <p th:text="'Start time:'+${call.startTime}"></p>
+                        <p th:text="'Duration:'+${call.duration}+' minutes'"></p>
+                        <p th:text="'Customer Name:'+${call.customerName}"></p>
+                        <p th:text="'Rating:'+${call.rating}"></p>
+                        <p th:text="'Review:'+${call.review}"></p>
+                        <p th:text="'Payment:'+${call.cost}"></p>
+                    </div>
                 </div>
             </div>
-
-            <div class="appointment-item">
-                <div class="appointment-details">
-                    <p>No.2</p>
-                    <p>Date: 02/12/2023</p>
-                    <p>Service: P-trapes</p>
-                    <p>Actual Time: 83 Mins</p>
-                    <p>Service Length: 60 Mins</p>
-                    <p>Service Fee: 23 CAD</p>
-                    <p>Status: Pending</p>
-                    <p>Detail: Extra-time Service</p>
-                </div>
+            <div th:unless="${accountBalance.callDTOList.size() > 0}">
+                <p>No payment in this month.</p>
             </div>
-
-            <!-- Add more appointment items here as needed -->
-
-            <h3>Summary</h3>
-            <div class="summary">
-                <p>Paid: 60 CAD</p>
-                <p>Pending: 23 CAD</p>
-                <p>Total Service Fee: 113 CAD</p>
-            </div>
+            <hr/>
+        </div>
+        <h3>Summary</h3>
+        <div class="summary">
+            <p th:text="'Total in this month:'+${accountBalance.serviceFee}+' CAD'"></p>
         </div>
         <a th:href="@{/technicianHome}">
             <button type="button">Back</button>

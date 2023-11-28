@@ -1,18 +1,11 @@
 package com.example.techassist.Web;
 
-import com.example.techassist.Entities.Technician;
-import com.example.techassist.Entities.User;
-import com.example.techassist.Repositories.TechnicianRepository;
 import com.example.techassist.Repositories.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.ui.Model;
-
-import java.util.Optional;
 
 @SessionAttributes("user")
 @Controller
@@ -195,23 +188,6 @@ public class UserController {
 //        }
 //    }
 
-
-    @Autowired
-    private TechnicianRepository technicianRepository;
-
-    @GetMapping("/technicianinfo/{technicianId}")
-    public String getTechnicianInfo(@PathVariable Long technicianId, Model model) {
-        Optional<Technician> technicianOptional = technicianRepository.findById(technicianId);
-
-        if (technicianOptional.isPresent()) {
-            Technician technician = technicianOptional.get();
-            model.addAttribute("technician", technician);
-            return "technicianinfo"; // Assuming your template is named "technicianInfo.html"
-        } else {
-            // Handle the case where the technician with the given ID is not found
-            return "error"; // You can create an error Thymeleaf template
-        }
-    }
 
 
 

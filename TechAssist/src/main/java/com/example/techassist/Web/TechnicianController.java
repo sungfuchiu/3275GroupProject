@@ -1,6 +1,8 @@
 package com.example.techassist.Web;
 
+import com.example.techassist.DTO.AccountBalanceDTO;
 import com.example.techassist.DTO.AppointmentDTO;
+import com.example.techassist.DTO.CallDTO;
 import com.example.techassist.DTO.HistoryDTO;
 import com.example.techassist.Entities.*;
 import com.example.techassist.Repositories.*;
@@ -165,7 +167,24 @@ public class TechnicianController {
     }
 
     @GetMapping(path = "/accountBalance")
-    public String accountBalance() {
+    public String accountBalance(Model model) {
+        String username = (String) httpSession.getAttribute("userName");
+        var user = userRepository.findByUsername(username).orElse(null);
+        var phoneCalls = phoneCallRepository.findByTechnicianIdAndStartTimeLessThanEqualAndStartTimeGreaterThan(user.getTechnician().getId(), LocalDateTime.now(), LocalDateTime.now().withDayOfMonth(1));
+        AccountBalanceDTO AccountBalanceDTO = new AccountBalanceDTO();
+        AccountBalanceDTO.callDTOList = new ArrayList<>();
+        for(var phoneCall : phoneCalls) {
+            if(isPassed(phoneCall)){
+                var callDTO = new CallDTO();
+                transformData(phoneCall, callDTO);
+                callDTO.rating = phoneCall.getRating().toString();
+                callDTO.review = phoneCall.getReview();
+                callDTO.cost = phoneCall.getCost();
+                AccountBalanceDTO.serviceFee += callDTO.cost;
+                AccountBalanceDTO.callDTOList.add(callDTO);
+            }
+        }
+        model.addAttribute("accountBalance", AccountBalanceDTO);
         return "technician/accountBalance";
     }
 

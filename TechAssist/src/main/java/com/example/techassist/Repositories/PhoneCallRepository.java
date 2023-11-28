@@ -13,4 +13,5 @@ public interface PhoneCallRepository extends JpaRepository<PhoneCall,Long> {
     Optional<PhoneCall> findById(Long id);
     List<PhoneCall> findByTechnicianIdAndStartTimeGreaterThanEqual(Long technicianId, LocalDateTime now);
     List<PhoneCall> findByTechnicianIdAndStartTimeLessThanEqual(Long technicianId, LocalDateTime now);
+    List<PhoneCall> findByTechnicianIdAndStartTimeLessThanEqualAndStartTimeGreaterThan(Long technicianId, LocalDateTime now, LocalDateTime thisMonth);
 }

@@ -2,15 +2,18 @@ package com.example.techassist.Web;
 
 import com.example.techassist.DAO.ClientDAO;
 import com.example.techassist.Entities.ServiceField;
+import com.example.techassist.Entities.Technician;
 import com.example.techassist.Entities.TimeSlot;
 import com.example.techassist.Repositories.ServiceFieldRepository;
 import com.example.techassist.Repositories.TechnicianRepository;
 import com.example.techassist.Repositories.TimeSlotRepository;
 import com.example.techassist.Repositories.UserRepository;
 import com.example.techassist.Utilities.ConstList;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.AllArgsConstructor;
@@ -138,15 +141,12 @@ public class ClientController {
     }
 
     @GetMapping(path = "/moveToTechnicianInfo")
-    public String technicianInfo(ModelMap model, @RequestParam String technicianId) {
+    public String technicianInfo(ModelMap model, @RequestParam Long technicianId, HttpServletRequest request) {
         String userName = (String)httpSession.getAttribute(constList.KEY_USER_NAME);
-        long LtechnicianId = Long.parseLong(technicianId);
-
-        var technician = technicianRepository.findById(LtechnicianId);
-
-        model.addAttribute(constList.KEY_TECHNICIAN_ID, technicianId);
-        httpSession.setAttribute(constList.KEY_USER_NAME, userName);
-
+        var technician = technicianRepository.findById(technicianId).orElse(null);
+        String previousPageUrl = request.getHeader("Referer");
+        model.addAttribute("technician", technician);
+        model.addAttribute("previousPageUrl", previousPageUrl);
         return "client/technicianInfo";
     }
 

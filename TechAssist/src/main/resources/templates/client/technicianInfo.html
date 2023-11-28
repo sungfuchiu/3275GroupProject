@@ -4,79 +4,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/style/technician/history.css}"/>
+    <link rel="stylesheet" th:href="@{/style/client/technicianInfo.css}"/>
     <title>Technician Info</title>
-    <style>
-
-        h1 {
-            text-align: center;
-        }
-
-        .login-body{
-            text-align: center;
-        }
-
-        .heart-button {
-            background-color: transparent;
-            border: none;
-            color: grey;
-            font-size: 24px;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .heart-button.clicked {
-            color: red;
-        }
-
-        .label1{
-            text-decoration: underline;
-        }
-    </style>
 </head>
 <body>
 <section layout:fragment="content">
-<main>
-    <h1>Technician Info</h1>
-    <div class="appointment-list">
-        <div class="container mt-2 pre-scrollable">
-            <div class="card-header"></div>
-            <div class="login-body">
-<!--                <button class="heart-button" onclick="toggleHeart">&#10084;</button><br/>-->
-<!--                <form method="get" th:action="@{index}">-->
-<!--                    <label class="label1">Name</label>-->
-<!--                    <p th:text="${technician.firstName}"></p>-->
-<!--                </form>-->
-<!--                <form method="get" th:action="@{index}">-->
-<!--                    <label class="label1">Email</label>-->
-<!--                    <p th:text="${technician.email}"></p>-->
-<!--                </form>-->
-<!--                <form method="get" th:action="@{index}">-->
-<!--                    <label class="label1">Experience</label>-->
-<!--                    <p th:text="${technician.experience}"></p>-->
-<!--                </form>-->
-<!--                <form method="get" th:action="@{index}"><label class="label1">Rate</label><p>$35 / 15mins </p></form>-->
-<!--                <form method="get" th:action="@{index}"><label class="label1">Available time</label><p>2023/9/10 12:30- </p></form>-->
-<!--            &lt;!&ndash;-->
-<!--                <form>-->
-<!--                    <label for="schedule">schedule</label>-->
-<!--                    <input type="date" id="schedule" name="schedule"><br/>-->
-<!--                </form>-->
-<!--               &ndash;&gt;-->
-
-<!--                <br/>-->
-
-<!--                <button onclick="window.location.href='/confirmation.html'" class="btn-primary">Next</button><br/><br/>-->
-
+    <main>
+        <h1>Technician Info</h1>
+        <div class="container">
+            <div class="form-group">
+                <img th:if="${technician.getImage_url()}" th:src="${technician.getImage_url()}"
+                     width="100" height="100" alt="Technician's Image">
+                <img th:unless="${technician.getImage_url()}" src="/images/user/default.jpg" width="100"
+                     height="100" alt="Default Image">
+            </div>
+            <div class="form-group text-block">
+                <label for="field">Field:</label>
+                <span id="field" th:text="${technician.getServiceField().getField()}"></span>
+            </div>
+            <div class="form-group text-block">
+                <label for="name">Name:</label>
+                <span id="name" th:text="${technician.user.getName()}"></span>
+            </div>
+            <div class="form-group text-block">
+                <label for="job_description">Job Description:</label>
+                <span id="job_description" th:text="${technician.getJob_description()}"></span>
+            </div>
+            <div class="form-group text-block">
+                <label for="rate">Rate:</label>
+                <span id="rate" th:text="${technician.getRate()}"></span>
+                <span class="currency-symbol">CAD</span>
+            </div>
+            <div class="text-block">
+                <div class="experience-block">
+                    <label class="experience-header">Experiences</label>
+                </div>
+                <div th:each="e:${technician.experiences}" class="text-block">
+                    <div>
+                        <div class="experience-title">
+                            <span th:text="${e.title}"></span>
+                        </div>
+                        <div>
+                            <span th:text="${e.getStart_year()}+'~'+${e.getStart_year()+e.getYear()}"></span>
+                        </div>
+                        <div>
+                            <span th:text="${e.getDescription()}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-container">
+                <a class="link cancel" th:href="${previousPageUrl}">
+                    Back
+                </a>
                 <a th:href="@{/confirmation}">
                     <button type="button">Confirm</button>
                 </a>
             </div>
         </div>
-        <!-- Add more appointment items here as needed -->
-    </div>
 
-</main>
+    </main>
 </section>
 </body>
 </html>

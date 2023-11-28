@@ -197,7 +197,10 @@ VALUES
 ('2024-01-30 13:00:00', 5, 'Excellent communication', 54.0, 4, 4, 20, 1),
 ('2023-01-30 13:00:00', 3, '', 54.0, 4, 4, 20, 1),
 ('2023-03-22 13:00:00', 2, 'Excellent communication', 54.0, 4, 4, 20, 1),
-('2023-05-15 13:00:00', 5, 'Excellent communication', 54.0, 4, 4, 20, 1);
+('2023-05-15 13:00:00', 5, 'Excellent communication', 54.0, 4, 4, 20, 1),
+('2023-11-27 09:30:00', 3, 'Overall good experience', 31.0, 2, 2, 18, 1),
+('2023-11-25 11:45:00', 4, 'Professional attitude', 44.0, 3, 3, 19, 1),
+('2023-11-1 13:00:00', 5, 'Excellent communication', 54.0, 4, 4, 20, 1);
 CREATE TABLE Available_Time(
     id bigint(20) PRIMARY KEY AUTO_INCREMENT,
     week_day int NOT NULL CHECK (week_day >= 1 AND week_day <= 7),
