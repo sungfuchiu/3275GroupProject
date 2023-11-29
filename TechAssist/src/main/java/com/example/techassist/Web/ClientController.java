@@ -1,6 +1,8 @@
 package com.example.techassist.Web;
 
 import com.example.techassist.DAO.ClientDAO;
+import com.example.techassist.DTO.CompletedOrder;
+import com.example.techassist.DTO.PaymentOrder;
 import com.example.techassist.Entities.ServiceField;
 import com.example.techassist.Entities.Technician;
 import com.example.techassist.Entities.TimeSlot;
@@ -8,6 +10,7 @@ import com.example.techassist.Repositories.ServiceFieldRepository;
 import com.example.techassist.Repositories.TechnicianRepository;
 import com.example.techassist.Repositories.TimeSlotRepository;
 import com.example.techassist.Repositories.UserRepository;
+import com.example.techassist.Services.PaypalService;
 import com.example.techassist.Utilities.ConstList;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -52,6 +56,8 @@ public class ClientController {
     TimeSlotRepository timeSlotRepository;
     @Autowired
     ConstList constList;
+    @Autowired
+    private PaypalService paypalService;
 
     @GetMapping(path = "/clientHome")
     public String clientHome(ModelMap model) {
@@ -148,6 +154,21 @@ public class ClientController {
         model.addAttribute("technician", technician);
         model.addAttribute("previousPageUrl", previousPageUrl);
         return "client/technicianInfo";
+    }
+//    @RestController
+//    @PostMapping(value = "/init")
+//    public PaymentOrder createPayment(
+//            @RequestParam("sum") BigDecimal sum) {
+//        return paypalService.createPayment(sum);
+//    }
+//
+//    @PostMapping(value = "/capture")
+//    public CompletedOrder completePayment(@RequestParam("token") String token) {
+//        return paypalService.completePayment(token);
+//    }
+    @PostMapping(value = "/cancel")
+    public String cancelPayment(@RequestParam("token") String token) {
+        return "redirect:/login";
     }
 
     @GetMapping(path = "/confirmation")
