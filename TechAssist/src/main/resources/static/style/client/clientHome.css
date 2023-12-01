@@ -210,7 +210,7 @@ section {
 
 .sortDate {
     height: 100%;
-    width: 40%;
+    width: 60%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -222,14 +222,14 @@ section {
     width: 100%;
 }
 
-.selTimeslot, .selReview {
+.selTimeslot {
     height: 60%;
     width: 100%;
 }
 
-.sortTimeslot, .sortReview {
+.sortTimeslot {
     height: 100%;
-    width: 30%;
+    width: 40%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -323,6 +323,7 @@ section {
     font-size: 16px;
     color: #000000;
     font-weight: bold;
+    text-decration: none;
 }
 
 .tblTechnician {

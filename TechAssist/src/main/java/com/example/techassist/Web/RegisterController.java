@@ -127,6 +127,6 @@ public class RegisterController {
            }
        }
 
-       return "/";
+       return "redirect: /";
     }
 }
