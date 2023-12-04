@@ -13,10 +13,10 @@
 <body>
 <section layout:fragment="content">
     <main>
-        <h1>Technician Profile</h1>
         <div class="container">
             <form method="post" th:action="@{/technicianProfile}" enctype="multipart/form-data" th:object="${user}"
                   onsubmit="return confirmSave()">
+                <h1>Technician Profile</h1>
                 <div class="form-group">
                     <img th:if="${user.technician.getImage_url()}" th:src="${user.technician.getImage_url()}"
                          width="100" height="100" alt="Technician's Image">

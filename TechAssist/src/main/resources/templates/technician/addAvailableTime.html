@@ -11,10 +11,10 @@
 <body>
 <section layout:fragment="content">
   <main>
-    <h1>Technician Profile</h1>
     <div class="container">
       <form method="post" th:action="@{/availableTimeSetting/add}"
             onsubmit="return confirmSave()">
+        <h1>Add Available Time</h1>
         <div class="form-group">
           <label for="availableDate">Select Date:</label>
           <input type="date" id="availableDate" name="availableDate" required>
