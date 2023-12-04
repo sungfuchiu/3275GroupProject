@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -49,24 +50,27 @@ public class ClientDAO {
         return template.queryForList(sql.toString());
     }
 
-    public List<Map<String, Object>> selectAppointment(String clientId, String today, int currentHour, int currentMinutes) {
+    public List<Map<String, Object>> selectAppointment(String clientId, String date, int currentHour, int currentMinutes) {
         sql.setLength(0);
 
         sql.append("SELECT p.id, ");
-        sql.append("CONCAT(date(p.start_time), ' ', IF(p.start_slot = 4, HOUR(DATE_ADD(p.start_time, INTERVAL 1 HOUR)), HOUR(p.start_time)), ':' , IF(s.id = 4, '00', s.duration), ':00') as appointmentDate\n");
+        sql.append("CONCAT(date(p.start_time), ' ', IF(p.start_slot = 5, HOUR(DATE_ADD(p.start_time, INTERVAL 1 HOUR)), HOUR(p.start_time)), ':' , IF(s.duration = 0, 00, s.duration), ':00') as appointmentDate \n");
+//        sql.append("p.start_time as appointmentDate \n");
         sql.append("FROM phone_call as p \n");
         sql.append("INNER JOIN client as c \n");
         sql.append("ON p.client_id = c.id \n");
         sql.append("INNER JOIN time_slot as s \n");
         sql.append("ON p.start_slot = s.id \n");
         sql.append("WHERE c.id = '" + clientId + "'\n");
-        sql.append("AND DATE(p.start_time) >= '" + today + "'\n");
-        sql.append("AND IF(p.start_slot = 4, HOUR(DATE_ADD(p.start_time, INTERVAL 1 HOUR)), HOUR(p.start_time)) >= " + currentHour + "\n");
-        sql.append("AND s.duration >= " + currentMinutes + "\n");
-        sql.append("AND p.rating = 0\n");
+        sql.append("AND DATE(p.start_time) >= '" + date + "'\n");
+//        sql.append("AND IF(p.start_slot = 5, HOUR(DATE_ADD(p.start_time, INTERVAL 1 HOUR)), HOUR(p.start_time)) >= " + currentHour + "\n");
+//        sql.append("AND HOUR(p.start_time) >= " + currentHour + " \n");
+//        sql.append("AND s.duration >= " + currentMinutes + "\n");
+        sql.append("AND p.rating IS NULL\n");
         sql.append("ORDER BY \n");
-        sql.append("IF(p.start_slot = 4, DATE_ADD(p.start_time, INTERVAL 1 HOUR), p.start_time) ASC, \n");
-        sql.append("IF(p.start_slot = 4, 0, s.duration) ASC \n");
+        sql.append("IF(p.start_slot = 5, DATE_ADD(p.start_time, INTERVAL 1 HOUR), p.start_time) ASC \n");
+//        sql.append("IF(p.start_slot = 4, 0, s.duration) ASC \n");
+//        sql.append("p.start_time ASC \n");
         sql.append("LIMIT 1");
 
         return template.queryForList(sql.toString());

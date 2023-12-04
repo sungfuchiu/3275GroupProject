@@ -6,6 +6,7 @@ window.addEventListener("load",function loadCustomerTop() {
     let appointment = document.getElementById("hidAppointmentStart");
     let appointmentText = document.getElementById("lblAppointmentStart");
     let btnStartCall = document.getElementById("idBtnStartCall");
+    let current = new Date().getTime();
     let appointmentTime;
 
     if (categoryId.innerHTML != "") {
@@ -19,7 +20,12 @@ window.addEventListener("load",function loadCustomerTop() {
     if(appointment.value != "") {
         btnStartCall.disabled = false;
         appointmentTime = new Date(appointment.value).getTime();
-        appointmentTimeCountDown(appointmentTime);
+        if(current < appointmentTime) {
+            appointmentTimeCountDown(appointmentTime);
+        } else {
+            appointmentText.innerHTML = "No Appointment";
+            btnStartCall.disabled = true;
+        }
     } else {
         appointmentText.innerHTML = "No Appointment";
         btnStartCall.disabled = true;
