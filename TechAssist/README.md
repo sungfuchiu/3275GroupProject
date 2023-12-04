@@ -1,3 +1,4 @@
+
 # Spring Boot WebRTC Peer-to-Peer Video Communication Room Based
 
 #### Technologies:
@@ -30,7 +31,7 @@ According to nginx/nginx.conf: the port is 8080
 
 `mkdir ssl && openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ssl/private_key.pem -out ssl/certificate.pem -subj "//C=US//ST=California//L=San Francisco//O=MyOrganization//OU=MyDepartment//CN=<YOUR_LOCAL_IP>"`
 
-git:`mkdir ssl && "C:\Program Files\Git\usr\bin\openssl.exe" req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ssl/private_key.pem -out ssl/certificate.pem -subj "//C=US//ST=California//L=San Francisco//O=MyOrganization//OU=MyDepartment//CN=192.168.1.69"`
+git:`mkdir ssl && "C:\Program Files\Git\usr\bin\openssl.exe" req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ssl/private_key.pem -out ssl/certificate.pem -subj "//C=US//ST=California//L=San Francisco//O=MyOrganization//OU=MyDepartment//CN=172.20.10.9"`
 
 2) **update nginx.conf**
 

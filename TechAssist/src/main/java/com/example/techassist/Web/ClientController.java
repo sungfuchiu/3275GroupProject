@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.time.LocalDateTime;
@@ -206,6 +208,7 @@ public class ClientController {
                 appointmentDTOs.add(appointmentDTO);
             }
         }
+        model.addAttribute("now", LocalDateTime.now());
         model.addAttribute("appointments", appointmentDTOs);
         return "client/viewAppointment";
     }
@@ -220,9 +223,15 @@ public class ClientController {
     public String technicianInfo(ModelMap model, @RequestParam Long technicianId, HttpServletRequest request) {
         var technician = technicianRepository.findById(technicianId).orElse(null);
         httpSession.setAttribute("technicianId", technicianId);
-        String previousPageUrl = request.getHeader("Referer");
         model.addAttribute("technician", technician);
-        model.addAttribute("previousPageUrl", previousPageUrl);
+        String previousPageUrl = request.getHeader("Referer");
+        if(previousPageUrl.contains("getTechnician")){
+            model.addAttribute("previousPageUrl", previousPageUrl);
+            httpSession.setAttribute("previousPageUrl", previousPageUrl);
+        }else{
+            previousPageUrl = (String) httpSession.getAttribute("previousPageUrl");
+            model.addAttribute("previousPageUrl", previousPageUrl);
+        }
         return "client/technicianInfo";
     }
 
@@ -239,7 +248,13 @@ public class ClientController {
         }
         model.addAttribute("availableTimeDTOs", availableTimeDTOs);
         String previousPageUrl = request.getHeader("Referer");
-        model.addAttribute("previousPageUrl", previousPageUrl);
+        if(previousPageUrl.contains("moveToTechnicianInfo")){
+            model.addAttribute("previousPageUrl", previousPageUrl);
+            httpSession.setAttribute("previousPageUrlForTechnicianAvailableTime", previousPageUrl);
+        }else{
+            previousPageUrl = (String) httpSession.getAttribute("previousPageUrlForTechnicianAvailableTime");
+            model.addAttribute("previousPageUrl", previousPageUrl);
+        }
         return "client/availableTime";
     }
 
@@ -251,19 +266,21 @@ public class ClientController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
         LocalDateTime startDateTime = LocalDateTime.of(
                 availableTime.getAvailableDate().getYear(),
-                availableTime.getAvailableDate().getMonth(),
+                availableTime.getAvailableDate().getMonth().getValue(),
                 availableTime.getAvailableDate().getDayOfMonth(),
                 availableTime.getStartHour(),
                 availableTime.getStart_slot().getDuration());
         model.addAttribute("startDateTime", startDateTime.format(formatter));
         LocalDateTime endDateTime = LocalDateTime.of(
                 availableTime.getAvailableDate().getYear(),
-                availableTime.getAvailableDate().getMonth(),
+                availableTime.getAvailableDate().getMonth().getValue(),
                 availableTime.getAvailableDate().getDayOfMonth(),
                 availableTime.getEndHour(),
                 availableTime.getEnd_slot().getDuration());
         model.addAttribute("endDateTime", endDateTime.format(formatter));
         model.addAttribute("hours", generateHoursList(availableTime));
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        model.addAttribute("date", startDateTime.format(dateFormatter));
         String previousPageUrl = request.getHeader("Referer");
         model.addAttribute("previousPageUrl", previousPageUrl);
         var technician = technicianRepository.findById((long)httpSession.getAttribute("technicianId")).orElse(null);
@@ -331,14 +348,13 @@ public class ClientController {
 
     //Method
     private List<Map<String, Object>> getAppointmentInfo(long clientId) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        LocalDate localDate = localDateTime.toLocalDate();
+        LocalDateTime zonedDateTime = LocalDateTime.now();
         DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern(constList.FORMAT_DATE);
-        String date = localDate.format(formatterDate);
-        int currentHour = localDateTime.getHour();
-        int currentMinute = localDateTime.getMinute();
+        String formattedDate = zonedDateTime.format(formatterDate);
+        int currentHour = zonedDateTime.getHour();
+        int currentMinute = zonedDateTime.getMinute();
 
-        return clientDAO.selectAppointment(String.valueOf(clientId), date, currentHour, currentMinute);
+        return clientDAO.selectAppointment(String.valueOf(clientId), formattedDate, currentHour, currentMinute);
     }
 
     private Map<String, Object> formatDate(String date) {

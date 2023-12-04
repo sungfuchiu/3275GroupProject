@@ -18,7 +18,7 @@
                   onsubmit="return confirmSave()">
                 <h1>Technician Profile</h1>
                 <div class="form-group">
-                    <img th:if="${user.technician.getImage_url()}" th:src="${user.technician.getImage_url()}"
+                    <img th:if="${user.technician.getImage_url()}" th:src="'/images/user/'+${user.technician.getImage_url()}"
                          width="100" height="100" alt="Technician's Image">
                     <img th:unless="${user.technician.getImage_url()}" src="/images/user/default.jpg" width="100"
                          height="100" alt="Default Image">

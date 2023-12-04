@@ -15,7 +15,8 @@
         <div class="container">
             <form method="post" onsubmit="submitForm(event)">
                 <div class="form-group">
-                    <label th:text="${date}"></label>
+                    <label>Date:</label>
+                    <span th:text="${date}"></span>
                 </div>
                 <br>
                 <div class="form-group">
@@ -25,13 +26,11 @@
                     </select>
                     <span>:</span>
                     <select id="start_slot" name="start_slot" onchange="updateDurationSlot()">
-                        <option th:each="slot:${timeSlots}" th:value="${slot.id}" th:text="${slot.duration}"></option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Duration:</label>
                     <select id="duration_slot" name="duration_slot" onchange="updateCost()">
-                        <option th:each="slot:${durationSlots}" th:value="${slot.id}" th:text="${slot.duration}"></option>
                     </select>
                     <span>minutes</span>
                 </div>
@@ -127,7 +126,6 @@
             let startHour = document.getElementById("start_hour").value;
             startTime.setHours(startHour);
             let startSlot = document.getElementById("start_slot").value;
-            startTime.setMinutes(startSlot);
             let durationSlot = document.getElementById("duration_slot").value;
             let paymentSum = document.getElementById('sum').value;
             let technicianId = /*[[${technician.Id}]]*/'';

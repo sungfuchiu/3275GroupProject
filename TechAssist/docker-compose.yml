@@ -6,6 +6,7 @@ services:
     container_name: springboot-app
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+      - TZ=America/Vancouver
     networks:
       - my-network
     depends_on:
@@ -14,9 +15,11 @@ services:
   mysql:
     image: mysql:latest
     container_name: mysql-container
+    ports:
+      - "8090:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=mydb
+      - MYSQL_DATABASE=techassist
       - MYSQL_USER=myuser
       - MYSQL_PASSWORD=mypassword
     networks:
@@ -33,15 +36,6 @@ services:
       - "443:443"
     volumes:
       - ./ssl:/etc/nginx/ssl
-    networks:
-      - my-network
-
-  turn:
-    image: instrumentisto/coturn
-    container_name: turn-server
-    command: [ "--listening-port=3478", "--min-port=49152", "--max-port=65535" ]
-    ports:
-      - "3478:3478/udp"
     networks:
       - my-network
 

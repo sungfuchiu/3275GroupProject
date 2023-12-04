@@ -1,11 +1,11 @@
 -- @block
-CREATE DATABASE IF NOT EXISTS TechAssist;
-USE TechAssist;
-CREATE TABLE Service_Field(
+CREATE DATABASE IF NOT EXISTS techassist;
+USE techassist;
+CREATE TABLE service_field(
     id bigint(20) PRIMARY KEY AUTO_INCREMENT,
     field char(50) NOT NULL
 );
-INSERT INTO Service_Field (field)
+INSERT INTO service_field (field)
 VALUES
 	("IT Support"),
 	("Home Maintenance"),
@@ -14,64 +14,64 @@ VALUES
 	("Home Maintenance"),
 	("Automotive Services"),
 	("Plumbing");
-CREATE TABLE Time_Slot(
+CREATE TABLE time_slot(
     id bigint(20) PRIMARY KEY AUTO_INCREMENT,
     duration int NOT NULL UNIQUE
 );
-INSERT Time_Slot(duration)
+INSERT time_slot(duration)
     VALUES 
             (0),
             (15),
             (30),
             (45),
             (60);
-CREATE TABLE Client(
+CREATE TABLE client(
     id bigint(20) PRIMARY KEY AUTO_INCREMENT
 );
-INSERT INTO Client(id) 
+INSERT INTO client(id) 
 	VALUES (NULL),(NULL),(NULL),(NULL),(NULL)
     		,(NULL),(NULL),(NULL),(NULL),(NULL)
             ,(NULL),(NULL),(NULL),(NULL),(NULL)
             ,(NULL),(NULL),(NULL),(NULL),(NULL);
-CREATE TABLE Technician(
+CREATE TABLE technician(
     id bigint(20) PRIMARY KEY AUTO_INCREMENT,
     job_description VARCHAR(300) NOT NULL,
     rate DECIMAL(10, 2) NOT NULL,
     service_field_id bigint(20) NOT NULL,
     image_url VARCHAR(100),
-    FOREIGN KEY (service_field_id) REFERENCES Service_Field(id)
+    FOREIGN KEY (service_field_id) REFERENCES service_field(id)
 );
 -- Insert dummy data for the technician table
 INSERT INTO technician (job_description, rate, service_field_id, image_url)
 VALUES
-('Led a team in designing and implementing a robust network infrastructure for a multinational corporation. Successfully optimized network performance, improved security protocols, and reduced downtime by 30%.', 40.0, 1, 'it_specialist.jpg'),
-('Electrician', 35.0, 3, 'electrician.jpg'),
-('Appliance Technician', 30.0, 4, 'appliance_technician.jpg'),
-('Plumber', 32.0, 7, 'plumber.jpg'),
-('Home Maintenance Expert', 45.0, 2, 'home_maintenance_expert.jpg'),
-('Automotive Mechanic', 38.0, 6, 'automotive_mechanic.jpg'),
-('IT Support Technician', 42.0, 1, 'it_support_technician.jpg'),
-('Electric Appliance Repair', 33.0, 4, 'electric_appliance_repair.jpg'),
-('Plumbing Specialist', 36.0, 7, 'plumbing_specialist.jpg'),
-('Home Repair Specialist', 48.0, 2, 'home_repair_specialist.jpg'),
-('Auto Technician', 40.0, 6, 'auto_technician.jpg'),
-('IT Consultant', 45.0, 1, 'it_consultant.jpg'),
-('Home Electrician', 37.0, 3, 'home_electrician.jpg'),
-('Appliance Expert', 31.0, 4, 'appliance_expert.jpg'),
-('Plumbing Expert', 39.0, 7, 'plumbing_expert.jpg'),
-('Home Maintenance Technician', 43.0, 2, 'home_maintenance_technician.jpg'),
-('Auto Repair Specialist', 44.0, 6, 'auto_repair_specialist.jpg'),
-('IT Expert', 46.0, 1, 'it_expert.jpg'),
-('Electrical Technician', 34.0, 3, 'electrical_technician.jpg'),
-('Appliance Specialist', 29.0, 4, 'appliance_specialist.jpg');
-CREATE TABLE User(
+('Led a team in designing and implementing a robust network infrastructure for a multinational corporation.', 40.0, 1, '1.jpg'),
+('Electrician', 35.0, 3, '2.jpg'),
+('Appliance Technician', 30.0, 4, '3.jpg'),
+('Plumber', 32.0, 7, '4.jpg'),
+('Home Maintenance Expert', 45.0, 2, '5.jpg'),
+('Automotive Mechanic', 38.0, 6, '6.jpg'),
+('IT Support Technician', 42.0, 1, '7.jpg'),
+('Electric Appliance Repair', 33.0, 4, '8.jpg'),
+('Plumbing Specialist', 36.0, 7, '9.jpg'),
+('Home Repair Specialist', 48.0, 2, '10.jpg'),
+('Auto Technician', 40.0, 6, '11.jpg'),
+('IT Consultant', 45.0, 1, '12.jpg'),
+('Home Electrician', 37.0, 3, '13.jpg'),
+('Appliance Expert', 31.0, 4, '14.jpg'),
+('Plumbing Expert', 39.0, 7, '15.jpg'),
+('Home Maintenance Technician', 43.0, 2, '16.jpg'),
+('Auto Repair Specialist', 44.0, 6, '17.jpg'),
+('IT Expert', 46.0, 1, '18.jpg'),
+('Electrical Technician', 34.0, 3, '19.jpg'),
+('Appliance Specialist', 29.0, 4, '20.jpg');
+CREATE TABLE user(
     username  VARCHAR(50) PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     password VARCHAR(50) NOT NULL,
     client_id bigint(20) UNIQUE,
     technician_id bigint(20) UNIQUE,
-    FOREIGN KEY (client_id) REFERENCES Client(id),
-    FOREIGN KEY (technician_id) REFERENCES Technician(id)
+    FOREIGN KEY (client_id) REFERENCES client(id),
+    FOREIGN KEY (technician_id) REFERENCES technician(id)
 );
 -- Insert dummy data for the user table
 INSERT INTO user (username, name, password, client_id, technician_id)
@@ -117,7 +117,7 @@ VALUES
 ('user39@test.test', 'User Thirty-Nine', 'password39', NULL, 19),
 ('user40@test.test', 'User Forty', 'password40', NULL, 20);
 -- @block
-CREATE TABLE Phone_Call(
+CREATE TABLE phone_call(
     id bigint(20) PRIMARY KEY AUTO_INCREMENT,
     start_time DATETIME NOT NULL,
     rating INT,
@@ -129,8 +129,8 @@ CREATE TABLE Phone_Call(
     technician_id bigint(20) NOT NULL,
     FOREIGN KEY (duration_slot) REFERENCES time_slot(id),
     FOREIGN KEY (start_slot) REFERENCES time_slot(id),
-    FOREIGN KEY (client_id) REFERENCES Client(id),
-    FOREIGN KEY (technician_id) REFERENCES Technician(id)
+    FOREIGN KEY (client_id) REFERENCES client(id),
+    FOREIGN KEY (technician_id) REFERENCES technician(id)
 );
 -- Insert dummy data for the phonecall table with unique client_id and technician_id
 INSERT INTO phone_call (start_time, rating, review, cost, duration_slot, start_slot, client_id, technician_id)
@@ -202,7 +202,7 @@ VALUES
 ('2023-11-27 09:30:00', 3, 'Overall good experience', 31.0, 2, 2, 18, 1),
 ('2023-11-25 11:45:00', 4, 'Professional attitude', 44.0, 3, 3, 19, 1),
 ('2023-11-1 13:00:00', 5, 'Excellent communication', 54.0, 4, 4, 20, 1);
-CREATE TABLE Available_Time(
+CREATE TABLE available_time(
     id bigint(20) PRIMARY KEY AUTO_INCREMENT,
 	available_date DATE,
 	start_hour int,
@@ -212,92 +212,63 @@ CREATE TABLE Available_Time(
     technician_id bigint(20) NOT NULL,
     FOREIGN KEY (start_slot) REFERENCES time_slot(id),
     FOREIGN KEY (end_slot) REFERENCES time_slot(id),
-    FOREIGN KEY (technician_id) REFERENCES Technician(id)
+    FOREIGN KEY (technician_id) REFERENCES technician(id)
 );
-INSERT INTO Available_Time (`available_date`, `start_hour`, `start_slot`, `end_hour`, `end_slot`, `technician_id`) 
+INSERT INTO available_time (`available_date`, `start_hour`, `start_slot`, `end_hour`, `end_slot`, `technician_id`) 
 VALUES
-('2023/12/28', 19, 4, 13, 2, 1),
+('2023/12/28', 19, 4, 20, 2, 1),
 ('2023/12/12', 2, 3, 5, 3, 1),
 ('2023/12/10', 20, 1, 21, 2, 1),
 ('2023/12/29', 9, 1, 16, 4, 2),
-('2023/12/6', 20, 2, 14, 1, 2),
-('2023/12/26', 12, 4, 6, 2, 2),
+('2023/12/6', 20, 2, 22, 1, 2),
+('2023/12/26', 12, 4, 16, 2, 2),
 ('2023/12/7', 18, 3, 23, 1, 3),
-('2023/12/8', 4, 4, 4, 4, 3),
-('2023/12/4', 13, 2, 1, 3, 3),
+('2023/12/8', 4, 4, 5, 4, 3),
+('2023/12/4', 13, 2, 15, 3, 3),
 ('2023/12/29', 2, 2, 3, 4, 4),
 ('2023/12/9', 0, 1, 5, 3, 4),
-('2023/12/28', 8, 3, 4, 4, 4),
+('2023/12/28', 8, 3, 14, 4, 4),
 ('2023/12/29', 12, 4, 16, 4, 5),
 ('2023/12/16', 3, 3, 6, 2, 5),
 ('2023/12/11', 4, 3, 4, 4, 5),
-('2023/12/16', 19, 2, 14, 2, 6),
-('2023/12/29', 8, 1, 5, 2, 6),
+('2023/12/16', 19, 2, 23, 2, 6),
+('2023/12/29', 8, 1, 15, 2, 6),
 ('2023/12/4', 16, 3, 19, 4, 6),
-('2023/12/21', 11, 1, 0, 2, 7),
-('2023/12/23', 18, 3, 14, 2, 7),
+('2023/12/21', 11, 1, 20, 2, 7),
+('2023/12/23', 18, 3, 23, 2, 7),
 ('2023/12/25', 6, 3, 12, 3, 7),
-('2023/12/19', 11, 1, 0, 2, 8),
-('2023/12/27', 22, 1, 9, 2, 8),
+('2023/12/19', 11, 1, 20, 2, 8),
+('2023/12/27', 22, 1, 23, 2, 8),
 ('2023/12/22', 2, 1, 17, 2, 8),
 ('2023/12/8', 3, 3, 13, 3, 9),
 ('2023/12/16', 2, 3, 7, 4, 9),
 ('2023/12/6', 10, 3, 18, 2, 9),
-('2023/12/6', 20, 3, 12, 3, 10),
+('2023/12/6', 20, 3, 22, 3, 10),
 ('2023/12/24', 10, 3, 19, 4, 10),
-('2023/12/23', 23, 3, 20, 4, 10),
+('2023/12/23', 13, 3, 20, 4, 10),
 ('2023/12/1', 7, 2, 17, 4, 11),
 ('2023/12/6', 4, 2, 15, 2, 11),
 ('2023/12/26', 1, 1, 21, 3, 11),
-('2023/12/8', 13, 2, 2, 4, 12),
+('2023/12/8', 13, 2, 22, 4, 12),
 ('2023/12/4', 0, 3, 11, 3, 12),
-('2023/12/22', 18, 1, 15, 3, 12),
-('2023/12/6', 20, 4, 3, 4, 13),
+('2023/12/22', 18, 1, 19, 3, 12),
+('2023/12/6', 20, 4, 23, 4, 13),
 ('2023/12/20', 12, 1, 12, 4, 13),
-('2023/12/5', 22, 1, 10, 2, 13);
+('2023/12/5', 2, 1, 10, 2, 13);
 
-CREATE TABLE Technician_Certificate(
-    id bigint(20) PRIMARY KEY AUTO_INCREMENT,
-    certificate_url VARCHAR(200) NOT NULL,
-    technician_id bigint(20) NOT NULL,
-    FOREIGN KEY (technician_id) REFERENCES Technician(id)
-);
--- Insert dummy data for the technician_certificate table
-INSERT INTO technician_certificate (certificate_url, technician_id)
-VALUES
-('certificate_url_1', 1),
-('certificate_url_2', 2),
-('certificate_url_3', 3),
-('certificate_url_4', 4),
-('certificate_url_5', 5),
-('certificate_url_6', 6),
-('certificate_url_7', 7),
-('certificate_url_8', 8),
-('certificate_url_9', 9),
-('certificate_url_10', 10),
-('certificate_url_11', 11),
-('certificate_url_12', 12),
-('certificate_url_13', 13),
-('certificate_url_14', 14),
-('certificate_url_15', 15),
-('certificate_url_16', 16),
-('certificate_url_17', 17),
-('certificate_url_18', 18),
-('certificate_url_19', 19),
-('certificate_url_20', 20);
-CREATE TABLE Technician_Experience(
+CREATE TABLE technician_experience(
     id bigint(20) PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(200) NOT NULL,
     description VARCHAR(200) NOT NULL,
     start_year INT NOT NULL,
     year INT NOT NULL,
     technician_id bigint(20) NOT NULL,
-    FOREIGN KEY (technician_id) REFERENCES Technician(id)
+    FOREIGN KEY (technician_id) REFERENCES technician(id)
 );
-INSERT INTO Technician_Experience (title, description, start_year, year, technician_id)
+INSERT INTO technician_experience (title, description, start_year, year, technician_id)
 VALUES
-('IT Support Specialist','Provided top-tier technical support for a diverse user base of 500+ employees. Resolved hardware and software issues, conducted training sessions, and implemented proactive solutions, resulting in a 20% decrease in support tickets.', 2005, 5, 1),
-('Systems Administrator Intern','Collaborated with senior administrators to maintain and troubleshoot server infrastructure. Assisted in implementing backup strategies, performed system upgrades, and contributed to the development of IT policies. Gained hands-on experience in server virtualization and cloud technologies.', 2005, 5, 1),
+('IT Support Specialist','Provided top-tier technical support for a diverse user base of 500+ employees.', 2005, 5, 1),
+('Systems Administrator Intern','Collaborated with senior administrators to maintain and troubleshoot server infrastructure.', 2005, 5, 1),
 ('title','Experience Description 2', 2010, 7, 2),
 ('title','Experience Description 3', 2002, 12, 3),
 ('title','Experience Description 4', 2015, 4, 4),

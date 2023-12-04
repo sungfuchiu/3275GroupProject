@@ -21,15 +21,15 @@ public class PaypalService {
     @Autowired
     private PayPalHttpClient payPalHttpClient;
 
-    public PaymentOrder createPayment(BigDecimal fee) {
+    public PaymentOrder createPayment(BigDecimal fee, String baseUrl) {
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.checkoutPaymentIntent("CAPTURE");
         AmountWithBreakdown amountBreakdown = new AmountWithBreakdown().currencyCode("USD").value(fee.toString());
         PurchaseUnitRequest purchaseUnitRequest = new PurchaseUnitRequest().amountWithBreakdown(amountBreakdown);
         orderRequest.purchaseUnits(List.of(purchaseUnitRequest));
         ApplicationContext applicationContext = new ApplicationContext()
-                .returnUrl("http://localhost:8083/capture")
-                .cancelUrl("http://localhost:8083/cancel");
+                .returnUrl(baseUrl+"/capture")
+                .cancelUrl(baseUrl+"/cancel");
         orderRequest.applicationContext(applicationContext);
         OrdersCreateRequest ordersCreateRequest = new OrdersCreateRequest().requestBody(orderRequest);
 

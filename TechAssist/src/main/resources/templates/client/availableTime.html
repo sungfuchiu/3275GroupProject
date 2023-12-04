@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/style/client/availableTime.css}"/>
-    <title>SettingTimeRate</title>
+    <title>Available Time</title>
 </head>
 <body>
 <section layout:fragment="content">
     <main>
-        <h1>Available Time Setting</h1>
+        <h1>Available Time</h1>
         <div class="container">
             <div>
                 <a class="time-block-link" th:each="availableTimeDTO:${availableTimeDTOs}" th:href="@{'/reserveTime?availableTimeId=' + ${availableTimeDTO.ID}}">

@@ -13,7 +13,7 @@
         <h1>Technician Info</h1>
         <div class="container">
             <div class="form-group">
-                <img th:if="${technician.getImage_url()}" th:src="${technician.getImage_url()}"
+                <img th:if="${technician.getImage_url()}" th:src="'/images/user/'+${technician.getImage_url()}"
                      width="100" height="100" alt="Technician's Image">
                 <img th:unless="${technician.getImage_url()}" src="/images/user/default.jpg" width="100"
                      height="100" alt="Default Image">

@@ -19,7 +19,6 @@ public class Technician {
         this.rate = rate;
         this.image_url = image_url;
         this.serviceField = serviceField;
-        this.certificates = new ArrayList<>();
         this.experiences =  new ArrayList<>();
         this.availableTimes = new ArrayList<>();
         this.phoneCalls = new ArrayList<>();
@@ -37,9 +36,6 @@ public class Technician {
 
     @OneToOne(mappedBy = "technician", fetch = FetchType.EAGER)
     private User user;
-
-    @OneToMany(mappedBy = "technician", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<TechnicianCertificate> certificates;
 
     @OneToMany(mappedBy = "technician", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<TechnicianExperience> experiences;

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -16,7 +17,7 @@ public class AvailableTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "available_date", nullable = false)
-    private LocalDate availableDate;
+    private LocalDateTime availableDate;
     @Column(name = "start_hour", nullable = false)
     private int startHour;
     @OneToOne(fetch = FetchType.EAGER)

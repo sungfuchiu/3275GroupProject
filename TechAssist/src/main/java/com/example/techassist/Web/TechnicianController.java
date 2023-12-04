@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -237,7 +238,7 @@ public class TechnicianController {
             if(isPassed(phoneCall)){
                 var callDTO = new CallDTO();
                 AppointmentDTO.transformData(phoneCall, callDTO);
-                callDTO.rating = phoneCall.getRating().toString();
+                callDTO.rating = phoneCall.getRating() == null ? "": phoneCall.getRating().toString() ;
                 callDTO.review = phoneCall.getReview();
                 callDTO.cost = phoneCall.getCost();
                 AccountBalanceDTO.serviceFee.add(callDTO.cost);
@@ -258,7 +259,7 @@ public class TechnicianController {
             if(isPassed(phoneCall)){
                 var historyDTO = new HistoryDTO();
                 AppointmentDTO.transformData(phoneCall, historyDTO);
-                historyDTO.rating = phoneCall.getRating().toString();
+                historyDTO.rating = phoneCall.getRating() == null ? "": phoneCall.getRating().toString() ;
                 historyDTO.review = phoneCall.getReview();
                 historyDTOs.add(historyDTO);
             }

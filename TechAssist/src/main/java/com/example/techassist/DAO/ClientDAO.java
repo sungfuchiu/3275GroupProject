@@ -104,7 +104,7 @@ public class ClientDAO {
     public List<Map<String, Object>> selectTechnician(String categoryId) {
         sql.setLength(0);
 
-        sql.append("SELECT t.id as id, t.rate as rate, u.name as name ");
+        sql.append("SELECT t.id as id, t.rate as rate, u.name as name, t.image_url as image_url ");
         sql.append("FROM technician as t ");
         sql.append("INNER JOIN user as u ");
         sql.append("ON t.id = u.technician_id ");

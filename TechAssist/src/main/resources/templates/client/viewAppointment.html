@@ -11,6 +11,7 @@
 <section layout:fragment="content">
     <main>
         <h1>View Appointments</h1>
+        <span th:text="${now}"></span>
         <div class="appointment-list">
             <div class="appointment-item" th:each="appointment:${appointments}">
                 <div class="appointment-details">

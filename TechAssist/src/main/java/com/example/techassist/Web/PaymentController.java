@@ -6,21 +6,20 @@ import com.example.techassist.Entities.AvailableTime;
 import com.example.techassist.Entities.PhoneCall;
 import com.example.techassist.Repositories.*;
 import com.example.techassist.Services.PaypalService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 @SessionAttributes
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "/paypal")
-@CrossOrigin(origins = "http://localhost:8083")
+@CrossOrigin(origins = "*")
 public class PaymentController {
     private final HttpSession httpSession;
     @Autowired
@@ -37,12 +36,17 @@ public class PaymentController {
     private AvailableTimeRepository availableTimeRepository;
 
     @PostMapping(value = "/init")
-    public PaymentOrder createPayment(@RequestBody PhoneCallDTO phoneCallDTO) {
+    public PaymentOrder createPayment(@RequestBody PhoneCallDTO phoneCallDTO, HttpServletRequest request) {
+        String baseUrl = request.getRequestURL().toString();
+        String requestURI = request.getRequestURI();
+        baseUrl = baseUrl.substring(0, baseUrl.length() - requestURI.length());
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         LocalDate date = LocalDate.parse(phoneCallDTO.startDate, dateFormatter);
         LocalTime time = LocalTime.parse(phoneCallDTO.startTime, timeFormatter);
-        LocalDateTime startTime = LocalDateTime.of(date, time);
+        LocalDateTime startTime = LocalDateTime.of(date, time)
+                .withMinute(0)
+                .withSecond(0);
 
         var availableTimeId = (long)httpSession.getAttribute("availableTimeId");
         String username = (String) httpSession.getAttribute("userName");
@@ -62,7 +66,7 @@ public class PaymentController {
         var availableTime = availableTimeRepository.findById(availableTimeId).orElse(null);
         LocalDateTime startDateTime = LocalDateTime.of(
                 availableTime.getAvailableDate().getYear(),
-                availableTime.getAvailableDate().getMonth(),
+                availableTime.getAvailableDate().getMonth().getValue(),
                 availableTime.getAvailableDate().getDayOfMonth(),
                 availableTime.getStartHour(),
                 availableTime.getStart_slot().getDuration());
@@ -70,7 +74,7 @@ public class PaymentController {
         if(!startDateTime.isEqual(phoneCallStartTime)){
             var newAvailableTime = new AvailableTime();
             newAvailableTime.setTechnician(technician);
-            newAvailableTime.setAvailableDate(startDateTime.toLocalDate());
+            newAvailableTime.setAvailableDate(startDateTime);
             newAvailableTime.setStartHour(startDateTime.getHour());
             var availableStartSlot = timeSlotRepository.findTimeSlotByDuration(startDateTime.getMinute()).orElse(null);
             newAvailableTime.setStart_slot(availableStartSlot);
@@ -81,7 +85,7 @@ public class PaymentController {
         }
         LocalDateTime endDateTime = LocalDateTime.of(
                 availableTime.getAvailableDate().getYear(),
-                availableTime.getAvailableDate().getMonth(),
+                availableTime.getAvailableDate().getMonth().getValue(),
                 availableTime.getAvailableDate().getDayOfMonth(),
                 availableTime.getEndHour(),
                 availableTime.getEnd_slot().getDuration());
@@ -89,7 +93,7 @@ public class PaymentController {
         if(!endDateTime.isEqual(phoneCallEndTime)){
             var newAvailableTime = new AvailableTime();
             newAvailableTime.setTechnician(technician);
-            newAvailableTime.setAvailableDate(endDateTime.toLocalDate());
+            newAvailableTime.setAvailableDate(endDateTime);
             newAvailableTime.setStartHour(phoneCallEndTime.getHour());
             var phoneCallEndSlot = timeSlotRepository.findTimeSlotByDuration(phoneCallEndTime.getMinute()).orElse(null);
             newAvailableTime.setStart_slot(phoneCallEndSlot);
@@ -99,7 +103,7 @@ public class PaymentController {
             availableTimeRepository.save(newAvailableTime);
         }
         availableTimeRepository.delete(availableTime);
-        return paypalService.createPayment(phoneCallDTO.cost);
+        return paypalService.createPayment(phoneCallDTO.cost, baseUrl);
     }
 
 //    @GetMapping(value = "/capture")

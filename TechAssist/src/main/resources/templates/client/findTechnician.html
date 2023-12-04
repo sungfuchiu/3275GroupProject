@@ -84,8 +84,12 @@
                 </div>
                 <div class="itemsTechnician" th:each="technicianItem:${technicianList}">
                     <a type="button"  class="btnTechnician" th:href="@{/moveToTechnicianInfo(technicianId=${technicianItem.id})}">
-                        <div class="technicianIcon">
-                            <img src="img/icon.png" class="imgIcon" alt="test image">
+
+                        <div class="form-group">
+                            <img th:if="${technicianItem.containsKey('image_url')}" th:src="'/images/user/'+${technicianItem.image_url}"
+                                 width="100" height="100" alt="Technician's Image">
+                            <img th:unless="${technicianItem.containsKey('image_url')}" src="/images/user/default.jpg" width="100"
+                                 height="100" alt="Default Image">
                         </div>
                         <div class="technicianNameAndScore">
                             <label class="lblTechnicianInfo" th:text="${technicianItem.name}">Technician name</label>
