@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -234,14 +235,15 @@ public class TechnicianController {
         var phoneCalls = phoneCallRepository.findByTechnicianIdAndStartTimeLessThanEqualAndStartTimeGreaterThanOrderByStartTime(user.getTechnician().getId(), LocalDateTime.now(), LocalDateTime.now().withDayOfMonth(1));
         AccountBalanceDTO AccountBalanceDTO = new AccountBalanceDTO();
         AccountBalanceDTO.callDTOList = new ArrayList<>();
+        AccountBalanceDTO.serviceFee = BigDecimal.valueOf(0);
         for(var phoneCall : phoneCalls) {
             if(isPassed(phoneCall)){
                 var callDTO = new CallDTO();
                 AppointmentDTO.transformData(phoneCall, callDTO);
                 callDTO.rating = phoneCall.getRating() == null ? "": phoneCall.getRating().toString() ;
-                callDTO.review = phoneCall.getReview();
+                callDTO.review = phoneCall.getReview() == null ? "": phoneCall.getReview();
                 callDTO.cost = phoneCall.getCost();
-                AccountBalanceDTO.serviceFee.add(callDTO.cost);
+                AccountBalanceDTO.serviceFee = AccountBalanceDTO.serviceFee.add(phoneCall.getCost());
                 AccountBalanceDTO.callDTOList.add(callDTO);
             }
         }

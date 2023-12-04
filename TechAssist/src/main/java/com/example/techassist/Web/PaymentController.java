@@ -74,7 +74,7 @@ public class PaymentController {
         if(!startDateTime.isEqual(phoneCallStartTime)){
             var newAvailableTime = new AvailableTime();
             newAvailableTime.setTechnician(technician);
-            newAvailableTime.setAvailableDate(startDateTime);
+            newAvailableTime.setAvailableDate(startDateTime.toLocalDate());
             newAvailableTime.setStartHour(startDateTime.getHour());
             var availableStartSlot = timeSlotRepository.findTimeSlotByDuration(startDateTime.getMinute()).orElse(null);
             newAvailableTime.setStart_slot(availableStartSlot);
@@ -93,7 +93,7 @@ public class PaymentController {
         if(!endDateTime.isEqual(phoneCallEndTime)){
             var newAvailableTime = new AvailableTime();
             newAvailableTime.setTechnician(technician);
-            newAvailableTime.setAvailableDate(endDateTime);
+            newAvailableTime.setAvailableDate(endDateTime.toLocalDate());
             newAvailableTime.setStartHour(phoneCallEndTime.getHour());
             var phoneCallEndSlot = timeSlotRepository.findTimeSlotByDuration(phoneCallEndTime.getMinute()).orElse(null);
             newAvailableTime.setStart_slot(phoneCallEndSlot);
