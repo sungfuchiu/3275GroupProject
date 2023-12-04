@@ -1,363 +1,94 @@
-html {
-    height: 100%;
-    width: 100%;
-}
-
-* {
-    box-sizing: border-box;
-}
-
 body {
-    height: inherit;
-    width: inherit;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-}
-
-section {
-    height: inherit;
-    width: inherit;
-}
-
-.contents {
-    height: max-content;
-    width: inherit;
-}
-
-.customerNameBar {
-    height: 2rem;
-    width: inherit;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: #818380;
-}
-
-.lblCustomerName {
-    font-size: 22px;
-    color: #FFF;
-    margin-left: 1rem;
-}
-
-.appointmentBar {
-    height: 3rem;
-    width: inherit;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #FF7F50;
-    border: 1px solid #f4f4f4;
-}
-
-.lblAppointmentStart {
-    color: #fff;
-    font-size: 18px;
-    margin-left: 1rem;
-}
-
-.formStartCall {
-    height: inherit;
-    width: 10rem;
-}
-
-.btnStartCall {
-    height: inherit;
-    width: inherit;
-    font-size: 22px;
-    border: 1px solid #f4f4f4;
-    color: #fff;
-    background-color: #0047AB;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-}
-
-.applicationPanel {
-    height: inherit;
-    width: inherit;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-}
-
-.categoryBar, .technicianBar {
-    height: 3rem;
-    width: inherit;
-    border-radius: 1rem 1rem 0 0;
-}
-
-.categoryBar {
-    margin-top: 1rem;
-}
-
-.btnCategoryPanel {
-    height: inherit;
-    width: inherit;
-    background-color: #818380;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: inherit;
-    border: none;
-    cursor: pointer;
-}
-
-.lblCategory, .lblTechnician {
-    font-size: 22px;
-    color: #FFF;
-    margin-left: 1em;
-    font-weight: bold;
-}
-
-.lblSelectedCategory {
-    font-size: 16px;
-    color:#FFF;
-}
-
-#lblSelectedCategory {
-    visibility: visible;
-    margin-right: 1em;
-}
-
-.categoryPanel {
-    height: max-content;
-    width: inherit;
-    margin-bottom: 1em;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    row-gap: 1rem;
-    padding: 10px 5px 10px 5px;
-    border: 1px solid #818380;
-    border-radius: 0 0 1rem 1rem;
-}
-
-.itemsCategory {
-    height: 5rem;
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.btnCategory {
-    height: inherit;
-    width: 90%;
-    border: 2px solid #BEBDB8;
-    background-image: linear-gradient(to bottom right, #BEBDB8 ,#FFF);
-    border-radius: 1rem;
-    font-size: 16px;
+    margin: 0;
+    padding: 0;
     text-align: center;
-    color: #000000;
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-.technicianBar {
-    height: 3rem;
-    width: inherit;
-    background-color: #818380;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 1rem 1rem 0 0;
-    margin-top: 1rem;
-    cursor: pointer;
+header {
+    background-color: lightblue;
+    text-align: center;
+    padding: 30px 0;
+    max-width: 440px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
 }
 
-.technicianPanel {
-    width: inherit;
+.logo {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#img1 {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+#img2 {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+#img3 {
+    max-width: 120px;
+    max-height: 120px;
+}
+
+#img4 {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+#img5 {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+#img6 {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+main {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.image-list {
+    list-style: none;
+    padding: 0;
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 5px 10px 5px;
-    border: 1px solid #818380;
-    border-radius: 0 0 1rem 1rem;
+    justify-content: space-around;
 }
 
-.technicianSort {
-    height: 5rem;
-    width: inherit;
-    padding: 5px;
+.image-list li {
+    text-align: center;
+    margin-bottom: 10px;
+    width: 50%; /* Adjust the width as needed */
+    padding: 10px; /* Add padding for space and aesthetics */
 }
 
-.formSort {
-    height: inherit;
-    width: inherit;
+.image-list a {
+    text-decoration: none;
+    color: #333;
 }
 
-.sortItems {
-    height: 60%;
-    width: inherit;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    column-gap: 10px;
+.image-list img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
 }
 
-.sortDate {
-    height: 100%;
-    width: 60%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1px;
-}
-
-#datepicker {
-    height: 60%;
-    width: 100%;
-}
-
-.selTimeslot {
-    height: 60%;
-    width: 100%;
-}
-
-.sortTimeslot {
-    height: 100%;
-    width: 40%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1px;
-}
-
-.sortButtons {
-    height: 40%;
-    width: inherit;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 2rem;
-}
-
-.btnSort, .btnSortReset {
-    height: 80%;
-    width: 40%;
-}
-
-.sortButtons {
-    height: 40%;
-    width: inherit;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 2rem;
-}
-
-.btnSort, .btnSortReset {
-    height: 80%;
-    width: 40%;
-}
-
-.itemsTechnician {
-    height: 6rem;
-    width: inherit;
+.image-list p {
     margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center
-}
-
-.btnTechnician {
-    height: inherit;
-    width: 90%;
-    border: 1px solid #BEBDB8;
-    background-image: linear-gradient(to bottom left, #BEBDB8 ,#FFF); 
-    border-radius: 1rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.technicianIcon {
-    flex-basis: 20%;
-    height: inherit;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.imgIcon {
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-}
-
-.technicianNameAndScore {
-    flex-basis: 40%;
-    height: inherit;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    row-gap: 1rem;
-    text-decoration: none;
-    text-align: left;
-}
-
-.availableTime {
-    flex-basis: 40%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.lblTechnicianInfo {
-    font-size: 16px;
-    color: #000000;
     font-weight: bold;
-    text-decration: none;
 }
 
-.tblTechnician {
-    height: inherit;
-    width: inherit;
-}
 
-.tdTechnicianIcon {
-    height: 100%;
-    width: 30%;
-    text-align: center;
-}
-
-.imgIcon {
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-}
-
-.tdTechnicianName, .tdTReview {
-    height: 50%;
-    width: 40%;
-    text-align: left;
-    color: #000000;
-}
-
-.tdReview {
-    text-align: center;
-    color: #000000;
-}
-
-.tdAvailableTime {
-    height: 100%;
-    width: 30%;
-    text-align: center;
-    color: #000000;
-}

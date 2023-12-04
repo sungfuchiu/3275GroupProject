@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="clientLayout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/style/client/findTechnician.css}"/>
+    <link rel="stylesheet" th:href="@{/style/client/jquery-ui.css}">
+    <title>Client Home</title>
+</head>
+
+<body>
+<section layout:fragment="content">
+    <div class="contents">
+        <div class="customerNameBar">
+            <label class="lblCustomerName" th:text="${userName}"></label>
+        </div>
+        <div class="appointmentBar" id="idAppointmentBar">
+            <label class="lblAppointmentStart" id="lblAppointmentStart"></label>
+            <form class="formStartCall" th:action="@{/transitionCall}" th:method="GET">
+                <input type="hidden" id="hidAppointmentStart" th:value="${appointmentDate}"/>
+                <input type="hidden"  name="callId" id="hidCallId" th:value="${callId}" />
+                <button type="submit" value="Submit" class="btnStartCall" id="idBtnStartCall">Start Call</button>
+            </form>
+        </div>
+        <div class="applicationPanel">
+            <div class="categoryBar">
+                <button type="button" class="btnCategoryPanel" id="btnCategoryPanel" th:onclick="showCategoryPanel()">
+                    <label class="lblCategory">Category</label>
+                    <label class="lblSelectedCategory" id="lblSelectedCategory" name="selectedCategoryName" th:text="${selectedServiceField}"></label>
+                </button>
+            </div>
+            <div class="categoryPanel" id="categoryPanel">
+                <div class="itemsCategory" th:each="serviceFieldItem:${serviceFieldList}">
+                    <a type="button" class="btnCategory" id="btnCategory" th:href="@{/getTechnician(serviceFieldId=${serviceFieldItem.id},serviceFieldName=${serviceFieldItem.field})}"
+                       th:text="${serviceFieldItem.field}"></a>
+                </div>
+            </div>
+            <div class="technicianBar">
+                <label class="lblTechnician">Technician</label>
+            </div>
+            <div class="technicianPanel" id="technicianPanel">
+                <div class="technicianSort">
+                    <form th:action="@{/sortTechnician}" th:method="GET" class="formSort">
+                        <div class="sortItems">
+                            <div class="sortDate">
+                                <input type="text" id="datepicker" name="selectedDate" placeholder="Please select date" th:value="${selectedDate}">
+                            </div>
+                            <div class="sortTimeslot">
+                                <select name="selectedTime" class="selTimeslot">
+                                    <option value="" disabled selected hidden>Hour</option>
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="sortButtons">
+                            <button type="submit" value="Submit" class="btnSort">Sort</button>
+                            <button type="reset" value="Reset" class="btnSortReset">Reset</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="itemsTechnician" th:each="technicianItem:${technicianList}">
+                    <a type="button"  class="btnTechnician" th:href="@{/moveToTechnicianInfo(technicianId=${technicianItem.id})}">
+                        <div class="technicianIcon">
+                            <img src="img/icon.png" class="imgIcon" alt="test image">
+                        </div>
+                        <div class="technicianNameAndScore">
+                            <label class="lblTechnicianInfo" th:text="${technicianItem.name}">Technician name</label>
+                            <label class="lblTechnicianInfo" th:text="${technicianItem.rate}">Review</label>
+                        </div>
+                        <div class="availableTime">
+                            <label class="lblTechnicianInfo">View Detail</label>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/jquery-3.7.1.min.js"></script>
+    <script src="/jquery-ui.js"></script>
+    <script src="/findTechnician.js"></script>
+    <script>
+        $(function() {
+            $( "#datepicker" ).datepicker();
+        });
+    </script>
+</section>
+</body>
+</html>

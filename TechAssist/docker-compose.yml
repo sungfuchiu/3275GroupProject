@@ -1,25 +1,53 @@
 version: '3'
 
 services:
-
   springboot:
     build: .
     container_name: springboot-app
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+    networks:
+      - my-network
+    depends_on:
+      - mysql
 
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mydb
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=mypassword
+    networks:
+      - my-network
 
   nginx:
     build: ./nginx
     container_name: nginx-proxy
     depends_on:
       - springboot
+      - mysql
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - ./ssl:/etc/nginx/ssl
+    networks:
+      - my-network
 
+  turn:
+    image: instrumentisto/coturn
+    container_name: turn-server
+    command: [ "--listening-port=3478", "--min-port=49152", "--max-port=65535" ]
+    ports:
+      - "3478:3478/udp"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
 
   #  unnecessary for development on local environment
   #  coturn:

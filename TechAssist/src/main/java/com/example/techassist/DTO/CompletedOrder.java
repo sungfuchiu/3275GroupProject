@@ -16,4 +16,7 @@ public class CompletedOrder {
     public CompletedOrder(String status) {
         this.status = status;
     }
+    public boolean IsSuccess(){
+        return this.status == "success";
+    }
 }

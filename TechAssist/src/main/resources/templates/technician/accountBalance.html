@@ -32,7 +32,7 @@
         </div>
         <h3>Summary</h3>
         <div class="summary">
-            <p th:text="'Total in this month:'+${accountBalance.serviceFee}+' CAD'"></p>
+            <p th:text="'Total in this month:'+${accountBalance.serviceFee == null ? 0 : accountBalance.serviceFee}+' CAD'"></p>
         </div>
         <a th:href="@{/technicianHome}">
             <button type="button">Back</button>

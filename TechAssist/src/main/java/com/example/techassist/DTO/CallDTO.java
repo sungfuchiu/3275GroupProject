@@ -1,5 +1,7 @@
 package com.example.techassist.DTO;
 
+import java.math.BigDecimal;
+
 public class CallDTO extends HistoryDTO {
-    public float cost;
+    public BigDecimal cost;
 }

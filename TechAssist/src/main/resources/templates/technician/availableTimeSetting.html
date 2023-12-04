@@ -12,46 +12,34 @@
     <main>
         <h1>Available Time Setting</h1>
         <div class="container">
-            <h2>Select Available Date & Time</h2>
-            <form method="post" th:action="@{/saveTR}" th:object="${setTR}" onsubmit="return confirmSave()">
-                <div class="form-group">
-                    <label for="date">Select Date:</label>
-                    <input type="date" id="date" name="date" required>
+            <div>
+                <div th:each="availableTimeDTO:${availableTimeDTOs}">
+                    <div>
+                        <div class="time-block">
+                            <span th:text="${availableTimeDTO.Date}"></span>
+                            <span th:text="${availableTimeDTO.StartTime}+'~'+${availableTimeDTO.EndTime}"></span>
+                            <a class="remove"
+                               th:href="@{'/availableTimeSetting/delete?id=' + ${availableTimeDTO.ID}}">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="17" viewBox="0 0 448 512">
+                                    <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
+                                    <style>svg {
+                                        fill: #ff3030;
+                                    }</style>
+                                    <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <br>
-                <div class="form-group">
-                    <label for="time">Select Time:</label>
-                    <input type="time" id="time" name="time" step="15"required>
+                <div class="button-container">
+                    <a class="link cancel" th:href="@{/technicianHome}">
+                        Back
+                    </a>
+                    <a class="link" th:href="@{/availableTimeSetting/add}">
+                        Add
+                    </a>
                 </div>
-                <br>
-                <h2>Service Charge</h2>
-                <div class="form-group">
-                    <label for="services">Select Service:</label>
-                    <select id="services" name="services">
-                        <option value="Emergency Plumbing">Emergency Plumbing</option>
-                        <option value="Clogged Drains">Clogged Drains</option>
-                        <option value="Installation, Update, Repair">Installation, Update, Repair</option>
-                        <option value="Leaking Toilets, Faucet, Pipes">Leaking Toilets, Faucet, Pipes</option>
-                        <option value="Commercial Plumbing">Commercial Plumbing</option>
-                    </select>
-                </div>
-                <br>
-                <div class="form-group">
-                    <label for="duration">Select Duration:</label>
-                    <select id="duration" name="duration">
-                        <option value="15">15 mins</option>
-                        <option value="30">30 mins</option>
-                        <option value="45">45 mins</option>
-                        <option value="60">60 mins</option>
-                    </select>
-                </div>
-                <br>
-                <br><br><br>
-                <a th:href="@{/technicianHome}">
-                    <button type="button">Back</button>
-                </a>
-                <button type="submit">Save</button>
-            </form>
+            </div>
             <div th:if="${successMessage}" class="success-message">
                 <p th:text="${successMessage}"></p>
             </div>

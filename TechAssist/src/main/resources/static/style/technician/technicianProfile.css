@@ -86,6 +86,9 @@ a.link.image:hover{
 a.link.cancel{
     background-color: orangered;
 }
+a.link.delete{
+    background-color: orangered;
+}
 .button-container {
     display: flex;
     justify-content: space-between;

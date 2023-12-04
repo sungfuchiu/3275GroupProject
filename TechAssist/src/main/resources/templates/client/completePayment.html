@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/style/technician/history.css}"/>
+    <title>Complete</title>
+    <style>
+
+        h1 {
+            text-align: center;
+        }
+
+        .login-body{
+            text-align: center;
+        }
+
+        .label1{
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo">
+        <img id="img1" src="images/logo.jpg" alt="Logo">
+    </div>
+    <h1>Complete</h1>
+</header>
+<main>
+    <div class="appointment-list">
+        <div class="container mt-2 pre-scrollable">
+            <div class="card-header"></div>
+            <div class="login-body">
+                <br/><br/>
+                <h2>Payment Succeeded</h2>
+                <img src="images/completeIcon.png" alt="" width="100" height="100"/>
+                <div>
+                    <p th:text="'Date:'+${callDTO.date}"></p>
+                    <p th:text="'Start time:'+${callDTO.startTime}"></p>
+                    <p th:text="'Duration:'+${callDTO.duration}+' minutes'"></p>
+                    <p th:text="'Technician:'+${callDTO.technicianName}"></p>
+                    <p th:text="'Amount:'+${callDTO.cost}"></p>
+                </div>
+                <button onclick="window.location.href='/clientHome'" class="btn-primary">Back to MAIN</button>
+            </div>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

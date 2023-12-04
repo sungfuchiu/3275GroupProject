@@ -1,9 +1,6 @@
 package com.example.techassist.Web;
 
-import com.example.techassist.DTO.AccountBalanceDTO;
-import com.example.techassist.DTO.AppointmentDTO;
-import com.example.techassist.DTO.CallDTO;
-import com.example.techassist.DTO.HistoryDTO;
+import com.example.techassist.DTO.*;
 import com.example.techassist.Entities.*;
 import com.example.techassist.Repositories.*;
 import jakarta.servlet.http.HttpSession;
@@ -43,6 +40,10 @@ public class TechnicianController {
     private TechnicianExperienceRepository technicianExperienceRepository;
     @Autowired
     private PhoneCallRepository phoneCallRepository;
+    @Autowired
+    private AvailableTimeRepository availableTimeRepository;
+    @Autowired
+    private TimeSlotRepository timeSlotRepository;
 
     static int num = 0;
 
@@ -144,21 +145,80 @@ public class TechnicianController {
             return "redirect:/technicianProfile";
         }
     }
+    @GetMapping(path = "/technicianExperience/delete")
+    public String deleteTechnicianExperience(@RequestParam Long id) {
+        var technicianExperience = technicianExperienceRepository.findById(id).orElse(null);
+        technicianExperienceRepository.delete(technicianExperience);
+        return "redirect:/technicianProfile";
+    }
     @GetMapping(path = "/availableTimeSetting")
     public String AvailableTimeSetting(Model model) {
+        String username = (String) httpSession.getAttribute("userName");
+        var user = userRepository.findByUsername(username).orElse(null);
+        List<AvailableTime> availableTimes = availableTimeRepository.findAvailableTimeByTechnicianOrderByAvailableDateAscStartHourAsc(user.getTechnician());
+        List<AvailableTimeDTO> availableTimeDTOs = new ArrayList<>();
+        for(var availableTime : availableTimes){
+            AvailableTimeDTO availableTimeDTO = new AvailableTimeDTO();
+            AvailableTimeDTO.transformData(availableTime, availableTimeDTO);
+            availableTimeDTOs.add(availableTimeDTO);
+        }
+        model.addAttribute("availableTimeDTOs", availableTimeDTOs);
         return "technician/availableTimeSetting";
+    }
+    @GetMapping(path = "/availableTimeSetting/add")
+    public String AddAvailableTime(Model model) {
+        int inHourSlots = 4;
+        List<TimeSlot> timeSlots = timeSlotRepository.findTimeSlotByIdLessThanEqual(inHourSlots);
+        model.addAttribute("timeSlots", timeSlots);
+        model.addAttribute("hours", generateHoursList());
+        return "technician/addAvailableTime";
+    }
+    private List<Integer> generateHoursList() {
+        List<Integer> hoursList = new ArrayList<>();
+        for (int i = 0; i <= 23; i++) {
+            hoursList.add(i);
+        }
+        return hoursList;
+    }
+    @PostMapping(path = "/availableTimeSetting/add")
+    public String AddAvailableTimeSave(AvailableTime availableTime, ModelMap mm) {
+        try {
+            String username = (String) httpSession.getAttribute("userName");
+            var user = userRepository.findByUsername(username).orElse(null);
+            availableTime.setTechnician(user.getTechnician());
+            if (availableTime.getStartHour() > availableTime.getEndHour()) {
+                throw new Exception("Hour settings are incorrect.");
+            } else {
+                if (availableTime.getStartHour() == availableTime.getEndHour()) {
+                    if (availableTime.getStart_slot().getId() >= availableTime.getEnd_slot().getId()) {
+                        throw new Exception("Hour settings are incorrect.");
+                    }
+                }
+            }
+            availableTimeRepository.save(availableTime);
+            mm.addAttribute("successMessage", "Data successfully saved");
+        }catch (Exception e){
+            mm.addAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/availableTimeSetting";
+    }
+    @GetMapping(path = "/availableTimeSetting/delete")
+    public String DeleteAvailableTime(@RequestParam(required = false) Long id) {
+        var availableTime = availableTimeRepository.findById(id).orElse(null);
+        availableTimeRepository.delete(availableTime);
+        return "redirect:/availableTimeSetting";
     }
 
     @GetMapping(path = "/viewAppointment")
     public String viewAppointment(Model model) {
         String username = (String) httpSession.getAttribute("userName");
         var user = userRepository.findByUsername(username).orElse(null);
-        var appointments = phoneCallRepository.findByTechnicianIdAndStartTimeGreaterThanEqual(user.getTechnician().getId(), LocalDateTime.now().minusHours(1));
+        var appointments = phoneCallRepository.findByTechnicianIdAndStartTimeGreaterThanEqualOrderByStartTime(user.getTechnician().getId(), LocalDateTime.now().minusHours(1));
         List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
         for(var appointment : appointments){
             if(!isPassed(appointment)){
                 var appointmentDTO = new AppointmentDTO();
-                transformData(appointment, appointmentDTO);
+                AppointmentDTO.transformData(appointment, appointmentDTO);
                 appointmentDTOs.add(appointmentDTO);
             }
         }
@@ -170,17 +230,17 @@ public class TechnicianController {
     public String accountBalance(Model model) {
         String username = (String) httpSession.getAttribute("userName");
         var user = userRepository.findByUsername(username).orElse(null);
-        var phoneCalls = phoneCallRepository.findByTechnicianIdAndStartTimeLessThanEqualAndStartTimeGreaterThan(user.getTechnician().getId(), LocalDateTime.now(), LocalDateTime.now().withDayOfMonth(1));
+        var phoneCalls = phoneCallRepository.findByTechnicianIdAndStartTimeLessThanEqualAndStartTimeGreaterThanOrderByStartTime(user.getTechnician().getId(), LocalDateTime.now(), LocalDateTime.now().withDayOfMonth(1));
         AccountBalanceDTO AccountBalanceDTO = new AccountBalanceDTO();
         AccountBalanceDTO.callDTOList = new ArrayList<>();
         for(var phoneCall : phoneCalls) {
             if(isPassed(phoneCall)){
                 var callDTO = new CallDTO();
-                transformData(phoneCall, callDTO);
+                AppointmentDTO.transformData(phoneCall, callDTO);
                 callDTO.rating = phoneCall.getRating().toString();
                 callDTO.review = phoneCall.getReview();
                 callDTO.cost = phoneCall.getCost();
-                AccountBalanceDTO.serviceFee += callDTO.cost;
+                AccountBalanceDTO.serviceFee.add(callDTO.cost);
                 AccountBalanceDTO.callDTOList.add(callDTO);
             }
         }
@@ -192,12 +252,12 @@ public class TechnicianController {
     public String showHistory(Model model) {
         String username = (String) httpSession.getAttribute("userName");
         var user = userRepository.findByUsername(username).orElse(null);
-        var phoneCalls = phoneCallRepository.findByTechnicianIdAndStartTimeLessThanEqual(user.getTechnician().getId(), LocalDateTime.now());
+        var phoneCalls = phoneCallRepository.findByTechnicianIdAndStartTimeLessThanEqualOrderByStartTime(user.getTechnician().getId(), LocalDateTime.now());
         List<HistoryDTO> historyDTOs = new ArrayList<>();
         for(var phoneCall : phoneCalls) {
             if(isPassed(phoneCall)){
                 var historyDTO = new HistoryDTO();
-                transformData(phoneCall, historyDTO);
+                AppointmentDTO.transformData(phoneCall, historyDTO);
                 historyDTO.rating = phoneCall.getRating().toString();
                 historyDTO.review = phoneCall.getReview();
                 historyDTOs.add(historyDTO);
@@ -211,15 +271,6 @@ public class TechnicianController {
         LocalDateTime startTime = phoneCall.getStartTime().plusMinutes(phoneCall.getStartSlot().getDuration());
         LocalDateTime endTime = startTime.plusMinutes(phoneCall.getDurationSlot().getDuration());
         return endTime.isBefore(LocalDateTime.now());
-    }
-    private void transformData(PhoneCall phoneCall, AppointmentDTO appointmentDTO){
-        appointmentDTO.date = phoneCall.getStartTime().getDayOfMonth() + "/"
-                + phoneCall.getStartTime().getMonth().getValue() + "/"
-                + phoneCall.getStartTime().getYear();
-        appointmentDTO.startTime = phoneCall.getStartTime().getHour() + (phoneCall.getStartSlot().getDuration()/60)
-                + ":" + String.format("%02d",(phoneCall.getStartSlot().getDuration() % 60));
-        appointmentDTO.duration = phoneCall.getDurationSlot().getDuration().toString();
-        appointmentDTO.customerName = phoneCall.getClient().getUser().getName();
     }
 
 

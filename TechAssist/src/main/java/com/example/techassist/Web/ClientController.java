@@ -1,35 +1,28 @@
 package com.example.techassist.Web;
 
 import com.example.techassist.DAO.ClientDAO;
-import com.example.techassist.DTO.CompletedOrder;
-import com.example.techassist.DTO.PaymentOrder;
+import com.example.techassist.DTO.AppointmentDTO;
+import com.example.techassist.DTO.AvailableTimeDTO;
+import com.example.techassist.DTO.CallDTO;
+import com.example.techassist.Entities.AvailableTime;
+import com.example.techassist.Entities.PhoneCall;
 import com.example.techassist.Entities.ServiceField;
-import com.example.techassist.Entities.Technician;
 import com.example.techassist.Entities.TimeSlot;
-import com.example.techassist.Repositories.ServiceFieldRepository;
-import com.example.techassist.Repositories.TechnicianRepository;
-import com.example.techassist.Repositories.TimeSlotRepository;
-import com.example.techassist.Repositories.UserRepository;
+import com.example.techassist.Repositories.*;
 import com.example.techassist.Services.PaypalService;
 import com.example.techassist.Utilities.ConstList;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -61,9 +54,19 @@ public class ClientController {
     ConstList constList;
     @Autowired
     private PaypalService paypalService;
+    @Autowired
+    private PhoneCallRepository phoneCallRepository;
+    @Autowired
+    private AvailableTimeRepository availableTimeRepository;
+
 
     @GetMapping(path = "/clientHome")
-    public String clientHome(ModelMap model) {
+    public String clientHome() {
+        return "client/clientHome";
+    }
+
+    @GetMapping(path = "/findTechnician")
+    public String findTechnician(ModelMap model) {
         String userName = (String)httpSession.getAttribute(constList.KEY_USER_NAME);
         long clientId = 0;
         String callId = null;
@@ -93,7 +96,7 @@ public class ClientController {
 
         httpSession.setAttribute(constList.KEY_USER_NAME, userName);
 
-        return "client/clientHome";
+        return "client/findTechnician";
     }
 
     @GetMapping(path="/getTechnician")
@@ -130,7 +133,7 @@ public class ClientController {
         httpSession.setAttribute(constList.KEY_USER_NAME, userName);
         httpSession.setAttribute(constList.KEY_SELECTED_FIELD, serviceFieldId);
 
-        return "client/clientHome";
+        return "client/findTechnician";
     }
 
     @GetMapping(path="/sortTechnician")
@@ -151,8 +154,8 @@ public class ClientController {
         if(selectedDate != "") {
             formatedDate = formatDate(selectedDate);
             calendar.setTime((Date) formatedDate.get(KEY_CALENDAR_DATE));
-            dayOfWeek = String.valueOf(calendar.get(Calendar.DAY_OF_WEEK));
-            sortMap.put(KEY_DAY_OF_WEEK, dayOfWeek);
+            dayOfWeek = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+            sortMap.put(KEY_DAY_OF_WEEK, (String)formatedDate.get(KEY_NEW_DATE));
             model.addAttribute(KEY_SELECTED_DATE, selectedDate);
         }
 
@@ -162,7 +165,7 @@ public class ClientController {
         }
 
         serviceFieldList = serviceFieldRepository.findAll();
-        technicianList = clientDAO.sortTechnician(serviceFieldId, sortMap);
+        technicianList = clientDAO.sortTechnician(Long.parseLong(serviceFieldId), sortMap);
         timeSlotList = timeSlotRepository.findAll();
         appointmentInfo = getAppointmentInfo(clientId);
 
@@ -187,32 +190,121 @@ public class ClientController {
         httpSession.setAttribute(constList.KEY_USER_NAME, userName);
         httpSession.setAttribute(constList.KEY_SELECTED_FIELD, serviceFieldId);
 
-        return "client/clientHome";
+        return "client/findTechnician";
+    }
+
+    @GetMapping(path = "/clientAppointment")
+    public String clientAppointment(Model model) {
+        String username = (String) httpSession.getAttribute("userName");
+        var user = userRepository.findByUsername(username).orElse(null);
+        var appointments = phoneCallRepository.findByClientIdAndStartTimeGreaterThanEqualOrderByStartTime(user.getClient().getId(), LocalDateTime.now().minusHours(1));
+        List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
+        for(var appointment : appointments){
+            if(!isPassed(appointment)){
+                var appointmentDTO = new AppointmentDTO();
+                AppointmentDTO.transformData(appointment, appointmentDTO);
+                appointmentDTOs.add(appointmentDTO);
+            }
+        }
+        model.addAttribute("appointments", appointmentDTOs);
+        return "client/viewAppointment";
+    }
+
+    private boolean isPassed(PhoneCall phoneCall) {
+        LocalDateTime startTime = phoneCall.getStartTime().plusMinutes(phoneCall.getStartSlot().getDuration());
+        LocalDateTime endTime = startTime.plusMinutes(phoneCall.getDurationSlot().getDuration());
+        return endTime.isBefore(LocalDateTime.now());
     }
 
     @GetMapping(path = "/moveToTechnicianInfo")
     public String technicianInfo(ModelMap model, @RequestParam Long technicianId, HttpServletRequest request) {
-        String userName = (String)httpSession.getAttribute(constList.KEY_USER_NAME);
         var technician = technicianRepository.findById(technicianId).orElse(null);
+        httpSession.setAttribute("technicianId", technicianId);
         String previousPageUrl = request.getHeader("Referer");
         model.addAttribute("technician", technician);
         model.addAttribute("previousPageUrl", previousPageUrl);
         return "client/technicianInfo";
     }
-//    @RestController
-//    @PostMapping(value = "/init")
-//    public PaymentOrder createPayment(
-//            @RequestParam("sum") BigDecimal sum) {
-//        return paypalService.createPayment(sum);
-//    }
-//
-//    @PostMapping(value = "/capture")
-//    public CompletedOrder completePayment(@RequestParam("token") String token) {
-//        return paypalService.completePayment(token);
-//    }
-    @PostMapping(value = "/cancel")
+
+    @GetMapping(path = "/technicianAvailableTime")
+    public String technicianAvailableTime(ModelMap model, HttpServletRequest request) {
+        long technicianId = (long)httpSession.getAttribute("technicianId");
+        var technician = technicianRepository.findById(technicianId).orElse(null);
+        List<AvailableTime> availableTimes = availableTimeRepository.findAvailableTimeByTechnicianOrderByAvailableDateAscStartHourAsc(technician);
+        List<AvailableTimeDTO> availableTimeDTOs = new ArrayList<>();
+        for(var availableTime : availableTimes){
+            AvailableTimeDTO availableTimeDTO = new AvailableTimeDTO();
+            AvailableTimeDTO.transformData(availableTime, availableTimeDTO);
+            availableTimeDTOs.add(availableTimeDTO);
+        }
+        model.addAttribute("availableTimeDTOs", availableTimeDTOs);
+        String previousPageUrl = request.getHeader("Referer");
+        model.addAttribute("previousPageUrl", previousPageUrl);
+        return "client/availableTime";
+    }
+
+    @GetMapping(path = "/reserveTime")
+    public String reserveTime(ModelMap model, @RequestParam Long availableTimeId, HttpServletRequest request) {
+        httpSession.setAttribute("availableTimeId", availableTimeId);
+        AvailableTime availableTime = availableTimeRepository.findById(availableTimeId).orElse(null);
+        model.addAttribute("availableTime", availableTime);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime startDateTime = LocalDateTime.of(
+                availableTime.getAvailableDate().getYear(),
+                availableTime.getAvailableDate().getMonth(),
+                availableTime.getAvailableDate().getDayOfMonth(),
+                availableTime.getStartHour(),
+                availableTime.getStart_slot().getDuration());
+        model.addAttribute("startDateTime", startDateTime.format(formatter));
+        LocalDateTime endDateTime = LocalDateTime.of(
+                availableTime.getAvailableDate().getYear(),
+                availableTime.getAvailableDate().getMonth(),
+                availableTime.getAvailableDate().getDayOfMonth(),
+                availableTime.getEndHour(),
+                availableTime.getEnd_slot().getDuration());
+        model.addAttribute("endDateTime", endDateTime.format(formatter));
+        model.addAttribute("hours", generateHoursList(availableTime));
+        String previousPageUrl = request.getHeader("Referer");
+        model.addAttribute("previousPageUrl", previousPageUrl);
+        var technician = technicianRepository.findById((long)httpSession.getAttribute("technicianId")).orElse(null);
+        model.addAttribute("technician", technician);
+        return "client/reserveTime";
+    }
+    private List<Integer> generateHoursList(AvailableTime availableTime) {
+        List<Integer> hoursList = new ArrayList<>();
+        int endHour = availableTime.getEndHour();
+        if(availableTime.getEnd_slot().getDuration() == 0){
+            endHour--;
+        }
+        for (int i = availableTime.getStartHour(); i <= endHour; i++) {
+            hoursList.add(i);
+        }
+        return hoursList;
+    }
+
+
+    @GetMapping(value = "/capture")
+    public String completePayment(ModelMap model, @RequestParam("token") String token) {
+        var completeOrder = paypalService.completePayment(token);
+        long phoneCallId = (long) httpSession.getAttribute("phoneCallID");
+        var phoneCall = phoneCallRepository.findById(phoneCallId).orElse(null);
+        var callDTO = new CallDTO();
+        AppointmentDTO.transformData(phoneCall, callDTO);
+        callDTO.cost = phoneCall.getCost();
+        if(completeOrder.IsSuccess()){
+            model.addAttribute("callDTO", callDTO);
+            return "client/completePayment";
+        }else{
+            phoneCallRepository.delete(phoneCall);
+            return "client/cancelPayment";
+        }
+    }
+    @GetMapping(value = "/cancel")
     public String cancelPayment(@RequestParam("token") String token) {
-        return "redirect:/login";
+        long phoneCallId = (long) httpSession.getAttribute("phoneCallID");
+        var phoneCall = phoneCallRepository.findById(phoneCallId).orElse(null);
+        phoneCallRepository.delete(phoneCall);
+        return "client/cancelPayment";
     }
 
     @GetMapping(path = "/confirmation")
@@ -227,7 +319,7 @@ public class ClientController {
 
     @GetMapping(path = "/complete")
     public String complete() {
-        return "client/complete";
+        return "completePayment";
     }
 
     @GetMapping(path="/transitionCall")

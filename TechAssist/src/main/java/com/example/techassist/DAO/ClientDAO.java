@@ -1,13 +1,18 @@
 package com.example.techassist.DAO;
 
+import com.example.techassist.Entities.Technician;
+import com.example.techassist.Repositories.ServiceFieldRepository;
+import com.example.techassist.Repositories.TechnicianRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 import static com.example.techassist.Utilities.ConstList.KEY_DAY_OF_WEEK;
 import static com.example.techassist.Utilities.ConstList.KEY_HOUR;
@@ -15,6 +20,11 @@ import static com.example.techassist.Utilities.ConstList.KEY_HOUR;
 @Component
 @Service
 public class ClientDAO {
+
+    @Autowired
+    private ServiceFieldRepository serviceFieldRepository;
+    @Autowired
+    private TechnicianRepository technicianRepository;
     @Autowired
     JdbcTemplate template;
     StringBuilder sql = new StringBuilder();
@@ -104,25 +114,54 @@ public class ClientDAO {
         return template.queryForList(sql.toString());
     }
 
-    public List<Map<String, Object>> sortTechnician(String categoryId, Map<String, String> sortMap) {
-        sql.setLength(0);
+//    public List<Map<String, Object>> sortTechnician(String categoryId, Map<String, String> sortMap) {
+//        sql.setLength(0);
+//
+//        sql.append("SELECT t.id as id, t.rate as rate, u.name as name ");
+//        sql.append("FROM technician as t ");
+//        sql.append("INNER JOIN user as u ");
+//        sql.append("ON t.id = u.technician_id ");
+//        sql.append("INNER JOIN available_time as a ");
+//        sql.append("ON t.id = a.technician_id ");
+//        sql.append("WHERE t.service_field_id = " + categoryId + " ");
+//        if(sortMap.containsKey(KEY_DAY_OF_WEEK)) {
+//            sql.append("AND a.week_day = " + sortMap.get(KEY_DAY_OF_WEEK) + " ");
+//        }
+//        if(sortMap.containsKey(KEY_HOUR)) {
+//            sql.append("AND a.hour = " + sortMap.get(KEY_HOUR) + " ");
+//        }
+//        sql.append("ORDER BY t.rate DESC");
+//
+//        return template.queryForList(sql.toString());
+//    }
+    public List<Map<String, Object>> sortTechnician(long serviceFieldId, Map<String, String> sortMap) {
+        List<Map<String, Object>> technicianDataList = new ArrayList<>();
 
-        sql.append("SELECT t.id as id, t.rate as rate, u.name as name ");
-        sql.append("FROM technician as t ");
-        sql.append("INNER JOIN user as u ");
-        sql.append("ON t.id = u.technician_id ");
-        sql.append("INNER JOIN available_time as a ");
-        sql.append("ON t.id = a.technician_id ");
-        sql.append("WHERE t.service_field_id = " + categoryId + " ");
-        if(sortMap.containsKey(KEY_DAY_OF_WEEK)) {
-            sql.append("AND a.week_day = " + sortMap.get(KEY_DAY_OF_WEEK) + " ");
+        var serviceField = serviceFieldRepository.findById(serviceFieldId).orElse(null);
+        List<Technician> technicianList = null;
+        if(!sortMap.containsKey(KEY_DAY_OF_WEEK) || sortMap.get(KEY_DAY_OF_WEEK) == null) {
+            technicianList = technicianRepository.findByServiceFieldOrderByRateAsc(serviceField);
+        }else{
+            String pattern = "yyyy-MM-dd";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+            String dateString = sortMap.get(KEY_DAY_OF_WEEK);
+            LocalDate date = LocalDate.parse(dateString, formatter);
+            if(!sortMap.containsKey(KEY_HOUR) || sortMap.get(KEY_HOUR) == null) {
+                technicianList = technicianRepository.findByServiceFieldAndAvailableTimesAvailableDateEquals(serviceField, date);
+            }else{
+                int hour = Integer.parseInt(sortMap.get(KEY_HOUR));
+                technicianList = technicianRepository.findByServiceFieldAndAvailableTimesAvailableDateEqualsAndAvailableTimesEndHourGreaterThanEqualAndAvailableTimesStartHourLessThanEqual(serviceField, date, hour, hour);
+            }
         }
-        if(sortMap.containsKey(KEY_HOUR)) {
-            sql.append("AND a.hour = " + sortMap.get(KEY_HOUR) + " ");
-        }
-        sql.append("ORDER BY t.rate DESC");
 
-        return template.queryForList(sql.toString());
+        for(var technician : technicianList){
+            Map<String, Object> technicianData = new HashMap<>();
+            technicianData.put("id", technician.getId());
+            technicianData.put("rate", technician.getRate());
+            technicianData.put("name", technician.getUser().getName());
+            technicianDataList.add(technicianData);
+        }
+        return technicianDataList;
     }
 
 }

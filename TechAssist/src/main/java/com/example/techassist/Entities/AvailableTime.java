@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,15 +15,18 @@ public class AvailableTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Integer week_day;
-    private Integer hour;
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "duration_slot", referencedColumnName = "id")
-    private TimeSlot duration_slot;
+    @Column(name = "available_date", nullable = false)
+    private LocalDate availableDate;
+    @Column(name = "start_hour", nullable = false)
+    private int startHour;
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "start_slot", referencedColumnName = "id")
     private TimeSlot start_slot;
+    @Column(name = "end_hour", nullable = false)
+    private int endHour;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "end_slot", referencedColumnName = "id")
+    private TimeSlot end_slot;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "technician_id", nullable = false)
     private Technician technician;

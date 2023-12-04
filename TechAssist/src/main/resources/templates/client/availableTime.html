@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="technicianLayout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/style/client/availableTime.css}"/>
+    <title>SettingTimeRate</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <main>
+        <h1>Available Time Setting</h1>
+        <div class="container">
+            <div>
+                <a class="time-block-link" th:each="availableTimeDTO:${availableTimeDTOs}" th:href="@{'/reserveTime?availableTimeId=' + ${availableTimeDTO.ID}}">
+                    <div class="time-block">
+                        <span th:text="${availableTimeDTO.Date}"></span>
+                        <span th:text="${availableTimeDTO.StartTime}+'~'+${availableTimeDTO.EndTime}"></span>
+                    </div>
+                </a>
+                <div class="button-container">
+                    <a class="link cancel" th:href="${previousPageUrl}">
+                        Back
+                    </a>
+                </div>
+            </div>
+            <div th:if="${successMessage}" class="success-message">
+                <p th:text="${successMessage}"></p>
+            </div>
+        </div>
+    </main>
+</section>
+</body>
+<script>
+    function confirmSave() {
+        return confirm("Are you sure you want to save?");
+    }
+</script>
+</html>

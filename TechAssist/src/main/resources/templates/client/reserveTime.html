@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="clientLayout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/style/client/reverseTime.css}"/>
+    <title>Technician Experience</title>
+</head>
+
+<body onload="updateStartSlot()">
+<section layout:fragment="content">
+    <main>
+        <h1>Technician Profile</h1>
+        <div class="container">
+            <form method="post" onsubmit="submitForm(event)">
+                <div class="form-group">
+                    <label th:text="${date}"></label>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label>time:</label>
+                    <select id="start_hour" name="start_hour" onchange="updateStartSlot()">
+                        <option th:each="hour:${hours}" th:value="${hour}" th:text="${hour}"></option>
+                    </select>
+                    <span>:</span>
+                    <select id="start_slot" name="start_slot" onchange="updateDurationSlot()">
+                        <option th:each="slot:${timeSlots}" th:value="${slot.id}" th:text="${slot.duration}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Duration:</label>
+                    <select id="duration_slot" name="duration_slot" onchange="updateCost()">
+                        <option th:each="slot:${durationSlots}" th:value="${slot.id}" th:text="${slot.duration}"></option>
+                    </select>
+                    <span>minutes</span>
+                </div>
+                <div class="form-group">
+                    <label>Cost:</label>
+                    <input class="sum" type="number" id="sum" name="sum" readonly>
+                    <span>CAD</span>
+                </div>
+
+                <div class="button-container">
+                    <a class="link cancel" th:href="${previousPageUrl}">
+                        Back
+                    </a>
+                    <button type="submit">Save</button>
+                </div>
+            </form>
+
+            <div th:if="${errorMessage}" class="error-message">
+                <p th:text="${errorMessage}"></p>
+            </div>
+            <div th:if="${successMessage}" class="success-message">
+                <p th:text="${successMessage}"></p>
+            </div>
+
+        </div>
+    </main>
+    <script th:inline="javascript">
+        function updateStartSlot() {
+            let startTime = new Date(/*[[${startDateTime}]]*/'');
+            let endTime = new Date(/*[[${endDateTime}]]*/'');
+            let startHourValue = document.getElementById("start_hour").value;
+            let startSlot = document.getElementById("start_slot");
+            let options = [];
+            startSlot.innerHTML = '';
+            if(startHourValue == startTime.getHours()){
+                for(let i=startTime.getMinutes(); i<60; i+=15){
+                    options.push(i);
+                }
+            }else if(startHourValue == endTime.getHours()){
+                for(let i=0; i<endTime.getMinutes(); i+=15){
+                    options.push(i);
+                }
+            }else{
+                for(let i=0; i<60; i+=15){
+                    options.push(i);
+                }
+            }
+            for (let i = 0; i < options.length; i++) {
+                let option = document.createElement("option");
+                option.text = options[i];
+                option.value = options[i];
+                startSlot.add(option);
+            }
+            updateDurationSlot();
+        }
+        function updateDurationSlot(){
+            let endTime = new Date(/*[[${endDateTime}]]*/'');
+
+            let selectedTime = new Date(endTime);
+            let startHour = document.getElementById("start_hour").value;
+            let startSlot = document.getElementById("start_slot").value;
+            selectedTime.setHours(startHour);
+            selectedTime.setMinutes(startSlot);
+            let timeDifferenceMs = endTime.getTime() - selectedTime.getTime();
+            let timeDifferenceMinutes = Math.min(60, Math.floor(timeDifferenceMs / (1000 * 60)));
+
+            let durationSlot = document.getElementById("duration_slot");
+            durationSlot.innerHTML = '';
+            let options = [];
+            for(let i=15; i<=timeDifferenceMinutes; i+=15){
+                options.push(i);
+            }
+
+            for (let i = 0; i < options.length; i++) {
+                let option = document.createElement("option");
+                option.text = options[i];
+                option.value = options[i];
+                durationSlot.add(option);
+            }
+            updateCost();
+        }
+        function updateCost(){
+            let rate = /*[[${technician.rate}]]*/'';
+            let sumInput = document.getElementById("sum");
+            let durationSlot = document.getElementById("duration_slot");
+            sumInput.value = rate * durationSlot.value/15;
+        }
+        function submitForm(event) {
+            event.preventDefault(); // Prevent the default form submission
+            let startTime = new Date(/*[[${startDateTime}]]*/'');
+
+            // Retrieve the payment amount from the form
+            let startHour = document.getElementById("start_hour").value;
+            startTime.setHours(startHour);
+            let startSlot = document.getElementById("start_slot").value;
+            startTime.setMinutes(startSlot);
+            let durationSlot = document.getElementById("duration_slot").value;
+            let paymentSum = document.getElementById('sum').value;
+            let technicianId = /*[[${technician.Id}]]*/'';
+            let formattedDate = (startTime.getMonth() + 1).toString().padStart(2, '0') + '/' +
+                startTime.getDate().toString().padStart(2, '0') + '/' +
+                startTime.getFullYear();
+            let formattedTime = startTime.toLocaleTimeString('en-US', {hour12: false});
+
+            console.log(startTime.toLocaleString());
+            fetch('paypal/init', {
+                method: 'POST',
+                body: JSON.stringify(
+                    {
+                        cost: paymentSum,
+                        technicianId: technicianId,
+                        startDate: formattedDate,
+                        startTime: formattedTime,
+                        startSlot: startSlot,
+                        durationSlot: durationSlot
+                    }
+                ),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => response.json()) // Parse the JSON response
+                .then(data => {
+                    if (data.status === 'success') {
+                        // If the response is successful, initiate the redirection
+                        window.location.href = data.redirectUrl;
+                    } else {
+                        // Handle other cases, e.g., display an error message
+                        console.error('Payment initiation failed.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</section>
+</body>
+<script>
+    function confirmSave() {
+        return confirm("Are you sure you want to save?");
+    }
+</script>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="technicianLayout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/style/technician/addAvailableTime.css}"/>
+  <title>Technician Experience</title>
+</head>
+
+<body>
+<section layout:fragment="content">
+  <main>
+    <h1>Technician Profile</h1>
+    <div class="container">
+      <form method="post" th:action="@{/availableTimeSetting/add}"
+            onsubmit="return confirmSave()">
+        <div class="form-group">
+          <label for="availableDate">Select Date:</label>
+          <input type="date" id="availableDate" name="availableDate" required>
+        </div>
+        <br>
+        <div class="form-group">
+          <label>Start time:</label>
+          <select id="startHour" name="startHour">
+            <option th:each="hour : ${hours}" th:value="${hour}" th:text="${hour}"></option>
+          </select>
+          <span>:</span>
+          <select id="start_slot" name="start_slot">
+            <option th:each="slot:${timeSlots}" th:value="${slot.id}" th:text="${slot.duration}"></option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>End time:</label>
+          <select id="endHour" name="endHour">
+            <option th:each="hour : ${hours}" th:value="${hour}" th:text="${hour}"></option>
+          </select>
+          <span>:</span>
+          <select id="end_slot" name="end_slot">
+            <option th:each="slot:${timeSlots}" th:value="${slot.id}" th:text="${slot.duration}"></option>
+          </select>
+        </div>
+
+        <div class="button-container">
+          <a th:href="@{/availableTimeSetting}" class="link cancel">
+            Back
+          </a>
+          <button type="submit">Save</button>
+        </div>
+      </form>
+
+      <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+      </div>
+      <div th:if="${successMessage}" class="success-message">
+        <p th:text="${successMessage}"></p>
+      </div>
+
+    </div>
+  </main>
+</section>
+</body>
+<script>
+  function confirmSave() {
+    return confirm("Are you sure you want to save?");
+  }
+</script>
+</html>

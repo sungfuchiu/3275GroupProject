@@ -106,16 +106,16 @@ button, a.link{
     background-color: #fff;
     margin: 5% 0;
 }
-a.link.image{
-    border-radius: 100%;
-    padding: 10px;
-}
-a.link.image:hover{
-    background-color: #5da8f9;
-}
 a.link.cancel{
     background-color: orangered;
 }
 a.remove{
     padding:20px;
+}
+.time-block-link{
+    text-decoration: none;
+    color: black;
+}
+.time-block-link :hover{
+    background: #aaaaaa;
 }

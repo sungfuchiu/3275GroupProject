@@ -57,44 +57,13 @@
                 <a class="link cancel" th:href="${previousPageUrl}">
                     Back
                 </a>
-                <form method="post" onsubmit="submitForm(event)">
-<!--                <a th:href="@{/init}">-->
-                    <input type="number" id="sum" name="sum" required>
-                    <button type="submit">Confirm</button>
-<!--                </a>-->
-                </form>
+                <a class="link" th:href="@{'/technicianAvailableTime'}">
+                    Available Time
+                </a>
             </div>
         </div>
 
     </main>
-    <script>
-        function submitForm(event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            // Retrieve the payment amount from the form
-            let paymentSum = document.getElementById('sum').value;
-
-            // Make a fetch request to your Spring Boot backend
-            fetch(`paypal/init?sum=${paymentSum}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }).then(response => response.json()) // Parse the JSON response
-                .then(data => {
-                    if (data.status === 'success') {
-                        // If the response is successful, initiate the redirection
-                        window.location.href = data.redirectUrl;
-                    } else {
-                        // Handle other cases, e.g., display an error message
-                        console.error('Payment initiation failed.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-    </script>
 </section>
 </body>
 </html>

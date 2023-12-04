@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="technicianLayout">
+      layout:decorate="clientLayout">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/style/technician/viewAppointment.css}"/>
+    <link rel="stylesheet" th:href="@{/style/client/viewAppointment.css}"/>
     <title>Upcoming Appointments</title>
 </head>
 <body>
@@ -17,14 +17,14 @@
                     <p th:text="'Date:'+${appointment.date}"></p>
                     <p th:text="'Start time:'+${appointment.startTime}"></p>
                     <p th:text="'Duration:'+${appointment.duration}+' minutes'"></p>
-                    <p th:text="'Customer Name:'+${appointment.customerName}"></p>
+                    <p th:text="'Technician:'+${appointment.technicianName}"></p>
                 </div>
                 <a th:if="${appointment.isReady}" th:href="@{'/videoCall?callId='+${appointment.id}}">
                     <img clsss="imgV" src="images/videoSymbol.png" alt="videoDisplay">
                 </a>
             </div>
         </div>
-        <a th:href="@{/technicianHome}">
+        <a th:href="@{/clientHome}">
             <button type="button">Back</button>
         </a>
     </main>

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -20,7 +21,7 @@ public class PhoneCall {
     private LocalDateTime startTime;
     private Integer rating;
     private String review;
-    private Float cost;
+    private BigDecimal cost;
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "duration_slot", referencedColumnName = "id")
     private TimeSlot durationSlot;
