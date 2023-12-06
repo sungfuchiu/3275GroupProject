@@ -262,7 +262,7 @@ public class TechnicianController {
                 var historyDTO = new HistoryDTO();
                 AppointmentDTO.transformData(phoneCall, historyDTO);
                 historyDTO.rating = phoneCall.getRating() == null ? "": phoneCall.getRating().toString() ;
-                historyDTO.review = phoneCall.getReview();
+                historyDTO.review = phoneCall.getReview() == null ? "": phoneCall.getReview();
                 historyDTOs.add(historyDTO);
             }
         }

@@ -208,7 +208,6 @@ public class ClientController {
                 appointmentDTOs.add(appointmentDTO);
             }
         }
-        model.addAttribute("now", LocalDateTime.now());
         model.addAttribute("appointments", appointmentDTOs);
         return "client/viewAppointment";
     }

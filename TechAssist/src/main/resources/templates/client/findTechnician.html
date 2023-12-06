@@ -15,14 +15,14 @@
         <div class="customerNameBar">
             <label class="lblCustomerName" th:text="${userName}"></label>
         </div>
-        <div class="appointmentBar" id="idAppointmentBar">
-            <label class="lblAppointmentStart" id="lblAppointmentStart"></label>
-            <form class="formStartCall" th:action="@{/transitionCall}" th:method="GET">
-                <input type="hidden" id="hidAppointmentStart" th:value="${appointmentDate}"/>
-                <input type="hidden"  name="callId" id="hidCallId" th:value="${callId}" />
-                <button type="submit" value="Submit" class="btnStartCall" id="idBtnStartCall">Start Call</button>
-            </form>
-        </div>
+<!--        <div class="appointmentBar" id="idAppointmentBar">-->
+<!--            <label class="lblAppointmentStart" id="lblAppointmentStart"></label>-->
+<!--            <form class="formStartCall" th:action="@{/transitionCall}" th:method="GET">-->
+<!--                <input type="hidden" id="hidAppointmentStart" th:value="${appointmentDate}"/>-->
+<!--                <input type="hidden"  name="callId" id="hidCallId" th:value="${callId}" />-->
+<!--                <button type="submit" value="Submit" class="btnStartCall" id="idBtnStartCall">Start Call</button>-->
+<!--            </form>-->
+<!--        </div>-->
         <div class="applicationPanel">
             <div class="categoryBar">
                 <button type="button" class="btnCategoryPanel" id="btnCategoryPanel" th:onclick="showCategoryPanel()">

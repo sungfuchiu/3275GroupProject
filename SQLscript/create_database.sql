@@ -201,6 +201,9 @@ VALUES
 ('2023-05-15 13:00:00', 5, 'Excellent communication', 54.0, 4, 4, 20, 1),
 ('2023-11-27 09:30:00', 3, 'Overall good experience', 31.0, 2, 2, 18, 1),
 ('2023-11-25 11:45:00', 4, 'Professional attitude', 44.0, 3, 3, 19, 1),
+('2023-12-04 11:00:00', 4, 'As a fellow technician, his reliability shines through in every collaboration. When faced with a technical challenge.', 44.0, 4, 1, 1, 1),
+('2023-12-04 11:00:00', 5, 'Her expertise spans a wide range of technologies, and she excels in finding innovative solutions to intricate problems.', 88.0, 3, 2, 1, 1),
+('2023-12-04 11:00:00', 4, 'His ability to understand and address client needs sets him apart. James not only resolves technical issues efficiently but also communicates complex concepts in a client-friendly manner. ', 132.0, 2, 3, 1, 1),
 ('2023-11-1 13:00:00', 5, 'Excellent communication', 54.0, 4, 4, 20, 1);
 CREATE TABLE available_time(
     id bigint(20) PRIMARY KEY AUTO_INCREMENT,
